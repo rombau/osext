@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+<title>Online-Soccer 2.0</title>
+
+<script src="js/sorttable.js" type="text/javascript">
+
+</script>
+
+<link rel="STYLESHEET" type="text/css" href="js/dxhtml/codebase/dhtmlxgrid.css">
+
+<link rel="stylesheet" href="css/os_styles.css" />
+
+<link rel="stylesheet" href="css/print.css" media="print" />
+
+<link rel="SHORTCUT ICON" href="images/favicon.ico" type="image/ico" />
+
+<script type="text/javascript" src="js/osfunc.js"></script>
+
+</head>
+
+<body><div>
+<form method="get" action=""><div><b><span style="color:#ffffcc">Ligatabellen</span></b>
+
+<select size="1" name="ligaauswahl">
+
+<option value="0">---Ligaauswahl---</option>
+
+<option value="1">1. Liga</option><option value="2" SELECTED>2. Liga A</option><option value="3">2. Liga B</option><option value="4">3. Liga A</option><option value="5">3. Liga B</option><option value="6">3. Liga C</option><option value="7">3. Liga D</option>
+
+</select>
+
+<select size="1" name="landauswahl">
+
+<option value="0">---Landauswahl---</option>
+
+<option value="45">Albanien</option><option value="95">Andorra</option><option value="83">Armenien</option><option value="104">Aserbaidschan</option><option value="12">Belgien</option><option value="66">Bosnien-Herzegowina</option><option value="42">Bulgarien</option><option value="8">D&auml;nemark</option><option value="6">Deutschland</option><option value="1">England</option><option value="57">Estland</option><option value="68">Far&ouml;er</option><option value="40">Finnland</option><option value="32">Frankreich</option><option value="49">Georgien</option><option value="30">Griechenland</option><option value="5" SELECTED>Irland</option><option value="29">Island</option><option value="23">Israel</option><option value="10">Italien</option><option value="105">Kasachstan</option><option value="24">Kroatien</option><option value="97">Lettland</option><option value="92">Liechtenstein</option><option value="72">Litauen</option><option value="93">Luxemburg</option><option value="69">Malta</option><option value="86">Mazedonien</option><option value="87">Moldawien</option><option value="11">Niederlande</option><option value="4">Nordirland</option><option value="9">Norwegen</option><option value="14">&Ouml;sterreich</option><option value="25">Polen</option><option value="17">Portugal</option><option value="28">Rum&auml;nien</option><option value="19">Russland</option><option value="98">San Marino</option><option value="2">Schottland</option><option value="27">Schweden</option><option value="37">Schweiz</option><option value="41">Serbien und Montenegro</option><option value="70">Slowakei</option><option value="21">Slowenien</option><option value="13">Spanien</option><option value="18">Tschechien</option><option value="39">T&uuml;rkei</option><option value="20">Ukraine</option><option value="26">Ungarn</option><option value="3">Wales</option><option value="71">Weissrussland</option><option value="38">Zypern</option>
+
+</select>
+
+<select size="1" name="tabauswahl">
+
+<option value="0" SELECTED>Gesamttabelle</option><option value="1">Heimtabelle</option><option value="2">Ausw&auml;rtstabelle</option><option value="3">2-Punktetabelle</option><option value="4">Hinrundentabelle</option><option value="5">R&uuml;ckrundentabelle</option><option value="6">1. Halbzeit</option><option value="7">2. Halbzeit</option><option value="10">Kreuztabelle</option>
+
+</select>
+
+<select size="1" name="saauswahl">
+
+<option value="0">--Saison--</option>
+
+<option value="1">Saison 1</option><option value="2">Saison 2</option><option value="3">Saison 3</option><option value="4" SELECTED>Saison 4</option>
+
+</select>
+
+<input type="submit" value="Statistik ausgeben" name="stataktion" />
+
+</div>
+
+</form><table cellspacing="1" cellpadding="1" border="0" id="kader1" class="sortable">
+
+<tbody>
+
+<tr align="center" id="tabelle">
+
+	<td>#</td>
+
+	<td></td>
+
+	<td>Club</td>
+
+	<td>Spiele</td>
+
+	<td>Si.</td>
+
+	<td>Un.</td>
+
+	<td>Ni.</td>
+
+	<td>Tore+</td>
+
+	<td>Tore-</td>
+
+	<td>Tore +/-</td>
+
+	<td>Punkte</td>
+
+</tr><tr align="right" class="osc">
+
+	<td><a href="javascript:tabellenplatz(19);">1.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00000019.gif" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(19)">FC Cork</a></td>
+
+	<td>26</td>
+
+	<td>17</td>
+
+	<td>6</td>
+
+	<td>3</td>
+
+	<td>55</td>
+
+	<td>15</td>
+
+	<td>40</td>
+
+	<td>57</td>
+
+</tr><tr align="right" class="oscq">
+
+	<td><a href="javascript:tabellenplatz(911);">2.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00000911.gif" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(911)">AFC Tralee United</a></td>
+
+	<td>26</td>
+
+	<td>14</td>
+
+	<td>6</td>
+
+	<td>6</td>
+
+	<td>46</td>
+
+	<td>35</td>
+
+	<td>11</td>
+
+	<td>48</td>
+
+</tr><tr align="right" class="tabelle">
+
+	<td><a href="javascript:tabellenplatz(708);">3.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00000708.gif" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(708)">Cork College [A]</a></td>
+
+	<td>26</td>
+
+	<td>12</td>
+
+	<td>9</td>
+
+	<td>5</td>
+
+	<td>24</td>
+
+	<td>16</td>
+
+	<td>8</td>
+
+	<td>45</td>
+
+</tr><tr align="right" class="tabelle">
+
+	<td><a href="javascript:tabellenplatz(1126);">4.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00001126.png" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(1126)">Coachford Villa</a></td>
+
+	<td>26</td>
+
+	<td>11</td>
+
+	<td>3</td>
+
+	<td>12</td>
+
+	<td>29</td>
+
+	<td>31</td>
+
+	<td>-2</td>
+
+	<td>36</td>
+
+</tr><tr align="right" class="tabelle">
+
+	<td><a href="javascript:tabellenplatz(1152);">5.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00000000.png" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(1152)">Moyle Park City</a></td>
+
+	<td>26</td>
+
+	<td>9</td>
+
+	<td>6</td>
+
+	<td>11</td>
+
+	<td>27</td>
+
+	<td>48</td>
+
+	<td>-21</td>
+
+	<td>33</td>
+
+</tr><tr align="right" class="tabelle">
+
+	<td><a href="javascript:tabellenplatz(1129);">6.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00001129.png" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(1129)">Teelin United</a></td>
+
+	<td>26</td>
+
+	<td>7</td>
+
+	<td>10</td>
+
+	<td>9</td>
+
+	<td>27</td>
+
+	<td>30</td>
+
+	<td>-3</td>
+
+	<td>31</td>
+
+</tr><tr align="right" class="tabelle">
+
+	<td><a href="javascript:tabellenplatz(352);">7.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00000352.gif" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(352)">Tralee City</a></td>
+
+	<td>26</td>
+
+	<td>8</td>
+
+	<td>6</td>
+
+	<td>12</td>
+
+	<td>24</td>
+
+	<td>23</td>
+
+	<td>1</td>
+
+	<td>30</td>
+
+</tr><tr align="right" class="rele">
+
+	<td><a href="javascript:tabellenplatz(1139);">8.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00001139.gif" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(1139)">United Hibernians [N]</a></td>
+
+	<td>26</td>
+
+	<td>7</td>
+
+	<td>8</td>
+
+	<td>11</td>
+
+	<td>23</td>
+
+	<td>23</td>
+
+	<td>0</td>
+
+	<td>29</td>
+
+</tr><tr align="right" class="ab">
+
+	<td><a href="javascript:tabellenplatz(1157);">9.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00001157.gif" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(1157)">RC Shelbourne</a></td>
+
+	<td>26</td>
+
+	<td>7</td>
+
+	<td>4</td>
+
+	<td>15</td>
+
+	<td>33</td>
+
+	<td>43</td>
+
+	<td>-10</td>
+
+	<td>25</td>
+
+</tr><tr align="right" class="ab">
+
+	<td><a href="javascript:tabellenplatz(669);">10.</a></td>
+
+	<td><img width="20" height="20" align="middle" src="images/wappen/00000669.png" alt="Wappen" /></td>
+
+	<td align="left"><a href="javascript:teaminfo(669)">FC Youghal United [N]</a></td>
+
+	<td>26</td>
+
+	<td>7</td>
+
+	<td>4</td>
+
+	<td>15</td>
+
+	<td>26</td>
+
+	<td>50</td>
+
+	<td>-24</td>
+
+	<td>25</td>
+
+</tr></tbody>
+
+</table>
+
+<br /><br />
+
+<table border="0">
+
+<tr class="osc"><td>Aufstiegsplatz / OSC</td></tr>
+
+<tr class="oscq"><td>Relegationsplatz (Auf) / OSCQ</td></tr>
+
+<tr class="ose"><td>OSE</td></tr>
+
+<tr class="oseq"><td>OSEQ</td></tr>
+
+<tr class="rele"><td>Relegationsplatz (Ab)</td></tr>
+
+<tr class="ab"><td>Abstiegsplatz</td></tr>
+
+</table>
+</div>
+
+</body>
+
+</html>

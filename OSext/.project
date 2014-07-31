@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>OSext</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.rockstarapps.jslint.JsLintBuilder</name>
+			<arguments>
+				<dictionary>
+					<key>buildAll</key>
+					<value>false</value>
+				</dictionary>
+				<dictionary>
+					<key>external_defines</key>
+					<value>OSext,window,Components,AddonManager</value>
+				</dictionary>
+				<dictionary>
+					<key>properties</key>
+					<value>params = {passfail: false,debug: false,undef: true,white: true,evil: false,nomen: true,browser: true,cap: false,eqeqeq: false,widget: false,on: true,plusplus: false,sidebar: false,fragment: true,bitwise: true,rhino: true,laxbreak: false,regexp: false,safe: false,forin: false,onevar: true,adsafe: false,sub: false,strict: false,css: false,newcap: true,maxerrors:50,indent:4};</value>
+				</dictionary>
+				<dictionary>
+					<key>selection</key>
+					<value>source/chrome/content/database.js&lt;--&gt;source/chrome/content/document.js&lt;--&gt;source/chrome/content/errors.js&lt;--&gt;source/chrome/content/model/ansicht.js&lt;--&gt;source/chrome/content/model/data.js&lt;--&gt;source/chrome/content/model/spieler.js&lt;--&gt;source/chrome/content/model/training.js&lt;--&gt;source/chrome/content/model/spieltag.js&lt;--&gt;source/chrome/content/model/team.js&lt;--&gt;source/chrome/content/model/termin.js&lt;--&gt;source/chrome/content/notifications.js&lt;--&gt;source/chrome/content/preferences.js&lt;--&gt;source/chrome/content/requestqueue.js&lt;--&gt;source/chrome/content/sites/haupt.js&lt;--&gt;source/chrome/content/sites/showteam.js&lt;--&gt;source/chrome/content/sites/showteamContracts.js&lt;--&gt;source/chrome/content/sites/showteamInfo.js&lt;--&gt;source/chrome/content/sites/showteamOverview.js&lt;--&gt;source/chrome/content/sites/showteamSaison.js&lt;--&gt;source/chrome/content/sites/showteamSkills.js&lt;--&gt;source/chrome/content/element.js&lt;--&gt;source/chrome/content/sites/viewleih.js&lt;--&gt;source/chrome/content/model/stadion.js&lt;--&gt;source/chrome/content/sites/report.js&lt;--&gt;source/chrome/content/sites/zar.js&lt;--&gt;source/chrome/content/sites/trainer.js&lt;--&gt;source/chrome/content/model/trainer.js&lt;--&gt;source/chrome/content/sites/training.js&lt;--&gt;source/chrome/content/model/jugendspieler.js&lt;--&gt;source/chrome/content/model/kaderspieler.js&lt;--&gt;source/chrome/content/sites/jugendOverview.js&lt;--&gt;source/chrome/content/sites/jugendSkills.js&lt;--&gt;source/chrome/content/toolbars/jugendtoolbar.js&lt;--&gt;source/chrome/content/sites/lt.js&lt;--&gt;source/chrome/content/sites/ka.js&lt;--&gt;source/chrome/content/sites/optionen.js&lt;--&gt;source/chrome/content/sites/zuzu.js&lt;--&gt;source/chrome/content/sqlite.js&lt;--&gt;source/chrome/content/logger.js&lt;--&gt;source/chrome/content/commons.js&lt;--&gt;source/chrome/content/sites/showteamStats.js</value>
+				</dictionary>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.wst.jsdt.core.javascriptValidator</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.xulbooster.eclipse.xb.xulBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.xulbooster.eclipse.xb.xulNature</nature>
+		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+	</natures>
+</projectDescription>

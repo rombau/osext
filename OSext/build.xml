@@ -1,0 +1,133 @@
+<?xml version="1.0" ?>
+
+<project name="osext" basedir="." default="build">
+
+    <!-- Properties -->
+    <property file="release.properties"/>
+
+    <!-- Directories -->
+    <property name="build.dir" value="./build"/>
+    <property name="release.dir" value="./release"/>
+	<property name="xpi.file" value="osext-${VERSION}.xpi"/>
+
+    <!-- echo -->
+    <target name="echo">
+        <echo level="info" message="Build directory: ${build.dir}"/>
+    	<echo level="info" message="Release directory: ${release.dir}"/>
+    </target>
+
+    <!-- Clean -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${release.dir}"/>
+    </target>
+
+    <!-- Build -->
+    <target name="build" depends="clean">
+        <antcall target="prepare-build" />
+
+        <!-- Copy install.rdf with updated release version info -->
+        <replace file="${build.dir}/install.rdf" propertyFile="release.properties">
+            <replacefilter token="@VERSION@" property="VERSION"/>
+        	<replacefilter token="@FFMAX@" property="FFMAX"/>
+        </replace>
+
+        <!-- Create XPI -->
+        <antcall target="create-xpi">
+            <param name="file-name" value="${xpi.file}"/>
+        </antcall>
+    	
+        <!-- Create update.rdf -->
+        <antcall target="create-update-rdf">
+            <param name="file-name" value="${xpi.file}"/>
+        </antcall>
+    	
+    	<!--
+        <antcall target="deploy" />
+    	-->
+    	
+    	<antcall target="finish" />
+    </target>
+
+    <!-- Prepare build files -->
+    <target name="prepare-build">
+
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${release.dir}" />
+
+        <!-- Copy all files -->
+        <copy todir="${build.dir}">
+            <fileset dir="source">
+               <include name="**/*.js"/>
+               <include name="**/*.xul"/>
+               <include name="**/*.properties"/>
+               <include name="**/*.css"/>
+               <include name="**/*.html"/>
+               <include name="**/*.xml"/>
+               <include name="**/*.dtd"/>
+               <include name="**/*.png"/>
+               <include name="**/*.gif"/>
+               <include name="**/*.ico"/>
+               <include name="**/*.manifest"/>
+               <include name="**/*.txt"/>
+               <include name="**/*.sql"/>
+               <include name="**/*.html"/>
+            </fileset>
+        </copy>
+
+        <!-- Copy install.rdf template into the build dir -->
+        <copy file="install.rdf.tpl.xml" tofile="${build.dir}/install.rdf"/>
+
+        <!-- Remove unnecessary *.xml files in the root directory (like e.g. this build file),
+            but not from sub directories. -->
+        <delete dir="${build.dir}" includes="*.xml" />
+    </target>
+
+    <!-- Create final xpi file -->
+    <target name="create-xpi">
+
+        <!-- Compress files (ZIP) -->
+        <zip destfile="${release.dir}/${file-name}"
+            basedir="${build.dir}" update="true" />
+
+    </target>
+
+    <!-- Create final update.rdf file -->
+    <target name="create-update-rdf">
+
+    	<echo level="info" message="Generate file: ${release.dir}/update.rdf"/>
+    	
+        <!-- Use Uhura Perl Script to create update.rdf -->
+        <exec executable="perl" dir="${basedir}" failifexecutionfails="no" failonerror="no">
+            <arg value="${PATH_TO_SIGNING_TOOLS}/uhura"/>
+            <arg value="-o"/>
+        	<arg value="${release.dir}/update.rdf"/>
+            <arg value="-k"/>
+	    	<arg value="${PATH_TO_SIGNING_TOOLS}/OSext.pem"/>
+            <arg value="-p"/>
+	    	<arg value="@${PATH_TO_SIGNING_TOOLS}/password"/>
+        	<arg value="${release.dir}/${xpi.file}"/>
+	        <arg value="http://www.greenmoon.at/osext/${xpi.file}"/>
+        </exec>
+	    		
+    </target>
+	            	
+    <!-- Deploy xpi & update_test.rdf files - if target available -->
+    <target name="deploy">
+    	
+    	<!-- ClassNotFound Exception ???? -->
+    	<ftp userid="" password="" server="ftp.greenmoon.at" remotedir="/httpdocs/osext" verbose="true" >
+    		<fileset dir="${release.dir}" />
+    	</ftp>
+    	   
+    </target>
+	
+	<!-- check, clean up after build and show status -->
+    <target name="finish">
+
+	    <delete dir="${build.dir}"/>
+    	<echo message="OSext ${VERSION} available in ${release.dir}"/>
+
+    </target>
+	
+</project>

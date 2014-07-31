@@ -1,0 +1,27 @@
+<dialog>
+<panel xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+id="editBookmarkPanel" type="arrow" orient="vertical" ignorekeys="true" hidden="true" 
+onpopupshown="StarUI.panelShown(event);" 
+aria-labelledby="editBookmarkPanelTitle" flip="both" side="top" position="bottomcenter topleft">
+	<row id="editBookmarkPanelHeader" align="center" hidden="true">
+		<vbox align="center">
+			<image id="editBookmarkPanelStarIcon"/>
+		</vbox>
+		<vbox>
+			<label id="editBookmarkPanelTitle"/>
+			<description id="editBookmarkPanelDescription"/>
+			<hbox>
+				<button id="editBookmarkPanelRemoveButton" class="editBookmarkPanelHeaderButton" 
+				oncommand="StarUI.removeBookmarkButtonCommand();" accesskey="L"/>
+			</hbox>
+		</vbox>
+	</row>
+	<vbox id="editBookmarkPanelContent" flex="1" hidden="true"/>
+	<hbox id="editBookmarkPanelBottomButtons" pack="end">
+		<button id="editBookmarkPanelDeleteButton" class="editBookmarkPanelBottomButton" 
+		label="Abbrechen" oncommand="StarUI.cancelButtonOnCommand();"/>
+		<button id="editBookmarkPanelDoneButton" class="editBookmarkPanelBottomButton" 
+		label="Fertig" default="true" oncommand="StarUI.panel.hidePopup();"/>
+	</hbox>
+</panel>
+</dialog>
