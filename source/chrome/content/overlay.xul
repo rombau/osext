@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="chrome://osext/content/resource/osext.css" type="text/css"?>
+
+<overlay id="OSext" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/commons.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/errors.js"></script>
+		
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/termin.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/ansicht.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/spieltag.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/trainer.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/training.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/spieler.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/kaderspieler.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/jugendspieler.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/team.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/stadion.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/model/data.js"></script>
+
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/toolbars/teamtoolbar.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/toolbars/saisontoolbar.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/toolbars/jugendtoolbar.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/toolbars/ligatoolbar.js"></script>
+	
+	<!-- TODO Weitere Seiten hinzufügen -->
+	
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/haupt.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/showteam.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/showteamOverview.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/showteamContracts.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/showteamSkills.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/showteamSaison.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/showteamInfo.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/showteamStats.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/st.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/vt.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/viewleih.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/report.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/zar.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/trainer.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/training.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/ju.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/jugendOverview.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/jugendSkills.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/lt.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/ka.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/zuzu.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/optionen.js"></script>
+		
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/preferences.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/logger.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/notifications.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sqlite.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/database.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/requestqueue.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/document.js"></script>
+	<script type="application/x-javascript"
+		src="chrome://osext/content/overlay.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/element.js"></script>
+
+	<popupset id="mainPopupSet">
+	    <menupopup id="osext-menu">
+	        <menuitem label="OSext deaktivieren"
+	            id="osext-menu-activate" oncommand="OSext.EventHandler.activate();"/>
+	        <menuitem label="OSext neu initialisieren" disabled="true" 
+	            id="osext-menu-refresh" oncommand="OSext.EventHandler.refreshData();"/>
+	        <menuitem label="Einstellungen ..." 
+	            id="osext-menu-options" oncommand="OSext.EventHandler.options();"/>
+	    </menupopup>
+		<panel id="osext-progress-panel" type="arrow" orient="vertical" ignorekeys="true" hidden="true" 
+			flip="both" side="top" position="bottomcenter topright" width="180">
+			<vbox id="osext-progress-panel-vbox">
+				<label id="osext-progress-panel-header" class="header" value="Initialisiere ..." />
+				<label id="osext-progress-panel-status" value="Mannschaftsdaten" maxwidth="170" />
+				<progressmeter id="osext-progress" mode="determined"  />
+			</vbox>
+		</panel>
+		<tooltip id="osext-tooltip">
+			<grid>
+ 				<columns>
+					<column/>
+					<column/>
+				</columns>
+				<rows id="osext-tooltip-rows">
+					<row>
+						<label class="tooltip-label" />
+						<label class="tooltip-label" style="padding-left:10px; text-align:right;"/>
+					</row>
+				</rows>
+			</grid>
+		</tooltip>	
+	</popupset>
+
+	<hbox id="urlbar-icons">
+		<image id="osext-icon" insertbefore="page-report-button" tooltiptext="OSext Add-On"
+			context="osext-menu" />
+	</hbox>
+	
+	<vbox hidden="false" height="0">
+		<iframe type="content" src="" name="osext-requestframe" id="osext-requestframe" 
+		hidden="false" style="height:0px;"/>
+	</vbox>
+
+</overlay>

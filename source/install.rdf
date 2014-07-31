@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+	<RDF:Description about="urn:mozilla:install-manifest">
+		<em:aboutURL/>
+		<em:creator>Roman Bauer</em:creator>
+		<em:description>Online Soccer 2 Erweiterung</em:description>
+		<em:homepageURL>www.greenmoon.at</em:homepageURL>
+		<em:iconURL>chrome://osext/content/resource/osext.png</em:iconURL>
+		<em:id>osext@greenmoon.at</em:id>
+		<em:name>OSext</em:name>
+		<em:version>1.3.10</em:version>
+		<em:updateURL>http://www.greenmoon.at/osext/update_test.rdf</em:updateURL>
+		<em:type>2</em:type>
+		<em:targetApplication>
+			<RDF:Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:maxVersion>29.*</em:maxVersion>
+				<em:minVersion>3.0</em:minVersion>
+			</RDF:Description>
+		</em:targetApplication>
+		<em:optionsURL>chrome://osext/content/preferences.xul</em:optionsURL>
+		<em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0uRQBkbEPIVarob4LC5d2Mw8sQHsjvmaq/LA+6zJYGBmiIP4n7PqydSn6ypYN09FwaxxLcn849ZwyJrLDClLeQoTY5LUUGyoEDtCpX4z4rlVkl9sWDs1ntMPNNrvR5nYsdqfTBqGpnxn/QLTG7RaSfcUBeVn+8fuj+ol5wtSqPwIDAQAB</em:updateKey>
+		<em:hidden/>
+		<em:localized>
+	<RDF:Description>
+		<em:locale/>
+		<em:name/>
+		<em:description/>
+	</RDF:Description></em:localized><em:localized><RDF:Description><em:locale/><em:name/><em:description/></RDF:Description></em:localized><em:localized><RDF:Description><em:locale/><em:name/><em:description/></RDF:Description></em:localized><em:localized><RDF:Description><em:locale/><em:name/><em:description/></RDF:Description></em:localized><em:targetPlatform/></RDF:Description>
+</RDF>

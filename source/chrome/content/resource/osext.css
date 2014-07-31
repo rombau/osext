@@ -1,0 +1,17 @@
+#osext-icon[status="off"] {
+    list-style-image: url("chrome://osext/content/resource/off.png");
+}
+
+#osext-icon[status="on"] {
+    list-style-image: url("chrome://osext/content/resource/on.png");
+}
+
+
+body {
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 9pt;
+}
+
+h2 {
+	color: #111166;
+}

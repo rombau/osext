@@ -1,0 +1,195 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content"),
+               url-prefix("http://os.ongapo.com") {
+
+abbr { cursor:default !important; }
+
+img[src*=os_hilfe] { height:0 !important;
+                     width:0 !important;
+                     padding-left: 1px !important;
+                     padding-top: 1px !important;
+                     background: url(images/leer.gif) no-repeat !important; }
+
+p.noprint > object > embed { height:0px !important;
+                    width:0px !important; }
+
+p.noprint { height:0px !important;
+                    width:0px !important; }
+
+p.noprint > ins { height:0px !important;
+                    width:0px !important; }
+p.noprint > ins > ins { height:0px !important;
+                    width:0px !important; }
+p.noprint > ins > ins > iframe { height:0px !important;
+                    width:0px !important; }
+
+p.noprint > a > img { height:0px !important;
+                    width:0px !important; }
+
+div[style*="468px"] { height:0px !important;
+                    width:0px !important; }
+div[style*="468px"] > form > div > input { height:0px !important;
+                    width:0px !important; }
+
+img[src*=flaggen] { height:12px !important;
+                    width:20px !important; }
+
+a[href*=webmasterplan] > img, img[src*=webmasterplan] { height:0 !important;
+                     width:0 !important;
+                     padding-left: 1px !important;
+                     padding-top: 1px !important;
+                     background: url(images/leer.gif) no-repeat !important; }
+
+a > img[src*=banner] { height:0 !important;
+                     width:0 !important;
+                    }
+
+
+iframe[src*=cm] { height:0 !important; }
+
+a { font-size:9pt !important; }
+
+td { font-size:9pt !important; padding-right:3px !important}
+
+table[cellspacing="5"] td { padding: 2px !important;
+                            vertical-align: top !important; }
+table[cellspacing="5"] tr.jahrgang1 td { border-top: 1px #3F3F3F solid !important; }
+
+table[id^=team] td { padding: 2px !important; }
+table[id^=tm] td { padding: 2px !important; }
+table[style*="width: 850px"] td { padding: 2px !important; }
+
+table { border-spacing:0px !important; }
+
+table[id^=team] tr:hover { background-color:#333333 ; }
+table[id^=team] tr:first-child:hover {	background-color:#2A2A2A ; }
+table[id^=team] tr:last-child:hover { background-color:#2A2A2A ; }
+
+table[id^=tm] tr:hover { background-color:#333333 ; }
+table[id^=tm] tr:first-child:hover {	background-color:#2A2A2A ; }
+
+table[style*="width: 850px"] tr:hover { background-color:#333333 ; }
+table[style*="width: 850px"] tr:first-child:hover {	background-color:#2A2A2A ; }
+
+tr.abrechnung { background-color:#333333 ; }
+
+td.TOR[time=future] { color:#BBBB00 !important; }
+td.ABW[time=future] { color:#00BB00 !important; }
+td.DMI[time=future] { color:#2244BB !important; }
+td.MIT[time=future] { color:#44BBBB !important; }
+td.OMI[time=future] { color:#BB44BB !important; }
+td.STU[time=future] { color:#BB0000 !important; }
+
+td.TOR[time=hist] { color:#BBBB00 !important; }
+td.ABW[time=hist] { color:#00BB00 !important; }
+td.DMI[time=hist] { color:#2244BB !important; }
+td.MIT[time=hist] { color:#44BBBB !important; }
+td.OMI[time=hist] { color:#BB44BB !important; }
+td.STU[time=hist] { color:#BB0000 !important; }
+
+td[time=future] { color:#BBBBBB !important; }
+
+td[time=hist] { color:#BBBBBB !important; }
+
+td[primary=true] { font-weight:bold !important; }
+
+table[id^=team] td[art=LI] div div { margin-left:-10px !important; }
+table[id^=team] td[art=LI] { padding-left:10px !important; }
+
+div.autocomplete { background-color:#2A2A2A !important; }
+
+span.ps { font-weight:bold !important; }
+
+td.BAK { color:#2A2A2A !important; }
+
+input[type=submit] { margin-right:3px !important; }
+input[type=reset] { margin-top:10px !important; }
+
+body { font-family:verdana, arial, helvetica, sans-serif !important;
+       font-size:9pt !important;
+       text-decoration:none !important; 
+       background:#2A2A2A !important; }
+
+.mceContentBody { background:#FFFFFF !important; }
+
+.ui-tabs-panel,
+div.gridbox .objbox,
+div.gridbox .xhdr,
+div.gridbox_os20_mail table.row20px tr td, 
+div.gridbox_os20 table.row20px tr td { background-color:#2A2A2A !important; }
+
+div.gridbox_os20_mail table.obj td, div.gridbox_os20 table.obj td { font-family: verdana,arial,helvetica,sans-serif !important; }
+
+div.gridbox_os20_mail table.row20px tr[class*=rowselected] td, 
+div.gridbox_os20 table.row20px tr[class*=rowselected] td { background-color:#FBF9B3 !important; }
+
+.defaultSkin iframe {
+background:#FFFFFF none repeat scroll 0 0 !important; }
+
+
+
+#logo { min-height:0px !important; height:0px !important;}
+.logoInner { min-height:0px !important; height:12px !important;}
+.logoInner a img { height:0px !important;}
+.mainHeadline { min-height:0px !important; height:30px !important;}
+.mainHeadline img { height:0px !important; }
+#main { margin-top:0px !important; }
+
+}
+
+@-moz-document url-prefix("http://os.ongapo.com/showteam.php?s=1") {
+table[id^=team] td { padding: 1px 2px 0px 2px !important; }
+}
+
+@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/forum"),
+               url-prefix("http://os.ongapo.com/index.php") {
+
+body { font-family:verdana, arial, helvetica, sans-serif !important;
+       font-size:9pt !important;
+       text-decoration:none !important; 
+       background:#111166 !important; }
+
+}
+
+@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/forum"),
+               url-prefix("http://os.ongapo.com/forum") {
+
+body, html { background-color:#D8E2C3 !important; }
+a span { color:#666666  !important; }
+#userMenu ul li a span { 
+                         font-weight:bold !important; }
+.mainMenu .mainMenuInner { border-width:0px 0px 1px !important; }
+
+li[id^=mainMenuItem] a span { color:#FFFFFF !important;
+                              font-weight:bold !important; }
+.largeButtons ul li a span { color:#FFFFFF !important; }
+
+.editor textarea, .inputText, select, textarea { font-size:1em !important;}
+
+.fontFormat { font-size:10pt !important;}
+
+.boardlistCols-2 { width: 60% !important; }
+.boardlistLastPost { width: 40% !important; }
+
+}
+
+@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/ju"),
+               url-prefix("http://os.ongapo.com/ju") {
+table[cellspacing="5"] td { padding: 2px !important;
+                            vertical-align: top !important; }
+
+table[cellspacing="5"] tr:hover { background-color:#333333 ; }
+table[cellspacing="5"] tr:first-child:hover {	background-color:#2A2A2A ; }
+table[cellspacing="5"] tr:last-child:hover { background-color:#2A2A2A ; }
+
+input[type=radio] { margin:0px !important; }
+input[type=submit] { margin:10px !important; }
+}
+
+@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/ju"),
+               url-prefix("http://os.ongapo.com/ju.php?page=2") {
+
+table[cellspacing="5"] tr:last-child:hover { background-color:#333333 ; }
+
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>OSext Änderungen</title>
+<link rel="icon" href="osext.png">
+<link rel="stylesheet" href="osext.css">
+</head>
+<body>
+
+<h2>OSext 1.3.10</h2>
+<h5>12. Juli 2014</h5>
+<ul>
+	<li>Kein Fehler mehr bei leerem Zat-Report zu Beginn der Saison.</li>
+</ul>
+
+<h2>OSext 1.3.9</h2>
+<h5>11. Juli 2014</h5>
+<ul>
+	<li>Position des Saisonplan-Menüs korrigiert.</li>
+</ul>
+
+<h2>OSext 1.3.8</h2>
+<h5>11. Juli 2014</h5>
+<ul>
+	<li>Anpassung nach Erweiterung des Mannschaftsseitenmenüs.</li>
+</ul>
+
+<h2>OSext 1.3.7</h2>
+<h5>31. Jänner 2014</h5>
+<ul>
+	<li>Verliehene Spieler bekommen in der Prognoseansicht am ersten Tag ihrer Rückkehr wieder ihre ursprüngliche Position.</li>
+</ul>
+
+<h2>OSext 1.3.6</h2>
+<h5>24. Jänner 2014</h5>
+<ul>
+	<li>Fehler beim Ermitteln der Spieler-ID nach Umstellung der Links behoben.</li>
+</ul>
+
+<h2>OSext 1.3.5</h2>
+<h5>19. Oktober 2013</h5>
+<ul>
+	<li>Fehler beim Laden der Vertragsverlängerungsdaten von verliehenen Spielern behoben.</li>
+</ul>
+
+<h2>OSext 1.3.4</h2>
+<h5>28. September 2013</h5>
+<ul>
+	<li>Fehler bei der Berechnung des Marktwertzuwachs behoben. Die Abwertung durch Alterung wurd nicht berücksichtigt.</li>
+</ul>
+
+<h2>OSext 1.3.3</h2>
+<h5>21. September 2013</h5>
+<ul>
+	<li>Fehler beim Laden der Vertragsverlängerungsdaten behoben. Da diese während der Saisonpause nicht zur Verfügung stehen, 
+	gibt es in keine automatischen Vertragsverlängerungen in der Saldoprognose.</li>
+</ul>
+
+<h2>OSext 1.3.2</h2>
+<h5>09. September 2013</h5>
+<ul>
+	<li>Saldoprognose startet nun mit dem aktuellen Kontostand, und nicht mehr mit jenem nach dem letzten Spieltag.</li>
+</ul>
+
+<h2>OSext 1.3.1</h2>
+<h5>06. September 2013</h5>
+<ul>
+	<li>Performance des Korrekturskripts aus 1.3.0 verbessert.</li>
+</ul>
+
+<h2>OSext 1.3.0</h2>
+<h5>04. September 2013</h5>
+<ul>
+	<li>Auslaufende Spielerverträge werden automatisch für 24-60 Monate (einstellbar) mit den aktuellen Gehaltsforderungen verlängert.</li>
+	<li>Fehler bei Auswahl eines Trainers mit zu niedrigem Skill behoben.</li>
+	<li>Fehler beim Anzeigen der Einzelwerte eines Teams, das nicht mehr existiert, behoben.</li>
+	<li>Fehler beim Import während des Saisonwechsels behoben, und falsche Daten korrigiert.<br>
+		Damit stimmt nun die Jugendspielerbilanz bei 13-Jährigen wieder.</li>
+	<li>Eine Leihrestdauer oder Transfersperre von 0 wird nicht mehr angezeigt.</li>
+</ul>
+
+<h2>OSext 1.2.3</h2>
+<h5>27. Dezember 2012</h5>
+<ul>
+	<li>Fehler bei Saisonplan-Kalkulation während des Saisonwechsels behoben.</li>
+	<li>Berechnung der Stadioneinmahmen bei internationalen Spielen nur für die anstehende Runde; danach wird (vorläufig auch bei Gruppenphasen) mit einem Friendly kalkuliert.</li>
+</ul>
+
+<h2>OSext 1.2.2</h2>
+<h5>27. Oktober 2012</h5>
+<ul>
+	<li>Trainings, die während einer Verletzung gespeichert wurden, werden gelöscht. Dies wirkt den verfälschten Bilanzen,<br>
+		entgegen, die durch den bereits in 1.2.1 behobenen Bug entstanden sein können. Trainingseinstellungen, die nicht wegen<br>
+		einer Verletzung geändert wurden, verfälschen weiterhin die Bilanzen.</li>
+	<li>MW-Zuwachs durch, und die Chance auf ein erfolgreiches Training wird bei den Trainingseinstellugen sofort angezeigt.</li>
+	<li>Flagge auf Einzelskill-Seite wird auch bei Prognose von Blitzspielern angezeigt.</li>
+</ul>
+
+<h2>OSext 1.2.1</h2>
+<h5>07. Oktober 2012</h5>
+<ul>
+	<li>Trainingserfolge werden aus der letzten Tabelle genommen (wegen Bug zu Zat 5/54).</li>
+	<li>Fehler beim Entfernen des Trainers eines Spielers. Bisher wurde der Trainingseintrag nicht aus der Datenbank entfernt,<br>
+		was zu verfälschten Bilanzen führen konnte (erfolgloses Training, welches gar nicht eingestellt war). Eine Korrektur<br>
+		ist nur durch manuellen Vergleich der Trainingserfolge aus vergangenen Zat-Reports und den gespeicherten Trainings<br>
+		in der Datenbank möglich.</li>
+</ul>
+
+<h2>OSext 1.2.0</h2>
+<h5>04. Oktober 2012</h5>
+<ul>
+	<li>Werte der Top-Elf aller Teams in der Ligatabelle.</li>
+	<li>Fehler bei der Anzeige der Pokalrunden behoben.</li>
+	<li>Fehler beim Hochziehen von Jugendspielern behoben.</li>
+</ul>
+
+<h2>OSext 1.1.2</h2>
+<h5>25. September 2012</h5>
+<ul>
+	<li>Fehler bei der Ermittlung der Leihdaten behoben.</li>
+</ul>
+
+<h2>OSext 1.1.1</h2>
+<h5>23. September 2012</h5>
+<ul>
+	<li>Stacktrace wird bei Fehlern angezeigt.</li>
+</ul>
+
+<h2>OSext 1.1.0</h2>
+<h5>19. September 2012</h5>
+<ul>
+	<li>Im Saisonplan wird nur noch die Tabelle gescrolled. Dazu wird automatisch der letzte Zat angezeigt.</li>
+	<li>Im Saisonplan kann mit einem Klick auf der Spalte Saldo auf den Zat-Report eines vergangenen Zats gewechselt werden.</li>
+	<li>Mannschaftsstatistiken können sortiert und gestyled werden. Für Stylish kann der Inhalt der <a href="http://osext.greenmoon.at/stylish.css">Datei</a> verwendet werden (siehe td[art=LI]).</li>
+</ul>
+
+<h2>OSext 1.0.6</h2>
+<h5>07. September 2012</h5>
+<ul>
+	<li>Keine Trainingsprognose während ein Spieler verletzt ist.</li>
+</ul>
+
+<h2>OSext 1.0.5</h2>
+<h5>04. September 2012</h5>
+<ul>
+	<li>Pokalprämie wird im Saldo-Tooltip extra ausgewiesen.</li> 
+	<li>Spieltag- bzw. Runden-Nummer bei Liga und Pokal im Saisonplan.</li> 
+	<li>Umlaute werden nun auch im FF 15 korrekt ausgelesen.</li> 
+</ul>
+
+<h2>OSext 1.0.4</h2>
+<h5>30. Juli 2012</h5>
+<ul>
+	<li>Auch bei Schusstraining gibt es nun eine Prognose.</li> 
+</ul>
+
+<h2>OSext 1.0.3</h2>
+<h5>23. Juli 2012</h5>
+<ul>
+	<li>Bannerwerbung wird vor der Seitenverarbeitung entfernt; somit werden Fehler beim Auslesen der Daten vermieden.</li>
+	<li>FUQ bzw. ERF > 99 kann bei Prognose nicht mehr vorkommen.</li> 
+	<li>Trainingsbilanz NaN% bei Spielern, die bereits trainiert, aber nicht aufgewertet haben, wird bei der Prognose verhindert.</li> 
+	<li>Fehler beim Logging mit geschlossenem Firbug-Fenster behoben.</li> 
+	<li>Bei der Prognose der Leihinformtionen und Sperren wird nun immer vom aktuellen Stand ausgegangen.</li> 
+</ul>
+
+<h2>OSext 1.0.2</h2>
+<h5>09. Juni 2012</h5>
+<ul>
+	<li>Möglichkeit Fehler-Meldungen (Alerts), zu unterdrücken</li>
+</ul>
+
+<h2>OSext 1.0.1</h2>
+<h5>01. Juni 2012</h5>
+<ul>
+	<li>Wahrscheinlichkeit bei gleichbleibendem Training wird richtig reduziert</li>
+	<li>Keine Anzeige der Transfersperre, wenn diese 0 ist</li>
+	<li>Zuschauerzahlen nur bei Heimspielen speichern</li>
+</ul>
+
+<h2>OSext 1.0.0</h2>
+<h5>21. Mai 2012</h5>
+<ul>
+	<li>Seitenverarbeitung, Fehlerhandling und Protokollierung wurden komplett überarbeitet</li>
+	<li>Das OSext-Icon wurde ersetzt durch einen Fußball in der Adresszeile, der nur auf OS-Seiten angezeigt wird.<br>
+	    Über ein Kontextmenü kann OSext bei Bedarf aktiviert/deaktiviert, sowie jederzeit neu initialisiert werden.</li>
+	<li>Der Initialisierungsfortschritt wird in einem Popup angezeigt</li>
+	<li>Zusatzinformationen (Bilanz, Training, etc.), die bisher in der Statusleiste angezeigt wurden, werden in einem erweiterten Tooltip angezeigt</li>
+	<li>Die Durchschnittswerte für Primär-, Neben- und Unveränderliche Skills werden in eigenen Spalten dargestellt und können somit separat sortiert werden</li>
+	<li>Der Blitzzat für Kaderspieler kann nun auch in der Folgesaison liegen</li>
+	<li>Die Prognose der Kaderspieler wurde überarbeitet
+		<ul>
+			<li>Trainings werden besser (und weniger optimistisch) simuliert</li>
+			<li>Sperren werden anhand des Spielplans reduziert</li>
+			<li>Geblitzte Spieler werden als inaktiv dargestellt</li>
+		</ul>
+	</li>
+	<li>Der Spielplan wurde überarbeitet
+		<ul>
+			<li>Detailinformationen zu vergangenen Spieltagen aus der Datenbank (inkl. Zuschauer und Eintrittspreis bei Heimspielen)</li>
+			<li>Trainer- und Spielerverträge werden immer verlängert</li>
+			<li>Komprimierte Anzeige von FSS-Turnier-Informationen</li>
+		</ul>
+	</li>
+	<li>Die Jugendprognose wurde überarbeitet</li>
+	<li>Der mögliche Marktwertgewinn beim eingestellten Training wird nicht mehr angezeigt</li>
+	<li>Jegliche Änderung (z.B. Training, Blitzplanung, etc.) wirkt sofort auf die Prognosen</li>
+	
+</ul>
+
+
+</body>
+</html>

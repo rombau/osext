@@ -1,0 +1,546 @@
+<html>
+
+	<head>
+
+	<title></title>
+
+	<script src="js/os.js"></script> 
+	<script src="js/osfunc.js"></script> 
+
+	<!-- OS20 -->
+	<link rel="STYLESHEET" type="text/css" href="css/os_styles.css">
+	
+	<!-- Grid... -->
+	<script src="js/dhtmlxGrid/codebase/dhtmlxcommon.js" type="text/javascript"></script> 
+	<script src="js/dhtmlxGrid/codebase/dhtmlxgrid.js" type="text/javascript"></script> 
+	<script src="js/dhtmlxGrid/codebase/dhtmlxgridcell.js" type="text/javascript"></script> 
+	<script src="js/dhtmlxGrid/codebase/excells/dhtmlxgrid_excell_link.js" type="text/javascript"></script> 
+	<link rel="STYLESHEET" type="text/css" href="js/dhtmlxGrid/codebase/dhtmlxgrid.css">
+	<link rel="STYLESHEET" type="text/css" href="js/dhtmlxGrid/codebase/dhtmlxgrid_skins.css">
+
+	<!-- JQuery -->
+	<!-- <script type="text/javascript" src="js/jquery-1.2.6.js"></script> -->
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+
+	<!-- JQuery Tabs -->
+	<link type="text/css" rel="stylesheet" href="css/jquery.tabs.css" />
+	<script type="text/javascript" src="js/jquery-ui-personalized-1.5.3.min.js"></script>
+
+	<!-- JQuery Cluetip -->
+	<link type="text/css" rel="stylesheet" href="css/jquery.cluetip.css" />
+	<script type="text/javascript" src="js/jquery.cluetip.js"></script>
+	<script type="text/javascript" src="js/jquery.dimensions-1.2.js"></script>
+	<script type="text/javascript" src="js/jquery.dimensions.js"></script>
+	<script type="text/javascript" src="js/jquery.hoverIntent.js"></script>
+
+</head>
+
+	<p align="center"></p>
+	
+	
+    <link rel="stylesheet" type="text/css" media="all" href="js/jscalendar-1.0/calendar-blue.css">
+    <script src="js/jscalendar-1.0/calendar.js"></script>
+    <script src="js/jscalendar-1.0/lang/calendar-de.js"></script>
+    <script src="js/jscalendar-1.0/calendar-setup.js"></script>
+
+
+
+	<script>
+		function checkUserInput()
+		{
+			if( document.useroptionen.data.value.length > 0 &&  document.useroptionen.data1.value.length <= 0 )
+			{
+				alert( "Achtung : Bitte das Ende der Urlaubsmeldung angeben." );
+				return false;
+			}
+			if( document.useroptionen.data.value.length <= 0 &&  document.useroptionen.data1.value.length > 0 )
+			{
+				alert( "Achtung : Bitte den Begin der Urlaubsmeldung angeben." );
+				return false;
+			}
+
+			return true;
+		}
+
+		function checkPasswordInput()
+		{
+			if( document.kennwort.pwNew.value != document.kennwort.pwNewCheck.value )
+			{
+				alert( "Achtung : Die Benutzerkennwoerter stimmen nicht ueberein. Bitte anpassen." );
+				return false;
+			}
+			if( document.vertreterkennwort.pwVertreter.value != document.vertreterkennwort.pwVertreterCheck.value )
+			{
+				alert( "Achtung : Die Vertreterkennwoerter stimmen nicht ueberein. Bitte anpassen." );
+				return false;
+			}
+
+			return true;
+		}
+		
+		function checkSMSInput()
+		{
+			if( checkSMSMN( document.smsoptionen.smsMN ) == false )
+				return false;
+			
+			if( checkSMSAbo() == false )
+				return false;
+			else
+			{
+				if( (   document.smsoptionen.smsHinweisNutzung.checked != true 
+				     && 0 > 0
+					)
+				  || 
+				    (   document.smsoptionen.smsHinweisNutzung.checked != true 
+				     && document.smsoptionen.smsAbonnement.value > 0
+					)
+				  )
+				{
+					alert( "Fehler : Du hast die AGB fuer den SMS-Versand nicht akzeptiert aber ein Abo gebucht." );
+					return false;
+				}
+			}
+
+			return true;
+		}
+		
+		function checkSMSMN( theObject )
+		{
+
+            if( theObject.value.length <= 0 )
+                return true;
+
+            // Deutschland 0049170 00491520
+            var reg = new RegExp('^00491[567][0-9]+$');
+            if( reg.test( theObject.value ) )
+                return( true );
+
+			// Österreich
+            reg = new RegExp('^0043[6][5-9][0-9]+$');
+            if( reg.test( theObject.value ) )
+                return( true );
+			
+			// Schweiz
+            reg = new RegExp('^0041[7][689][0-9]+$');
+            if( reg.test( theObject.value ) )
+                return( true );
+
+			// Dänemark
+            reg = new RegExp('^0045[23456][0-9]+$');
+            if( reg.test( theObject.value ) )
+                return( true );
+
+			// Italien
+            reg = new RegExp('^0039[3][0-9]+$');
+            if( reg.test( theObject.value ) )
+				return( true );
+			
+			// Spanien
+            reg = new RegExp('^0034[6][0-9]{8}+$');
+            if( reg.test( theObject.value ) )
+				return( true );
+                
+			alert( "Mobilfunknummer nicht korrekt. Bitte korrigeren !!");
+            return( false );
+        } 
+		
+		function checkSMSAbo()
+		{
+			if( document.smsoptionen.smsAbonnement.value == -1 )
+			{
+				alert( "Fehler : Dein Zahlungseingang ist nicht ausreichend. Das gewaehlte Abonnement kann nicht gebucht werden." );
+				return false;
+			}
+			return true;
+		}
+		
+	</script>
+  
+	<script>
+		$(document).ready(function(){
+			$("#tabs").tabs({ selected: 0 });
+			$('a.title').cluetip({splitTitle: '|'});
+			$('a.basic').cluetip({width: '400px'});
+		});
+	</script>	
+  
+
+
+	<h1> Online Soccer 2.0 : Optionen </h1>
+
+	<div id="tabs">
+	
+	    <ul>
+	        <li><a href="#fragment-1"><span>Spieleroptionen</span></a></li>
+	        <li><a href="#fragment-2"><span>Teamoptionen</span></a></li>
+	        <li><a href="#fragment-3"><span>SMS-Optionen</span></a></li>
+	        <li><a href="#fragment-4"><span>Kennw&ouml;rter</span></a></li>
+	    </ul>
+
+		<div id="fragment-1">
+
+			<form name="useroptionen" action="optionen.php" method="post">
+
+				<input type="hidden" name="action" value="storeUserOptions" />
+
+				<div style="float:left;width:470px;">
+					
+					<table style="width:470px;padding-top:10px;text-align:left;">
+						<tr>
+							<th width="400px">PM-Versand bei :</th>
+							<th></th>
+						</tr>
+						<tr><td colspan="99"></td></tr>
+						<tr>
+							<td>... durchgef&uuml;hrtem Transfer : </td>
+							<td><input name='mailTransfer' type="checkbox"  /></td>
+						</tr>
+						<tr>
+							<td>... erfolgtem Gebot auf dem Transfermarkt : </td>
+							<td><input name='mailGebotVM' type="checkbox"  /></td>
+						</tr>
+						<tr>
+							<td>... &Uuml;berbietung auf dem Transfermarkt : </td>
+							<td><input name='mailMGebotVM' type="checkbox" checked /></td>
+						</tr>
+						<tr>
+							<td>... Schnelltransfer von Spielern : </td>
+							<td><input name='mailSchnellTransfer' type="checkbox"  /></td>
+						</tr>
+						<tr>
+							<td>... Vertragsverl&auml;ngerung bei Spielern : </td>
+							<td><input name='mailVertragsverlaengerung' type="checkbox"  /></td>
+						</tr>
+						<tr>
+							<td>... Friendlyeintragung : </td>
+							<td><input name='mailFriendly' type="checkbox"  /></td>
+						</tr>
+					</table>
+
+					<table style="width:470px;padding-top:10px;text-align:left;">
+						<tr>
+							<th width="400px">Email-Benachrichtigung :</th>
+							<th></th>
+						</tr>
+						<tr><td colspan="99"></td></tr>
+						<tr>
+							<td>... sofort nach Erhalt einer PM : </td>
+							<td><input name='mailPmDirekt' type="checkbox"  /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input name='mailPmHour' type="hidden" value="on" />
+						</tr>
+					</table>
+					
+					<table style="width:450px;margin-top:20px;text-align:left;">
+							<tr>
+								<th width="400px">Sonstige Optionen :</th>
+								<th></th>
+							</tr>
+							<tr><td colspan="99"></td></tr>
+							<tr>
+								<td>Kontostand nach Login anzeigen</td>
+								<td><input name='showKonto' type="checkbox" checked /></td>
+							</tr>
+					</table>
+
+					<table style="width:470px;margin-top:20px;text-align:left;">
+						<tr>
+							<th width="250px">Urlaubsmeldung :</th>
+							<th width="200px"></th>
+						</tr>
+						<tr>
+							<td>von :</td>
+							<td>
+								<div style="float: right; margin-left: 1em; margin-bottom: 1em;" id="calendar-container"></div>
+								
+<script>
+/* <![CDATA[ */
+Calendar.setup({"flat":"calendar-container","daFormat":"%d.%m.%Y","dateStatusFunc":ourDateStatusFunc});
+/* ]]> */
+</script>
+
+
+								<input type="text" id="data" name="data" size="10" readonly value="23.06.2011" />
+								<button id="trigger">...</button>
+								<button onClick="document.useroptionen.data.value='';return false;" >x</button>
+								
+<script>
+/* <![CDATA[ */
+Calendar.setup({"inputField":"data","button":"trigger","singleClick":true,"ifFormat":"%d.%m.%Y"});
+/* ]]> */
+</script>
+
+							</td>
+						</tr>
+						<tr>
+							<td>bis :</td>
+							<td>
+								<div style="float: right; margin-left: 1em; margin-bottom: 1em;" id="calendar-container1"></div>
+								
+<script>
+/* <![CDATA[ */
+Calendar.setup({"flat":"calendar-container1","daFormat":"%d.%m.%Y","dateStatusFunc":ourDateStatusFunc});
+/* ]]> */
+</script>
+
+
+								<input type="text" id="data1" name="data1" size="10" readonly value="17.07.2011" />
+								<button id="trigger1">...</button>
+								<button onClick="document.useroptionen.data1.value='';return false;" >x</button>
+								
+<script>
+/* <![CDATA[ */
+Calendar.setup({"inputField":"data1","button":"trigger1","singleClick":true,"ifFormat":"%d.%m.%Y"});
+/* ]]> */
+</script>
+
+							</td>
+						</tr>
+					</table>
+
+				</div>
+
+				<div style="clear:both;padding-top:10px;" >
+					<input type="button" value="Useroptionen speichern" onClick="if( checkUserInput() == true )document.useroptionen.submit();"></input>
+				</div>
+
+			</form>
+				
+	    </div>
+	    
+		<div id="fragment-2">
+
+			<form name="teamoptionen" action="optionen.php" method="post">
+
+				<input type="hidden" name="action" value="storeTeamOptions" />
+
+				<div style="float:left;width:450px;">
+
+					<table style="width:450px;padding=5px;text-align:left;">
+						<tr>
+							<th width="400px">Werbevertrag :</th>
+							<th></th>
+						</tr>
+						<tr><td colspan="99"></td></tr>
+						<tr>
+							<td>Bitte einen Vertrag ausw&auml;hlen :</td>
+							<td>
+								<select name="werbeVertrag" disabled>
+									<option value="0" >Noch nicht gew&auml;hlt</option>
+									<option value="1" >1</option>
+									<option value="2" >2</option>
+									<option value="3" selected>3</option>
+									<option value="4" >4</option>
+									<option value="5" >5</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+				<div style="float:left;width:50px;background:transparent;">
+					&nbsp;
+				</div>
+
+				<div style="float:left;width:450px;">
+					<table style="width:100%;padding=5px;text-align:left;">
+						<tr>
+							<th width="400px">Jugendf&ouml;rderung :</th>
+							<th></th>
+						</tr>
+						<tr><td colspan="99"></td></tr>
+						<tr>
+							<td>Beitrag pro ZAT und Spieler :</td>
+							<td>
+								<select name="jugendFoerderung">
+									<option value="500"   >  500</option>
+									<option value="1000"  > 1000</option>
+									<option value="1500"  > 1500</option>
+									<option value="2000"  > 2000</option>
+									<option value="2500"  > 2500</option>
+									<option value="3000"  > 3000</option>
+									<option value="3500"  > 3500</option>
+									<option value="4000"  > 4000</option>
+									<option value="4500"  > 4500</option>
+									<option value="5000"  > 5000</option>
+									<option value="5500"  > 5500</option>
+									<option value="6000"  > 6000</option>
+									<option value="6500"  > 6500</option>
+									<option value="7000"  > 7000</option>
+									<option value="7500"  > 7500</option>
+									<option value="8000"  > 8000</option>
+									<option value="8500"  > 8500</option>
+									<option value="9000"  > 9000</option>
+									<option value="9500"  > 9500</option>
+									<option value="10000" selected>10000</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+
+				<div style="clear:both;padding-top:10px;" >
+					<input type="button" value="Teamoptionen speichern" onClick="document.teamoptionen.submit();"></input>
+				</div>
+
+			</form>
+			
+	    </div>
+
+	    <div id="fragment-3">
+
+			<form name="smsoptionen" action="optionen.php" method="post">
+
+				<input type="hidden" name="action" value="storeSMSOptions" />
+
+				<div style="float:left;width:500px;">
+
+					<table style="width:100%;padding=5px;text-align:left;">
+					
+						<tr>
+							<td>Abonnement</td>
+							<td>
+																	<select name='smsAbonnement' onBlur="checkSMSAbo();">
+										
+										<option value="0" selected>Kein Abonnement</option>
+										
+																				<option value="-1" style="color:red;">Schnupper Abo, 7SMS f&uuml;r 4,99&euro;</option>
+																				
+																				<option value="-1" style="color:red;">Halbe Saison Abo, f&uuml;r 17,99&euro;</option>
+																				
+																				<option value="-1" style="color:red;">Liga und Pokal Abo, f&uuml;r 24,99&euro;</option>
+																				
+																				<option value="-1"style="color:red;" >Saison Abo, f&uuml;r 29,99&euro;</option>
+																				
+									</select>
+															</td>
+						</tr>
+
+						<tr>
+							<td width="200px" text-align="right">Mobilfunknummer</td>
+							<td width="100px" text-align="left">
+							<a class="title" href="#" title="Eingabe der Mobilnummer|Bitte nur Zahlen ohne Leerzeichen eingeben.||Format : Landeskennung, Netz (ohne 0) und Rufnummer.||Z.B. 00491701234567"><input name='smsMN' type="text" size="20" maxlength="20" value="" onBlur="checkSMSMN(this);" /><img src="images/os_hilfe.gif" height="16px" width="12px" border="0" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								AGB akzeptiert
+							</td>
+							<td>
+								<input name='smsHinweisNutzung' type="checkbox"  />
+								<input type="button" value="AGB" onClick="window.open('optionen.php?action=showAGB','','width=1000,height=600');" />
+							</td>
+						</tr>
+
+						<tr><td>&nbsp;</td></tr>
+
+						<tr>
+							<td>Zahlungseingang</td>
+															<td>0.05&nbsp;&euro;</td>
+													</tr>
+
+						<tr><td>&nbsp;</td></tr>
+						
+						
+					</table>
+					
+				</div>
+
+				<div style="clear:both;padding-top:10px;" >
+					<input type="button" value="SMS-Optionen speichern" onClick="if( checkSMSInput() == true )document.smsoptionen.submit();"></input>
+				</div>
+
+			</form>
+	
+			<div style="clear:both">
+				<table style="text-align:center;border-collapse:collapse;border-width:1px;border-style:solid">
+					<tr>
+						<th colspan="4">
+							Zuletzt versandte SMS (die letzten 10)
+						</th>
+					</tr>
+											<tr>
+							<td style="border-width:1px;border-style:solid"
+								colspan="4">keine
+							</td>
+						</tr>
+									</table>
+			</div>
+
+		</div>
+		
+		<div id="fragment-4">
+
+			<form name="kennwort" action="optionen.php" method="post">
+
+				<input type="hidden" name="action" value="storePassword" />
+
+				<div style="float:left;width:500px;">
+				
+					<table style="width:500px;padding=5px;text-align:left;">
+						<tr>
+							<th width="300px">Passwort &auml;ndern :</th>
+							<th width="150px"></th>
+						</tr>
+						<tr><td colspan="99"></td></tr>
+						<tr>
+							<td>Aktuelles Passwort :</td>
+							<td><input name="pwCurrent" type="password" /></td>
+						</tr>
+						<tr>
+							<td>Neues Passwort :</td>
+							<td><input name="pwNew" type="password" /></td>
+						</tr>
+						<tr>
+							<td>Kontrolle :</td>
+							<td><input name="pwNewCheck" type="password" /></td>
+						</tr>
+					</table>
+
+				</div>
+
+				<div style="clear:both;padding-top:10px;" >
+					<input type="button" value="Kennwort speichern" onClick="if( checkPasswordInput() == true )document.kennwort.submit();"></input>
+				</div>
+			
+			</form>
+
+			<form name="vertreterkennwort" action="optionen.php" method="post">
+
+				<input type="hidden" name="action" value="storeVPassword" />
+			
+				<div style="float:left;width:500px;padding-top:20px;">
+				
+					<table style="width:450px;padding=5px;text-align:left;">
+						<tr>
+							<th width="300">Vertreterpasswort &auml;ndern :</th>
+							<th width="150px"></th>
+						</tr>
+						<tr>
+							<td>Neues Vertreterpasswort :</td>
+							<td><input name="pwVertreter" type="password" value="838023a778" /></td>
+						</tr>
+						<tr>
+							<td>Kontrolle :</td>
+							<td><input name="pwVertreterCheck" type="password" value="838023a778" /></td>
+						</tr>
+					</table>
+
+				</div>
+
+				<div style="clear:both;padding-top:10px;" >
+					<input type="button" value="Vertreterkennwort speichern" onClick="if( checkPasswordInput() == true )document.vertreterkennwort.submit();"></input>
+				</div>
+
+			</form>
+			
+	    </div>
+
+		
+	</div>
+
+</html>

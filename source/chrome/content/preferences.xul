@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/global.css"?>
+
+<prefwindow type="prefwindow"
+            id="OSextPreferences"
+            title="OSext Einstellungen"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<prefpane id="options-allgemein" label="Allgemein"
+		image="chrome://osext/content/resource/options.png">
+	   	<preferences>
+			<preference id="pref-dbpath" 
+				name="extensions.osext.dbpath" type="string"/>
+	       	<preference id="pref-uribase" 
+				name="extensions.osext.uribase" type="string"/>
+			<preference id="pref-logging"
+				name="extensions.osext.logging" type="bool"/>
+			<preference id="pref-loglevel"
+				name="extensions.osext.loglevel" type="int"/>
+			<preference id="pref-bilanz" 
+				name="extensions.osext.bilanz" type="int"/>
+			<preference id="pref-alerts"
+				name="extensions.osext.alerterrors" type="bool"/>
+		</preferences>
+		<hbox>
+			<label value="Pfad zur Sqlite-Datenbank: "
+				style="padding-top:5px"/>
+			<spacer flex="1"/>
+			<textbox id="tb-dbpath" 
+				flex="1"
+				preference="pref-dbpath" 
+				value=""/>
+		</hbox>
+		<hbox>
+			<label value="Basis-URL, die verwendet wird: "
+				style="padding-top:5px"/>
+			<spacer flex="1"/>
+			<textbox id="tb-uribase" 
+				flex="1"
+				preference="pref-uribase" 
+				value=""/>
+		</hbox>
+		<hbox>
+			<checkbox id="cb-logging" 
+				style="padding-top:5px" 
+				label="Protokollierung über die Firebug-Console: " 
+				preference="pref-logging" />
+			<spacer flex="1"/>				
+			<menulist id="ml-loglevel" preference="pref-loglevel">
+				<menupopup>
+					<menuitem label="ERROR" value="l"/>
+					<menuitem label="WARN" value="2"/>
+					<menuitem label="INFO" value="3"/>
+					<menuitem label="DEBUG" value="4"/>
+				</menupopup>
+			</menulist>	
+		</hbox>
+		<hbox>
+			<checkbox id="cb-alerts" 
+				style="padding-top:5px" 
+				label="Fehler in einem Dialog anzeigen" 
+				preference="pref-alerts" />
+		</hbox>
+		<hbox>
+			<label value="Zeitraum für Bilanz: "
+				style="padding-top:10px" />
+			<spacer flex="1"/>				
+			<menulist id="ml-bilanz" preference="pref-bilanz">
+				<menupopup>
+					<menuitem label="Alle Daten" value="0"/>
+					<menuitem label="Daten der letzten 72 Zats" value="1"/>
+					<menuitem label="Daten der aktuellen Saison" value="2"/>
+				</menupopup>
+			</menulist>	
+		</hbox>
+	</prefpane>
+	<prefpane id="options-prognose" label="Prognose"
+		image="chrome://osext/content/resource/prognose.png">
+	   	<preferences>
+			<preference id="pref-pslimit" 
+				name="extensions.osext.pslimit" type="int"/>
+	       	<preference id="pref-nslimit" 
+				name="extensions.osext.nslimit" type="int"/>
+	       	<preference id="pref-limitalter" 
+				name="extensions.osext.limitalter" type="int"/>
+			<preference id="pref-abwertungspiele" 
+				name="extensions.osext.abwertungspiele" type="int"/>
+			<preference id="pref-physio"
+				name="extensions.osext.physio" type="bool"/>
+			<preference id="pref-neuvertrag" 
+				name="extensions.osext.neuvertrag" type="int"/>
+		</preferences>
+		<hbox>
+			<label value="Maximaler Primärskill für Trainingsprognose: "
+				style="padding-top:5px" />
+	       	<spacer flex="1"/>
+			<textbox id="tb-pslimit" type="number" min="60" max="99"
+				preference="pref-pslimit" value=""/>
+		</hbox>
+		<hbox>
+			<label value="Maximaler Nebenskill für Trainingsprognose: "
+				style="padding-top:5px" />
+	       	<spacer flex="1"/>
+			<textbox id="tb-nslimit" type="number" min="50" max="99"
+				preference="pref-nslimit" value=""/>
+		</hbox>
+		<hbox>
+			<label value="Alter für Maximalskills: "
+				style="padding-top:5px" />
+	       	<spacer flex="1"/>
+			<textbox id="tb-limitalter" type="number" min="16" max="40"
+				preference="pref-limitalter" value=""/>
+		</hbox>
+		<hbox>
+			<label value="Anzahl der Einsätze für Abwertungsprognose: "
+				style="padding-top:5px" />
+	       	<spacer flex="1"/>
+			<textbox id="tb-abwertungspiele" type="number" min="0" max="72"
+				preference="pref-abwertungspiele" value=""/>
+		</hbox>
+		<hbox>
+			<checkbox id="cb-physio" 
+				style="padding-top:5px" 
+				label="Physioeinsatz für Genesungsprognose" 
+				preference="pref-physio" />
+		</hbox>
+		<hbox>
+			<label value="Automatische Vertragsverlängerung: "
+				style="padding-top:10px" />
+			<spacer flex="1"/>				
+			<menulist id="ml-neuvertrag" preference="pref-neuvertrag">
+				<menupopup>
+					<menuitem label="Keine" value="0"/>
+					<menuitem label="24 Monate" value="24"/>
+					<menuitem label="36 Monate" value="36"/>
+					<menuitem label="48 Monate" value="48"/>
+					<menuitem label="60 Monate" value="60"/>
+				</menupopup>
+			</menulist>	
+		</hbox>
+	</prefpane>
+</prefwindow>
+
