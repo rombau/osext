@@ -11,6 +11,7 @@ TestCase("JuTests").prototype = {
 		assertInstanceOf(OSext.Sites.JugendOverview, this.site.getSubSiteHandler());
 		assertInstanceOf(OSext.Sites.JugendOverview, this.site.getSubSiteHandler(1));
 		assertInstanceOf(OSext.Sites.JugendSkills, this.site.getSubSiteHandler(2));
+		assertInstanceOf(OSext.Sites.JugendOptionen, this.site.getSubSiteHandler(3));
 	},
 	
 	testSubSiteParameter : function() {

@@ -1,5 +1,5 @@
 /**
- * Klasse für die Jugendseite.
+ * Klasse fÃ¼r die Jugendseite.
  * Die Unterseiten werden auf den entsprechnden {@code sitehandler} weitergeleitet.
  * @constructor
  */
@@ -30,6 +30,9 @@ OSext.Sites.Ju.prototype = {
 			case 2:
 				this.sitehandler[2] = new OSext.Sites.JugendSkills(this.wrappeddoc);
 				break;
+			case 3:
+				this.sitehandler[3] = new OSext.Sites.JugendOptionen(this.wrappeddoc);
+				break;
 			default:
 				return null;
 			}
@@ -39,7 +42,7 @@ OSext.Sites.Ju.prototype = {
 	},
 
 	/**
-	 * Prüft die Seite auf Änderungen und Anmeldungsinformationen.
+	 * PrÃ¼ft die Seite auf Ã„nderungen und Anmeldungsinformationen.
 	 * @throws 
 	 * {@link OSext.SiteChangeError} oder {@link OSext.AuthenticationError}
 	 */
@@ -79,7 +82,7 @@ OSext.Sites.Ju.prototype = {
 	
 	/**
 	 * Aktualisiert die Jugenddaten der entsprechenden Seite
-	 * nach einer Parameteränderung durch eine Benutzereingabe. 
+	 * nach einer ParameterÃ¤nderung durch eine Benutzereingabe. 
 	 */
 	update : function (data, params) {
 

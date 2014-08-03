@@ -4,6 +4,7 @@
 		AddonManager.getAddonByID("osext@greenmoon.at", function (addon) {
 			if(addon.version != OSext.Prefs.getCurrentVersion()) {
 				OSext.Prefs.setCurrentVersion(addon.version);
+				OSext.Log.info("Show chrome://osext/content/resource/whatsnew.html ...");
 				window.gBrowser.loadOneTab("chrome://osext/content/resource/whatsnew.html");
 			}
 		});

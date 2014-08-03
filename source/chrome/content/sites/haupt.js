@@ -70,10 +70,10 @@ OSext.Sites.Haupt.prototype = {
 			queue.addSite("training", null, true, false, "Training");
 			queue.addSite("ju", {page: 1}, true, false, "Jugend");
 			queue.addSite("ju", {page: 2}, true, false, "Jugendwerte");
+			queue.addSite("ju", {page: 3}, true, false, "Jugendoptionen");
 			queue.addSite("lt", null, true, false, "Tabelle");
 			queue.addSite("ka", null, true, false, "Kontoauszug");
 			queue.addSite("zuzu", null, true, false, "Eintritt");
-			queue.addSite("optionen", null, true, false, "Optionen");
 			
 			return queue;
 		} 
