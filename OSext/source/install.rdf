@@ -9,7 +9,7 @@
 		<em:iconURL>chrome://osext/content/resource/osext.png</em:iconURL>
 		<em:id>osext@greenmoon.at</em:id>
 		<em:name>OSext</em:name>
-		<em:version>1.3.10</em:version>
+		<em:version>1.3.11</em:version>
 		<em:updateURL>http://www.greenmoon.at/osext/update_test.rdf</em:updateURL>
 		<em:type>2</em:type>
 		<em:targetApplication>

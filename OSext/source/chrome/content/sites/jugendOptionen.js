@@ -1,17 +1,17 @@
 /**
- * Klasse für die Optionen
+ * Klasse für die JugendOptionen
  * @constructor
  */
-OSext.Sites.Optionen = function (wrappeddoc) {
+OSext.Sites.JugendOptionen = function (wrappeddoc) {
 	
-	this.classname = "OSext.Sites.Optionen";
+	this.classname = "OSext.Sites.JugendOptionen";
 	
 	this.wrappeddoc = wrappeddoc;
 	
 	this.alwaysExtract = true;
 };
 
-OSext.Sites.Optionen.prototype = {
+OSext.Sites.JugendOptionen.prototype = {
 	
 	/**
 	 * Prüft die Seite auf Änderungen
@@ -20,14 +20,14 @@ OSext.Sites.Optionen.prototype = {
 	check : function () {
 
 		var divs = this.wrappeddoc.doc.getElementsByTagName("div"),
-			jugendsel = this.wrappeddoc.doc.getElementsByName("jugendFoerderung")[0];
+			jugendsel = this.wrappeddoc.doc.getElementsByName("foerderung")[0];
 	
-		if (divs && divs.length > 0 && divs[0].textContent.search(/.+Als Gast gesperrt! Falls du dein Passwort ge.+ndert hast musst du dich neu einloggen.+/) != -1) {
+		if (divs && divs.length > 0 && divs[0].lastChild.textContent.search("Diese Seite ist ohne Team nicht verf.+gbar!") != -1) {
 			throw new OSext.AuthenticationError("Demoteam");
 		}
 
 		if (!jugendsel) {
-			throw new OSext.SiteChangeError("Optionen -> Jugendförderungsauswahl wurde entfernt!");
+			throw new OSext.SiteChangeError("Jugend/Optionen -> Jugendförderungsauswahl wurde entfernt!");
 		}
 		return true;
 	},
@@ -37,7 +37,7 @@ OSext.Sites.Optionen.prototype = {
 	 */
 	extract : function (data, params) {
 
-		var jugendsel = this.wrappeddoc.doc.getElementsByName("jugendFoerderung")[0];
+		var jugendsel = this.wrappeddoc.doc.getElementsByName("foerderung")[0];
 			
 		data.jugendfoerderung = +jugendsel.value;
 		

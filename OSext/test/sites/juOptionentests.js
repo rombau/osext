@@ -1,9 +1,9 @@
 
-TestCase("OptionenTests").prototype = {
+TestCase("JugendOptionenTests").prototype = {
 
 	setUp : function() {
 		
-		this.site = new OSext.Sites.Optionen(new OSext.WrappedDocument(document));
+		this.site = new OSext.Sites.JugendOptionen(new OSext.WrappedDocument(document));
 		
 		this.data = new OSext.Data();
 
@@ -18,15 +18,13 @@ TestCase("OptionenTests").prototype = {
 			fail();
 		} catch (e) {
 			assertInstanceOf(OSext.SiteChangeError, e);
-			assertEquals("Optionen -> Jugendförderungsauswahl wurde entfernt!", e.message);
+			assertEquals("Jugend/Optionen -> Jugendförderungsauswahl wurde entfernt!", e.message);
 		}
 	},
 
 	testDemoTeam : function() {
 
-		/*:DOC += <div>
-					<b>Als Gast gesperrt! Falls du dein Passwort geändert hast musst du dich neu einloggen.</b>
-				  </div>*/
+		/*:DOC += <div>Diese Seite ist ohne Team nicht verf&uuml;gbar!</div>*/
 		
 		try {
 			assertFalse(this.site.check());
@@ -39,7 +37,7 @@ TestCase("OptionenTests").prototype = {
 	testExtract : function() {
 
 		/*:DOC += <div>
-					<select name="jugendFoerderung">
+					<select name="foerderung">
 						<option value="500">  500</option>
 						<option value="1000"> 1000</option>
 						<option value="1500"> 1500</option>
