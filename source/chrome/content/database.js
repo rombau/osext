@@ -312,7 +312,7 @@ OSext.Database.prototype = {
 					spielerliste[s].blitzzat = spieler.BlitzKz;
 					spielerliste[s].fuqprosaison = spieler.FUQ;
 					spielerliste[s].erfprosaison = spieler.ERF;
-					if (spieler.Trainer && spieler.Skill) {
+					if (spieler.Trainer && spieler.TSkill) {
 						spielerliste[s].training.aktuell.trainer = new OSext.Trainer();
 						spielerliste[s].training.aktuell.trainer.skill = spieler.TSkill;
 						spielerliste[s].training.aktuell.trainernr = spieler.Trainer;

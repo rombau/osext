@@ -278,7 +278,7 @@ OSext.Kaderspieler.prototype.getForcastedSkills = function (pos, spieltage, pref
 	
 	var skills = [], s,
 		sortedskills = [], ss = 0,
-		wahrscheinlichkeit,
+		skillidx, wahrscheinlichkeit,
 
 		altersabzug = this.alter - prefs.getAlterTrainingslimit(),
 		
@@ -339,6 +339,7 @@ OSext.Kaderspieler.prototype.getForcastedSkills = function (pos, spieltage, pref
 				}
 			} else {
 				skills[skillidx] += aufwertungen;
+				skills[skillidx] = OSext.limitTo99(skills[skillidx]);
 			}
 		};
 		
@@ -354,22 +355,25 @@ OSext.Kaderspieler.prototype.getForcastedSkills = function (pos, spieltage, pref
 	}					
 	sortedskills.sort(sortSkills);
 	
-	OSext.Log.debug(["forecastSkill " + this.name, skills, this.training.plan.skillidx, "/", 
-	     	this.training.plan.wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
-	forecastSkill(this.training.plan.skillidx, 
-			this.training.plan.wahrscheinlichkeit, Math.floor(spieltage / 2) + (spieltage % 2));
-
-	wahrscheinlichkeit = this.training.aktuell.wahrscheinlichkeit;
-	if (this.training.aktuell.skillidx == this.training.plan.skillidx) {
-		wahrscheinlichkeit = this.training.aktuell.wahrscheinlichkeit * 
-			(this.skills[this.training.aktuell.skillidx] / skills[this.training.aktuell.skillidx]);
-		wahrscheinlichkeit = OSext.limitTo99(wahrscheinlichkeit);
+	if (this.training.plan.skillidx >= 0 && this.training.plan.wahrscheinlichkeit) {
+	
+		OSext.Log.debug(["forecastSkill " + this.name, skills, this.training.plan.skillidx, "/", 
+		     	this.training.plan.wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
+		forecastSkill(this.training.plan.skillidx, 
+				this.training.plan.wahrscheinlichkeit, Math.floor(spieltage / 2) + (spieltage % 2));
+		
+		skillidx = this.training.aktuell.skillidx >= 0 ? this.training.aktuell.skillidx : this.training.plan.skillidx;
+		wahrscheinlichkeit = this.training.aktuell.wahrscheinlichkeit || this.training.plan.wahrscheinlichkeit;
+		
+		if (skillidx == this.training.plan.skillidx) {
+			wahrscheinlichkeit = this.training.aktuell.wahrscheinlichkeit * (this.skills[skillidx] / skills[skillidx]);
+			wahrscheinlichkeit = OSext.limitTo99(wahrscheinlichkeit);
+		}
+	
+		OSext.Log.debug(["forecastSkill " + this.name, skills, skillidx, "/",
+		     	wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
+		forecastSkill(skillidx, wahrscheinlichkeit, Math.floor(spieltage / 2));
 	}
-
-	OSext.Log.debug(["forecastSkill " + this.name, skills, this.training.aktuell.skillidx, "/",
-	     	wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
-	forecastSkill(this.training.aktuell.skillidx, 
-			wahrscheinlichkeit, Math.floor(spieltage / 2));
 
 	return skills;
 };

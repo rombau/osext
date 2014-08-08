@@ -61,11 +61,14 @@ OSext.Sites.Zar.prototype = {
 			
 			row = aufwertungen.rows[r];
 			
-			spieler = OSext.getListElement(data.team.spieler, "id",
-					OSext.getLinkId(row.cells[0].firstChild.href));
-
-			if (spieler && !spieler.training.aktuell.aufwertung) {
-				spieler.training.aktuell.aufwertung = (row.cells[1].textContent.indexOf("erfolgreich") != -1);
+			if (row.cells[1].textContent.search(/Erfahrung/) == -1) {
+				
+				spieler = OSext.getListElement(data.team.spieler, "id",
+						OSext.getLinkId(row.cells[0].firstChild.href));
+	
+				if (spieler && !spieler.training.aktuell.aufwertung) {
+					spieler.training.aktuell.aufwertung = (row.cells[1].textContent.indexOf("erfolgreich") != -1);
+				}
 			}
 		}	
 	 		
@@ -79,34 +82,66 @@ OSext.Sites.Zar.prototype = {
 			
 			txt = row.cells[0].textContent; 
 			if (txt.search(/Zuschauereinnahmen/) != -1) {
-				data.spieltag.stadioneinnahmen += betrag;
+				data.spieltag.stadioneinnahmen = betrag;
 			} else if (txt.search(/Stadionkosten/) != -1) {
-				data.spieltag.stadionkosten += betrag; 
+				data.spieltag.stadionkosten = betrag; 
 			} else if (txt.search(/Siegpr.+mie/) != -1) {
-				data.spieltag.siegpraemie += betrag; 
+				data.spieltag.siegpraemie = betrag; 
 			} else if (txt.search(/Punktpr.+mie/) != -1) {
-				data.spieltag.punktpraemie += betrag; 
+				data.spieltag.punktpraemie = betrag; 
 			} else if (txt.search(/Torpr.+mie/) != -1) {
-				data.spieltag.torpraemie += betrag; 
+				data.spieltag.torpraemie = betrag; 
 			} else if (txt.search(/Fernsehgelder/) != -1) {
-				data.spieltag.tvgelder += betrag; 
+				data.spieltag.tvgelder = betrag; 
 			} else if (txt.search(/Fanartikel/) != -1) {
-				data.spieltag.fanartikel += betrag; 
+				data.spieltag.fanartikel = betrag; 
 			} else if (txt.search(/Werbevertrag/) != -1) {
-				data.spieltag.grundpraemie += betrag; 
+				data.spieltag.grundpraemie = betrag; 
 			} else if (txt.search(/Geh.+lter/) != -1) {
-				data.spieltag.spielergehaelter += betrag; 
+				data.spieltag.spielergehaelter = betrag; 
 			} else if (txt.search(/Trainer/) != -1) {
-				data.spieltag.trainergehaelter += betrag; 
+				data.spieltag.trainergehaelter = betrag; 
 			} else if (txt.search(/Jugendf.+rderung/) != -1)  {
-				data.spieltag.jugend += betrag; 
+				data.spieltag.jugend = betrag; 
 			} else if (txt.search(/Physiotherapeut/) != -1) {
 				data.spieltag.physio += betrag; 
 			} else if (txt.search(/Leihgeb.+hr.+/) != -1)  {
 				data.spieltag.leihen += betrag; 
 			} else if (txt.search(/Gesamtsumme/) != -1) {
-				data.spieltag.summe += betrag; 
+				data.spieltag.summe = betrag; 
 			}
 		}
+	},
+	
+	/**
+	 * Erweitert die Aufwertungen.
+	 */
+	extend : function (data, params) {
+
+		var tables = this.wrappeddoc.doc.getElementsByTagName("table"),
+			table = tables[tables.length - 1],
+			tableClone = table.cloneNode(true),
+			r, row, spieler, baseCell, wert;
+		
+		for (r = 0; r < tableClone.rows.length; r++) {
+
+			row = tableClone.rows[r];
+			
+			if (row.cells[1].textContent.search(/Erfahrung/) == -1) {
+
+				spieler = OSext.getListElement(data.team.spieler, "id",
+						OSext.getLinkId(row.cells[0].firstChild.href));
+		
+				if (spieler && spieler.training && spieler.training.aktuell && spieler.training.aktuell.trainer
+						&& spieler.training.aktuell.wahrscheinlichkeit && spieler.training.aktuell.faktor) {
+					wert = spieler.training.aktuell.wahrscheinlichkeit * spieler.training.aktuell.faktor;
+					row.cells[1].textContent += " bei ";
+					row.cells[1].textContent += Number(wert).toFixed(2);
+					row.cells[1].textContent += "%";
+				}
+			}
+		}
+		
+		table.parentNode.replaceChild(tableClone, table);
 	}
 };

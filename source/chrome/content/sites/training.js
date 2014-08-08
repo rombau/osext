@@ -82,13 +82,6 @@ OSext.Sites.Training.prototype = {
 						spieler.training.plan.wahrscheinlichkeit = 0;
 					}
 					
-					if (!spieler.training.aktuell.trainer) {
-
-						spieler.training.aktuell.trainer = spieler.training.plan.trainer;
-						spieler.training.aktuell.trainernr = spieler.training.plan.trainernr;
-						spieler.training.aktuell.skillidx = spieler.training.plan.skillidx;
-						spieler.training.aktuell.wahrscheinlichkeit = spieler.training.plan.wahrscheinlichkeit;
-					}
 				} 
 				else {
 					// damit ein zuvor eingestellter (und gespeicherter) Trainer wieder entfernt wird
