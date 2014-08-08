@@ -134,7 +134,7 @@ OSext.Sites.Zar.prototype = {
 		
 				if (spieler && spieler.training && spieler.training.aktuell && spieler.training.aktuell.trainer
 						&& spieler.training.aktuell.wahrscheinlichkeit && spieler.training.aktuell.faktor) {
-					wert = spieler.training.aktuell.wahrscheinlichkeit * spieler.training.aktuell.faktor;
+					wert = OSext.limitTo99(spieler.training.aktuell.wahrscheinlichkeit * spieler.training.aktuell.faktor);
 					row.cells[1].textContent += " bei ";
 					row.cells[1].textContent += Number(wert).toFixed(2);
 					row.cells[1].textContent += "%";
