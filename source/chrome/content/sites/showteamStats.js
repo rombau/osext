@@ -75,7 +75,7 @@ OSext.Sites.ShowteamStats.prototype = {
 			spielerliste,
 			cellSkillschnitt, cellOpti;
 
-		spielerliste = data.ansicht.team.getSpieler();
+		spielerliste = data.team.spieler; // immer die aktuellen Spieler; keine Toolbar
 
 		for (r = 0; r < tableClone.rows.length; r++) {
 
@@ -123,17 +123,17 @@ OSext.Sites.ShowteamStats.prototype = {
 				
 				cellOpti.setAttribute(OSext.STYLE.PS, "true");
 
+				row.cells[this.columns2.indexOf("Land")].parentNode
+				.removeChild(row.cells[this.columns2.indexOf("Land")]);
+				
+				row.cells[this.columns2.indexOf("Land")].innerHTML = 
+					"<img src=\"images/flaggen/" + row.cells[this.columns2.indexOf("Land")].textContent + ".gif\"\/> " +
+					row.cells[this.columns2.indexOf("Land")].innerHTML;
+
 				spieler = OSext.getListElement(spielerliste, "id",
 						OSext.getLinkId(row.cells[this.columns2.indexOf("Name")].firstChild.href));
 
 				if (spieler && spieler.id) {
-
-					row.cells[this.columns2.indexOf("Land")].parentNode
-						.removeChild(row.cells[this.columns2.indexOf("Land")]);
-
-					row.cells[this.columns2.indexOf("Land")].innerHTML = 
-						"<img src=\"images/flaggen/" + spieler.land + ".gif\"\/> " +
-						row.cells[this.columns2.indexOf("Land")].innerHTML;
 					
 					cellSkillschnitt.setText(spieler.skillschnitt.toFixed(2));
 					cellOpti.setText(spieler.opti.toFixed(2));

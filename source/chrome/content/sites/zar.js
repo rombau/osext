@@ -127,7 +127,9 @@ OSext.Sites.Zar.prototype = {
 
 			row = tableClone.rows[r];
 			
-			if (row.cells[1].textContent.search(/Erfahrung/) == -1) {
+			if (row.cells[1].textContent.search(/Erfahrung/) == -1 && 
+					row.cells[1].textContent.search(/F.+hrungsqualit.+t/) == -1 && 
+					row.cells[1].textContent.search(/Trainingsblessur/) == -1) {
 
 				spieler = OSext.getListElement(data.team.spieler, "id",
 						OSext.getLinkId(row.cells[0].firstChild.href));
