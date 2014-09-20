@@ -220,7 +220,9 @@ OSext.Sites.ShowteamOverview.prototype = {
 
 			if (spieler) {
 				for (c = 0; c < row.cells.length; c++) {
-					row.cells[c].className = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);
+					if (c != this.columns.indexOf("#")) {
+						row.cells[c].className = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);
+					}
 				}
 			}
 			

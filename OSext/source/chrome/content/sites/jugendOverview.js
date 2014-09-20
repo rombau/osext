@@ -227,8 +227,10 @@ OSext.Sites.JugendOverview.prototype = {
 			spieler = jugendliste[r - 1];
 
 			for (c = 0; c < row.cells.length; c++) {
-				if (row.cells[c].className != OSext.POS.TOR && row.cells[c].className != "BAK") {
-					row.cells[c].className = spieler.getPos();
+				if (c != this.newcols.indexOf("U")) {
+					if (row.cells[c].className != OSext.POS.TOR && row.cells[c].className != "BAK") {
+						row.cells[c].className = spieler.getPos();
+					}
 				}
 			}
 

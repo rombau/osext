@@ -146,14 +146,18 @@ OSext.Sites.ShowteamContracts.prototype = {
 	 */
 	setBlitzAuswahlParams : function (auswahl, spieler, data) {
 	
-		if (spieler && spieler.blitzzat) {
-			auswahl.value = spieler.blitzzat;
+		if (spieler && spieler.id) { 
+			if (spieler.blitzzat) {
+				auswahl.value = spieler.blitzzat;
+			}
+			auswahl.spielerid = spieler.id;
+			auswahl.data = data;
+			auswahl.update = this.update;
+			auswahl.thisarg = this;
+			auswahl.addEventListener("change", this.handleBlitzAuswahl, false);
+		} else {
+			auswahl.textContent = "";
 		}
-		auswahl.spielerid = spieler.id;
-		auswahl.data = data;
-		auswahl.update = this.update;
-		auswahl.thisarg = this;
-		auswahl.addEventListener("change", this.handleBlitzAuswahl, false);
 	},
 	
 	/**
@@ -253,7 +257,9 @@ OSext.Sites.ShowteamContracts.prototype = {
 
 			if (spieler) {
 				for (c = 0; c < row.cells.length; c++) {
-					row.cells[c].className = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);
+					if (c != this.columns.indexOf("#")) {
+						row.cells[c].className = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);
+					}
 				}
 			}
 			

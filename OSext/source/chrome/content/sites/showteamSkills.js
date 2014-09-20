@@ -139,15 +139,15 @@ OSext.Sites.ShowteamSkills.prototype = {
 
 				cellOpti.setAttribute(OSext.STYLE.PS, "true");
 
+				row.cells[this.columns.indexOf("Land")].innerHTML = 
+					"<img src=\"images/flaggen/" + row.cells[this.columns.indexOf("Land")].textContent + ".gif\"\/> " +
+					row.cells[this.columns.indexOf("Land")].innerHTML;
+
 				spieler = OSext.getListElement(spielerliste, "id",
 						OSext.getLinkId(row.cells[this.columns.indexOf("Name")].firstChild.href));
 
 				if (spieler && spieler.id) {
-
-					row.cells[this.columns.indexOf("Land")].innerHTML = 
-						"<img src=\"images/flaggen/" + spieler.land + ".gif\"\/> " +
-						row.cells[this.columns.indexOf("Land")].innerHTML;
-					
+				
 					if (spieler.skillschnitt) {
 						cellSkillschnitt.setText(spieler.skillschnitt.toFixed(2));
 						cellOpti.setText(spieler.opti.toFixed(2));
@@ -195,7 +195,9 @@ OSext.Sites.ShowteamSkills.prototype = {
 			if (spieler && spieler.status && spieler.status > OSext.STATUS.INAKTIV) {
 
 				for (c = 0; c < row.cells.length; c++) {
-					row.cells[c].className = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);
+					if (c != this.columns.indexOf("#")) {
+						row.cells[c].className = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);
+					}
 				}
 				
 				for (s in OSext.SKILL) {
