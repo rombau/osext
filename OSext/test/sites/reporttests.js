@@ -827,5 +827,46 @@ TestCase("ReportTests").prototype = {
 
 }
 
+/*
+HtmlTestCase("HtmlReportTests", "/test/test/fixtures/report.html", "rep/saison/6/7/19-448.html").prototype = {
+	
+	setUp : function() {
+		
+		this.site = new OSext.Sites.Report(new OSext.WrappedDocument(this.htmldoc));
+		
+		this.data = new OSext.Data();
+		this.data.setAktuellenSpieltag(new OSext.Spieltag(3, 45));
+	},
+	
+	testExtractSpieltagDatum : function() {
+				
+		site.extract(data);
+		
+		assertEquals("08.11.2011", data.spieltag.datum);
+	},
+}
 
+AsyncTestCase("AsyncReportTests").prototype = {
+ 	
+	testExtractDatum : function(queue) {
+			
+		var report = new OSext.TestDocument("report.html", "rep/saison/6/7/19-448.html");
+			
+		queue.call("Load", report.load.bind(report));
+		
+		queue.call("Test", function() {
+						
+			var doc = report.getDocument.call(report),
+				site = new OSext.Sites.Report(new OSext.WrappedDocument(doc)),
+				data = new OSext.Data();
+			
+			data.setAktuellenSpieltag(new OSext.Spieltag(3, 45));
+			
+			site.extract(data);
+			
+			assertEquals("08.11.2011", data.spieltag.datum);
+		});
+	}
+}
 
+*/

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.google.eclipse.javascript.jstestdriver.ui.JstdTestDriverLaunchConfiguration">
-<stringAttribute key="basePath_0" value="/home/roman/Workspaces/osext4/OSext"/>
+<stringAttribute key="basePath_0" value="/home/roman/Workspaces/osext/OSext"/>
 <stringAttribute key="com.google.jstestdriver.eclipse.ui.confFileName" value="jsTestDriver.conf"/>
 <stringAttribute key="com.google.jstestdriver.eclipse.ui.confFullPath" value="jsTestDriver.conf"/>
 <stringAttribute key="com.google.jstestdriver.eclipse.ui.projectName" value="OSext"/>

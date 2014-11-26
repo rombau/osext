@@ -67,6 +67,17 @@ TestCase("HauptTests").prototype = {
 
 	},
 
+	testTeamNameMitInfos : function() {
+
+		/*:DOC += <b>INFO</b>*/
+		/*:DOC += <b>Willkommen im Managerb_ro von FC Cork</b>*/
+		/*:DOC += <b>INFO</b>*/
+		/*:DOC += <b>Der n_chste ZAT ist ZAT 45 und liegt auf ...</b>*/
+
+		this.site.extract(this.data);
+		assertEquals("FC Cork", this.data.team.name);
+
+	},
 
 	testLegalZat : function() {
 

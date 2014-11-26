@@ -16,9 +16,9 @@ OSext.Sites.Haupt.prototype = {
 	 */
 	check : function () {
 
-		var bolds = this.wrappeddoc.doc.getElementsByTagName("b");
+		var bolds = this.wrappeddoc.doc.getElementsByTagName("b"), b, found = false;
 		
-		if (!bolds || bolds.length < 1 || bolds[0].textContent.indexOf("Willkommen im Managerb") == -1) {
+		if (!bolds || bolds.length < 1 || this.getBoldIndexByText(bolds, /Willkommen im Managerb/) == -1) {
 			throw new OSext.SiteChangeError("Managerbüro -> Überschrift wurde nicht gefunden!");
 		}
 
@@ -26,13 +26,25 @@ OSext.Sites.Haupt.prototype = {
 			throw new OSext.AuthenticationError("Demoteam.");
 		}					
 
-		if (!bolds || bolds.length < 2 || 
-				bolds[1].textContent.search(/Der n.+chste ZAT ist ZAT .+ und liegt auf/) == -1) {
+		if (!bolds || bolds.length < 2 || this.getBoldIndexByText(bolds, /Der n.+chste ZAT ist ZAT .+ und liegt auf/) == -1) {
 			throw new OSext.SiteChangeError("Managerbüro -> Termin wurde nicht gefunden!");
 		}
+			
 		return true;
 	},
 
+	getBoldIndexByText : function (bolds, text) {
+		
+		var b, found = false;
+		
+		for (b = 0; b < bolds.length; b++) {
+			if (bolds[b].textContent.search(text) != -1) {
+				return b;
+			}
+		}
+		return -1;		
+	},
+	
 	/**
 	 * Extrahiert den Teamnamen und liefert eine {@link OSext.RequestQueue} 
 	 * sofern die Daten noch nicht geladen wurden.
@@ -41,15 +53,16 @@ OSext.Sites.Haupt.prototype = {
 	 */
 	extract : function (data, params) {
 
-		var queue, zat;
+		var bolds = this.wrappeddoc.doc.getElementsByTagName("b"),
+			queue, zat;
 		
 		if (!data.team.name) {
-			data.team.name = this.wrappeddoc.doc.getElementsByTagName("b")[0].textContent.split(" von ")[1];
+			data.team.name = bolds[this.getBoldIndexByText(bolds, /Willkommen im Managerb/)].textContent.split(" von ")[1];
 		}
 		
 		if (!data.initialized) {
 			
-			zat = +this.wrappeddoc.doc.getElementsByTagName("b")[1].textContent.split(" ")[5];
+			zat = +bolds[this.getBoldIndexByText(bolds, /Der n.+chste ZAT ist ZAT .+ und liegt auf/)].textContent.split(" ")[5];
 
 			if (zat <= 1 || zat > OSext.ZATS_PRO_SAISON) {
 				data.setAktuellenZat(OSext.ZATS_PRO_SAISON, true);
