@@ -1,49 +1,55 @@
-OSext.TestDocument = function (filename, location) {
+function FixtureTestCase(id, fixture, tests) {
 	
-	this.filename = filename;
-	if (this.filename.indexOf("/") < 0) {
-		this.filename = "/test/test/fixtures/" + this.filename;
-	}
+	var asyncTest = AsyncTestCase(id),
+		htmldoc;
 
-	this.dom = null;
-	this.location = location;
-};
-
-OSext.TestDocument.prototype = {
-
-	load : function(callbacks) {
-
-		var onStatusReceived = callbacks.add(function(status) {
-			assertEquals(200, status);
-		});
-
-		var onBodyReceived = callbacks.add(this.setDocument.bind(this));
-
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", this.filename);
-		xhr.onreadystatechange = (function() {
-			if (xhr.readyState == 2) { // headers and status received
-				onStatusReceived(xhr.status);
-			} else if (xhr.readyState == 4) { // full body received
-				onBodyReceived.call(this, xhr.responseXML);
-			}
-		}).bind(this);
-
-		xhr.responseType = "document";
-		xhr.send(null);
-	},
-	
-	setDocument : function(dom) {
-		this.dom = dom;
-		this.dom.testLocation = this.location;
-	},
-	
-	getDocument : function() {
-		if (this.dom) {
-			this.dom.testLocation = this.location;
+	for (testname in tests) {
+		if (testname.startsWith("test")) {
+			asyncTest.prototype[testname] = tests[testname].bind(tests, htmldoc);
 		}
-		return this.dom;
 	}
+
+	asyncTest.prototype.setUp = function(queue) {
+		
+		if (htmldoc && htmldoc.testLocation == fixture) {
+			return;
+		}
+
+		queue.call("Load", function(callbacks) {
+
+			jstestdriver.console.log("Load start " + Date.now());
+				
+			var onStatusReceived = callbacks.add(function(status) {
+				jstestdriver.console.log("Load end " + Date.now());
+				assertEquals(200, status);
+			});
+
+			var onBodyReceived = callbacks.add(function(responseXML) {
+				htmldoc = responseXML;
+				htmldoc.testLocation = fixture;
+			});
+			
+			jstestdriver.console.log("GET " + fixture);
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", fixture);
+			xhr.onreadystatechange = (function() {
+				if (xhr.readyState == 2) { // headers and status received
+					onStatusReceived(xhr.status);
+				} else if (xhr.readyState == 4) { // full body received
+					onBodyReceived(xhr.responseXML);
+				}
+			});
+
+			xhr.responseType = "document";
+			xhr.send(null);
+		});
+		
+		queue.call("SetUp", function(callbacks) {
+			if (typeof tests.setUp == 'function') {
+				tests.setUp(htmldoc);
+			}
+		});
+	}
+	
+	return asyncTest;
 }
-
-
