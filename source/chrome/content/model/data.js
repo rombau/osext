@@ -286,7 +286,10 @@ OSext.Data.prototype = {
 				spieltag.calculateStadioneinnahmen(this.ansicht, this.eintritt);
 
 				// Prämien
-				spieltag.calculatePraemien(this.ansicht.saison.platzierung, this.liga, this.ligagroesse);
+				if ((spieltag.gegner && spieltag.gegner.id && spieltag.spielart == OSext.SPIELART.LIGA && spieltag.ort == OSext.SPIELORT.HEIM) || 
+						spieltag.termin.zat == OSext.ZATS_PRO_SAISON) {
+					spieltag.calculatePraemien(this.ansicht.saison.platzierung, this.liga, this.ligagroesse);
+				}
 
 				// Jugendförderung
 				spieltag.jugend = -this.jugendfoerderung * this.team.jugend.length; 

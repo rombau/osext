@@ -173,17 +173,19 @@ TestCase("ShowteamSkillsTests").prototype = {
 		this.data.team.spieler[0].skillschnitt = 52.71;
 		this.data.team.spieler[0].status = OSext.STATUS.AKTIV;
 		this.data.team.spieler[0].land = "IRL";
+		this.data.team.spieler[0].alter = 31;
 
 		this.site.extend(this.data);
 		
 		var rows = document.getElementById("team").rows;
 		assertEquals(3,rows.length);
-		assertEquals(23,rows[0].cells.length);
+		assertEquals(24,rows[0].cells.length);
 		
-		assertMatch(/\s+.Skillschn./,rows[0].cells[21].textContent);
-		assertMatch(/\s+Opt\.Skill/,rows[0].cells[22].textContent);
+		assertMatch(/Alter/,rows[0].cells[2].textContent);
+		assertMatch(/\s+.Skillschn./,rows[0].cells[22].textContent);
+		assertMatch(/\s+Opt\.Skill/,rows[0].cells[23].textContent);
 
-		assertMatch(/<img src="images\/flaggen\/IRL\.gif">.+/,rows[1].cells[2].innerHTML);
+		assertMatch(/<img src="images\/flaggen\/IRL\.gif">.+/,rows[1].cells[3].innerHTML);
 	},
 	
 	testUpdate : function() {
@@ -197,14 +199,16 @@ TestCase("ShowteamSkillsTests").prototype = {
 		this.data.team.spieler[0].opti = 78.96;
 		this.data.team.spieler[0].skillschnitt = 52.71;
 		this.data.team.spieler[0].status = OSext.STATUS.AKTIV;
+		this.data.team.spieler[0].alter = 31;
 		
 		this.site.extract(this.data);
 		this.site.extend(this.data);
 
 		this.site.update(this.data);
 
-		assertEquals("52.71",document.getElementById("team").rows[1].cells[21].textContent);
-		assertEquals("78.96",document.getElementById("team").rows[1].cells[22].textContent);
+		assertEquals("31",document.getElementById("team").rows[1].cells[2].textContent);
+		assertEquals("52.71",document.getElementById("team").rows[1].cells[22].textContent);
+		assertEquals("78.96",document.getElementById("team").rows[1].cells[23].textContent);
 	},	
 	
 	testUpdateNoData : function() {

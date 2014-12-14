@@ -112,7 +112,7 @@ OSext.Sites.ShowteamSkills.prototype = {
 			tableClone = table.cloneNode(true),
 			r, row, spieler, baseCell,
 			spielerliste,
-			cellSkillschnitt, cellOpti;
+			cellAlter, cellSkillschnitt, cellOpti;
 
 		if (params && params.c) {
 			return false;
@@ -127,11 +127,13 @@ OSext.Sites.ShowteamSkills.prototype = {
 			row = tableClone.rows[r];
 			baseCell = row.cells[this.columns.indexOf("#")];
 
+			cellAlter = new OSext.WrappedElement(baseCell, true);
 			cellSkillschnitt = new OSext.WrappedElement(baseCell, true);
 			cellOpti = new OSext.WrappedElement(baseCell, true);
 
 			if (r === 0 || r == (tableClone.rows.length - 1)) {
 
+				cellAlter.setHtml("Alter");
 				cellSkillschnitt.setHtml("&nbsp;&nbsp;Skillschn.");
 				cellOpti.setHtml("&nbsp;&nbsp;Opt.Skill");
 				
@@ -149,12 +151,14 @@ OSext.Sites.ShowteamSkills.prototype = {
 				if (spieler && spieler.id) {
 				
 					if (spieler.skillschnitt) {
+						cellAlter.setText(spieler.alter);
 						cellSkillschnitt.setText(spieler.skillschnitt.toFixed(2));
 						cellOpti.setText(spieler.opti.toFixed(2));
 					}
 				}
 			}
 
+			row.insertBefore(cellAlter.element, row.cells[this.columns.indexOf("Land")]);
 			row.appendChild(cellSkillschnitt.element);
 			row.appendChild(cellOpti.element);
 		}
@@ -171,7 +175,7 @@ OSext.Sites.ShowteamSkills.prototype = {
 			tableClone = table.cloneNode(true),
 			r, row, spieler, c, s,
 			spielerliste,
-			cellSkillschnitt, cellOpti;
+			cellAlter, cellSkillschnitt, cellOpti;
 
 		if (parameters && parameters.c) {
 			return false;
@@ -189,8 +193,9 @@ OSext.Sites.ShowteamSkills.prototype = {
 			spieler = OSext.getListElement(spielerliste, "id",
 					OSext.getLinkId(row.cells[this.columns.indexOf("Name")].firstChild.href));
 
-			cellSkillschnitt = new OSext.WrappedElement(row.cells[this.columns.length]);
-			cellOpti = new OSext.WrappedElement(row.cells[this.columns.length + 1]);
+			cellAlter = new OSext.WrappedElement(row.cells[this.columns.indexOf("Land")]);
+			cellSkillschnitt = new OSext.WrappedElement(row.cells.length);
+			cellOpti = new OSext.WrappedElement(row.cells.length + 1);
 
 			if (spieler && spieler.status && spieler.status > OSext.STATUS.INAKTIV) {
 
@@ -202,10 +207,11 @@ OSext.Sites.ShowteamSkills.prototype = {
 				
 				for (s in OSext.SKILL) {
 					if (OSext.SKILL.hasOwnProperty(s)) {
-						row.cells[this.columns.indexOf(s)].textContent = spieler.skills[OSext.SKILL[s]];
+						row.cells[this.columns.indexOf(s) + 1].textContent = spieler.skills[OSext.SKILL[s]]; // +1 wegen Alterspalte
 					}
 				}
 
+				cellAlter.setText(spieler.alter);
 				cellSkillschnitt.setText(spieler.skillschnitt.toFixed(2));
 				cellOpti.setText(spieler.opti.toFixed(2));
 
@@ -221,6 +227,7 @@ OSext.Sites.ShowteamSkills.prototype = {
 					}
 				}
 
+				cellAlter.setText("");
 				cellSkillschnitt.setText("");
 				cellOpti.setText("");
 			}
