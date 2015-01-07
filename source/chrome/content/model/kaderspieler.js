@@ -416,17 +416,23 @@ OSext.Kaderspieler.prototype.forecastAbwertung = function (spieler, prefs) {
  * @return Blitzwert
  */
 OSext.Kaderspieler.prototype.getBlitzwert = function () {
-	var basismw = this.mw;
+	
+	var normal, gedeckelt;
+	
 	if (!this.blitzwert) {
+		
+		normal = Math.round(this.mw * 0.75) - (this.vertrag * this.gehalt); 
+		gedeckelt = (this.alter - 12) * 640000 * 0.75;
+		
+		this.blitzwert = normal;
 		if ((this.pos == OSext.POS.TOR && this.alter < 35) || this.alter < 33) {
-			if (basismw > ((this.alter - 12) * 640000)) {
-				basismw = (this.alter - 12) * 640000;
+			if (normal > gedeckelt) {
+				this.blitzwert = gedeckelt;
 			}
 		}
-		this.blitzwert = Math.round(basismw * 0.75) - (this.vertrag * this.gehalt);
+		
 		if (this.blitzwert > 0) {
 			if (this.tsperre > 0 || this.status != OSext.STATUS.AKTIV) {
-				OSext.Log.debug([this.name, this.tsperre, this.status]);
 				this.blitzwert = -this.blitzwert;
 			}
 		} else {
