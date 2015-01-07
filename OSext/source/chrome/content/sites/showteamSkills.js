@@ -194,8 +194,8 @@ OSext.Sites.ShowteamSkills.prototype = {
 					OSext.getLinkId(row.cells[this.columns.indexOf("Name")].firstChild.href));
 
 			cellAlter = new OSext.WrappedElement(row.cells[this.columns.indexOf("Land")]);
-			cellSkillschnitt = new OSext.WrappedElement(row.cells.length);
-			cellOpti = new OSext.WrappedElement(row.cells.length + 1);
+			cellSkillschnitt = new OSext.WrappedElement(row.cells[row.cells.length - 2]);
+			cellOpti = new OSext.WrappedElement(row.cells[row.cells.length - 1]);
 
 			if (spieler && spieler.status && spieler.status > OSext.STATUS.INAKTIV) {
 
@@ -215,21 +215,18 @@ OSext.Sites.ShowteamSkills.prototype = {
 				cellSkillschnitt.setText(spieler.skillschnitt.toFixed(2));
 				cellOpti.setText(spieler.opti.toFixed(2));
 
-				for (c = this.columns.indexOf("SCH"); c <= row.cells.length - 1; c++) {
+				cellAlter.setAttribute(OSext.STYLE.UPDATED, data.ansicht.team.getStyle());
+				for (c = this.columns.indexOf("SCH") + 1; c <= row.cells.length - 1; c++) {
 					row.cells[c].setAttribute(OSext.STYLE.UPDATED, data.ansicht.team.getStyle());
 				}
 
 			} else {
 
-				for (s in OSext.SKILL) {
-					if (OSext.SKILL.hasOwnProperty(s)) {
-						row.cells[this.columns.indexOf(s)].textContent = "";
-					}
+				for (c = this.columns.indexOf("SCH") + 1; c <= row.cells.length - 1; c++) {
+					row.cells[c].textContent = "";
 				}
 
 				cellAlter.setText("");
-				cellSkillschnitt.setText("");
-				cellOpti.setText("");
 			}
 		}
 
