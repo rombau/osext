@@ -45,7 +45,7 @@ OSext.Sites.ShowteamInfo.prototype = {
 			throw new OSext.SiteChangeError("Mannschaft/Info -> Tabelle wurde geändert!");
 		}
 
-		if (tables.length > 3 && (tables[2].rows[0].cells[0].textContent.search(/Das Stadion wird noch \d+ ZAT.s. ausgebaut./) == -1)) {
+		if (tables.length > 3 && (tables[3].rows[0].cells[0].textContent.search(/Das Stadion wird noch \d+ ZAT.s. ausgebaut./) == -1)) {
 			throw new OSext.SiteChangeError("Mannschaft/Info -> Tabelle für Ausbauten wurde geändert!");
 		}
 

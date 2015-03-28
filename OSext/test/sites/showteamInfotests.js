@@ -80,7 +80,7 @@ TestCase("ShowteamInfoTests").prototype = {
 			assertEquals("Mannschaft/Info -> Tabelle für Ausbauten wurde geändert!", e.message);
 		}
 	},
-
+	
 	testDemoTeam : function() {
 
 		/*:DOC += <table><tr><td><table><tr><td><b>DemoTeam - <a href="">Landesforum</a></b></td></tr></table></td></tr></table>*/		
