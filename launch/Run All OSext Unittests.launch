@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.google.eclipse.javascript.jstestdriver.ui.JstdTestDriverLaunchConfiguration">
-<stringAttribute key="basePath_0" value="/home/roman/Workspaces/osext/OSext"/>
+<stringAttribute key="basePath_0" value="/home/roman/Workspaces/os/at.greenmoon.os.extension"/>
 <stringAttribute key="com.google.jstestdriver.eclipse.ui.confFileName" value="jsTestDriver.conf"/>
 <stringAttribute key="com.google.jstestdriver.eclipse.ui.confFullPath" value="jsTestDriver.conf"/>
-<stringAttribute key="com.google.jstestdriver.eclipse.ui.projectName" value="OSext"/>
+<stringAttribute key="com.google.jstestdriver.eclipse.ui.projectName" value="at.greenmoon.os.extension"/>
 <booleanAttribute key="com.google.jstestdriver.eclipse.ui.runOnEverySave" value="false"/>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
