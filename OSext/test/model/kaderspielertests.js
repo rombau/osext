@@ -532,7 +532,21 @@ TestCase("KaderspielerTests").prototype = {
 		
 		assertEquals(703, OSext.getListSum(s.skills));
 	},
-	
+
+	testDoppelAbwertungFeldspieler : function () {
+
+		assertEquals(736, OSext.getListSum(this.spieler.skills));
+		
+		this.spieler.alter = 32;
+		this.spieler.geburtstag = 6;
+		this.prognosespieltage[11] = this.createSpieltag(6, 6, OSext.SPIELART.LIGA);
+		this.prognosespieltage[12] = this.createSpieltag(6, 8, OSext.SPIELART.LIGA);
+		
+		var s = this.spieler.getSpieler(this.prognosespieltage, this.prefsMock);
+		
+		assertEquals(653, OSext.getListSum(s.skills));
+	},
+
 	testAbwertungTor : function () {
 
 		this.spieler.alter = 34;

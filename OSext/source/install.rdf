@@ -19,11 +19,13 @@
 		</em:targetApplication>
 		<em:optionsURL>chrome://osext/content/preferences.xul</em:optionsURL>
 		<em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0uRQBkbEPIVarob4LC5d2Mw8sQHsjvmaq/LA+6zJYGBmiIP4n7PqydSn6ypYN09FwaxxLcn849ZwyJrLDClLeQoTY5LUUGyoEDtCpX4z4rlVkl9sWDs1ntMPNNrvR5nYsdqfTBqGpnxn/QLTG7RaSfcUBeVn+8fuj+ol5wtSqPwIDAQAB</em:updateKey>
-		<em:hidden/>
 		<em:localized>
-	<RDF:Description>
-		<em:locale/>
-		<em:name/>
-		<em:description/>
-	</RDF:Description></em:localized><em:localized><RDF:Description><em:locale/><em:name/><em:description/></RDF:Description></em:localized><em:localized><RDF:Description><em:locale/><em:name/><em:description/></RDF:Description></em:localized><em:localized><RDF:Description><em:locale/><em:name/><em:description/></RDF:Description></em:localized><em:targetPlatform/></RDF:Description>
+			<RDF:Description>
+				<em:locale/>
+				<em:name/>
+				<em:description/>
+			</RDF:Description>
+		</em:localized>
+		<em:targetPlatform/>
+	</RDF:Description>
 </RDF>

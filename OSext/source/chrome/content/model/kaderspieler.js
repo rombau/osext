@@ -104,15 +104,11 @@ OSext.Kaderspieler.prototype.getSpieler = function (spieltage, prefs) {
 	spieler.name = this.name;
 	spieler.herkunft = this.herkunft;
 	spieler.blitzzat = this.blitzzat;
+	spieler.mwfaktor = this.mwfaktor;
 	
 	spieler.aufstellung = "";
 	spieler.moral = ""; 
 	spieler.fitness = "";
-	
-	spieler.alter = this.alter;
-	if (spieltage[spieltage.length - 1].termin.saison >= spieltage[0].termin.saison) {
-		spieler.alter += (spieltage[spieltage.length - 1].termin.saison - spieltage[0].termin.saison);
-	}
 	
 	spieler.status = this.status;
 	if (spieler.blitzzat && spieltage[spieltage.length - 1].termin.getZats() > spieler.blitzzat) {
@@ -185,13 +181,19 @@ OSext.Kaderspieler.prototype.getSpieler = function (spieltage, prefs) {
 	spieler.skills[OSext.SKILL.FUQ] = OSext.limitTo99(this.skills[OSext.SKILL.FUQ] + Math.floor(this.fuqprosaison * spieltage.length / OSext.ZATS_PRO_SAISON));
 	spieler.skills[OSext.SKILL.ERF] = OSext.limitTo99(this.skills[OSext.SKILL.ERF] + Math.floor(this.erfprosaison * spieltage.length / OSext.ZATS_PRO_SAISON));
 
-	if (spieler.alter > this.alter && 
-		((spieler.pos == OSext.POS.TOR && spieler.alter > 34) || 
-		 (spieler.pos != OSext.POS.TOR && spieler.alter > 32))) {
-		this.forecastAbwertung(spieler, prefs);
+	spieler.alter = this.alter;
+	spieler.geburtstag = this.geburtstag;
+	for (s = 1; s < spieltage.length; s++) {
+		if (spieler.geburtstag == spieltage[s].termin.zat) {
+			spieler.alter++;
+			if ((spieler.pos == OSext.POS.TOR && spieler.alter > 34) || 
+					(spieler.pos != OSext.POS.TOR && spieler.alter > 32)) {
+				this.forecastAbwertung(spieler, prefs);
+			}
+		}
 	}
 
-	spieler.mw = spieler.getMarktwert();
+	spieler.mw = spieler.getMarktwert(null, spieltage[spieltage.length - 1].termin.zat);
 	spieler.blitzwert = spieler.getBlitzwert();
 
 	// FIXME Gehälter und Trainingskosten von verliehenen Spielern 
@@ -357,8 +359,8 @@ OSext.Kaderspieler.prototype.getForcastedSkills = function (pos, spieltage, pref
 	
 	if (this.training.plan.skillidx >= 0 && this.training.plan.wahrscheinlichkeit) {
 	
-		OSext.Log.debug(["forecastSkill " + this.name, skills, this.training.plan.skillidx, "/", 
-		     	this.training.plan.wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
+//		OSext.Log.debug(["forecastSkill " + this.name, skills, this.training.plan.skillidx, "/", 
+//		     	this.training.plan.wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
 		forecastSkill(this.training.plan.skillidx, 
 				this.training.plan.wahrscheinlichkeit, Math.floor(spieltage / 2) + (spieltage % 2));
 		
@@ -370,8 +372,8 @@ OSext.Kaderspieler.prototype.getForcastedSkills = function (pos, spieltage, pref
 			wahrscheinlichkeit = OSext.limitTo99(wahrscheinlichkeit);
 		}
 	
-		OSext.Log.debug(["forecastSkill " + this.name, skills, skillidx, "/",
-		     	wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
+//		OSext.Log.debug(["forecastSkill " + this.name, skills, skillidx, "/",
+//		     	wahrscheinlichkeit, "/", Math.floor(spieltage / 2) + (spieltage % 2)]);
 		forecastSkill(skillidx, wahrscheinlichkeit, Math.floor(spieltage / 2));
 	}
 
@@ -388,19 +390,23 @@ OSext.Kaderspieler.prototype.forecastAbwertung = function (spieler, prefs) {
 
 	var abwertungsjahre = spieler.alter - (spieler.pos == OSext.POS.TOR ? 35 : 33),
 		skillgewichtung = [1, 0.5, 1, 1, 1, 2, 0, 0, 2, 0.5, 1, 0, 2, 1, 0, 1, 1],
-		abwertungenproskill = ([17, 34, 51, 68, 85][abwertungsjahre]	+ 34 - (prefs.getAbwertungspiele() - 18)) / 15,
+		abwertungenproskill = ([17, 34, 51, 68, 85][abwertungsjahre] + 34 - (prefs.getAbwertungspiele() - 18)) / 15,
 		i, rest = 0;
 	
 	for (i = 0; i < skillgewichtung.length; i++) {
 		spieler.skills[i] -= Math.round(abwertungenproskill * skillgewichtung[i]);
 		rest += ((abwertungenproskill * skillgewichtung[i]) - 
 				Math.round(abwertungenproskill * skillgewichtung[i]));
+		if (spieler.skills[i] < 0) {
+			rest -= spieler.skills[i];
+			spieler.skills[i] = 0;
+		}
 	}	
 	
 	rest = Math.round(rest);
 	while (rest > 0) {
 		i = Math.round((17 * Math.random()));
-		if (skillgewichtung[i] > 0) {
+		if (skillgewichtung[i] > 0 && spieler.skills[i] > 0) {
 			spieler.skills[i]--;
 			rest--;
 		}

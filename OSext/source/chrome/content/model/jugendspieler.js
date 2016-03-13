@@ -40,30 +40,36 @@ OSext.Jugendspieler.prototype.contructor = OSext.Jugendspieler;
  */
 OSext.Jugendspieler.prototype.getSpieler = function (termin, alter, saisonpause) {
 	
-	var s, spieler = new OSext.Jugendspieler(), change,
+	var s, spieler = new OSext.Jugendspieler(), change, geburtstag = this.geburtstag, 
 		
-		aktuellesalter = this.alter - (saisonpause ? 1 : 0),  
+		// Wenn der Geburtstag in dieser Saison noch kommt, fehlt eine Saison (Alter+1) 
+	
+		aktuellesalter = this.alter + (geburtstag > termin.zat && this.alter >= OSext.MIN_JUGEND_ALTER ? 1 : 0),
+		
+		// - (saisonpause ? 1 : 0), 
+		// ... Saisonpausenabzug nicht mehr notwenig, weil die Jugend beim Saisonwechsel nicht mehr gealtert wird
 	
 		jugendzats = (function () {
 			
+			var saisonzats = (aktuellesalter - OSext.MIN_JUGEND_ALTER) * OSext.ZATS_PRO_SAISON;
+						
 			if (aktuellesalter < OSext.MIN_JUGEND_ALTER) {
 				return 0; // neuer Jugendspieler 
 			}
-			
-			return (aktuellesalter - OSext.MIN_JUGEND_ALTER) * OSext.ZATS_PRO_SAISON + termin.zat;
+
+			return saisonzats + termin.zat - geburtstag;
 			
 		})(), 
 			
 		prognosezats = (function () {
 		
-			var saison = termin.saison + (alter - aktuellesalter),
-				wunschtermin = new OSext.Termin(saison, 1);
+			var saisonzats = (alter - aktuellesalter) * OSext.ZATS_PRO_SAISON;
 
 			if (alter > OSext.MAX_JUGEND_ALTER) {
-				wunschtermin.subtractZats(2);
+				saisonzats--;
 			}
 			
-			return wunschtermin.getZats() - termin.getZats();
+			return saisonzats - termin.zat + geburtstag;
 
 		})();
 	

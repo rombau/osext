@@ -94,7 +94,7 @@ OSext.Sites.ShowteamSkills.prototype = {
 			}
 
 			if (params && params.c) {
-				spieler.getMarktwert();
+				spieler.getMarktwert(null, data.termin.zat);
 			} else {
 				spieler.getSonderskills();
 			}

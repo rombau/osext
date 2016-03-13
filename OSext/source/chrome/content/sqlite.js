@@ -146,11 +146,21 @@ OSext.Sqlite.prototype = {
 
 	updateSchema_1_3_6 : function () {
 		
-		// Trainings bei verletzten Spielern löschen
+		// Spieler Id=0 löschen
 		try {
 			this.connection.executeSimpleSQL("DELETE FROM Spielertraining WHERE Id = 0;");
 			this.connection.executeSimpleSQL("DELETE FROM Spielerwerte WHERE Id = 0;");
 			this.connection.executeSimpleSQL("DELETE FROM Spieler WHERE Id = 0;");
+		} catch (e) {
+			OSext.Log.warn(e);
+		}
+	},
+	
+	updateSchema_1_4_0 : function () {
+		
+		// Geburtstage
+		try {
+			this.connection.executeSimpleSQL("ALTER TABLE Spieler ADD COLUMN Geburtstag INTEGER NOT NULL DEFAULT 72;");
 		} catch (e) {
 			OSext.Log.warn(e);
 		}

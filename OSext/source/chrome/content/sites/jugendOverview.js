@@ -6,8 +6,8 @@ OSext.Sites.JugendOverview = function (wrappeddoc) {
 	
 	this.classname = "OSext.Sites.JugendOverview";
 	
-	this.columns = ["Alter", "Land", "U", "Skillschnitt", "Talent", "Aktion", "Aufwertung"];
-	this.newcols = ["Alter", "Pos", "Land", "", "U", "Skillschn.", "Opt.Skill", "Talent", "Aktion", "Aufwertung",
+	this.columns = ["Alter", "Geb.", "Land", "U", "Skillschnitt", "Talent", "Aktion", "Aufwertung"];
+	this.newcols = ["Alter", "Geb.", "Pos", "Land", "", "U", "Skillschn.", "Opt.Skill", "Talent", "Aktion", "Aufwertung",
 	                "Marktwert", "MW.Zuwachs", "Aufwertungen", "P", "N", "US"];
 	
 	this.wrappeddoc = wrappeddoc;
@@ -55,7 +55,7 @@ OSext.Sites.JugendOverview.prototype = {
 	extract : function (data, params) {
 		
 		var table = this.wrappeddoc.doc.getElementsByTagName("table")[1],
-			r, row, spieler, 
+			r, row, spieler, geburtstag,
 			alter = 0, nr = 1,
 			aufwertungsliste, i;
 		
@@ -69,6 +69,10 @@ OSext.Sites.JugendOverview.prototype = {
 			}
 
 			spieler.alter = +row.cells[this.columns.indexOf("Alter")].textContent;
+			geburtstag = row.cells[this.columns.indexOf("Geb.")].textContent;
+			if (geburtstag.indexOf("?") == -1) {
+				spieler.geburtstag = +geburtstag;
+			}
 
 			// Nummer des Spielers im Jahrgang bestimmen
 			if (spieler.alter != alter) {
@@ -162,7 +166,7 @@ OSext.Sites.JugendOverview.prototype = {
 				cellOpti.setText(Number(spieler.getOpti()).toFixed(2));
 				cellOpti.setAttribute(OSext.STYLE.PS, "true");
 				
-				cellMarktwert.setText(OSext.fmtTausend(spieler.getMarktwert()));
+				cellMarktwert.setText(OSext.fmtTausend(spieler.getMarktwert(null, data.termin.zat)));
 								
 				cellMarktwertbilanz.setText(spieler.getMarktwertbilanz());
 				cellMarktwertbilanz.setTooltip(spieler.getMarktwertbilanzTooltip());
@@ -237,7 +241,7 @@ OSext.Sites.JugendOverview.prototype = {
 			row.cells[this.newcols.indexOf("Alter")].innerHTML = spieler.alter;
 			row.cells[this.newcols.indexOf("Pos")].innerHTML = spieler.getPos();				
 			row.cells[this.newcols.indexOf("Opt.Skill")].innerHTML = spieler.getOpti() ? spieler.getOpti().toFixed(2) : "0.00";				
-			row.cells[this.newcols.indexOf("Marktwert")].innerHTML = OSext.fmtTausend(spieler.getMarktwert());				
+			row.cells[this.newcols.indexOf("Marktwert")].innerHTML = OSext.fmtTausend(spieler.getMarktwert(null, data.termin.zat));				
 
 			cellMarktwertbilanz = new OSext.WrappedElement(row.cells[this.newcols.indexOf("MW.Zuwachs")]);
 			cellAufwertungsbilanz = new OSext.WrappedElement(row.cells[this.newcols.indexOf("Aufwertungen")]);

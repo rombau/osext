@@ -141,7 +141,7 @@ OSext.Sites.Training.prototype = {
 					newSpieler.skills[spieler.training.plan.skillidx]++;
 					
 					cellMwZuwachs.setText(OSext.fmtTausend(
-							newSpieler.getMarktwert() - spieler.getMarktwert()));
+							newSpieler.getMarktwert(null, data.termin.zat) - spieler.getMarktwert(null, data.termin.zat)));
 					
 				}
 				else {
@@ -192,7 +192,7 @@ OSext.Sites.Training.prototype = {
 			
 			row.cells[row.cells.length - 1].textContent =
 				OSext.fmtTausend(
-					newSpieler.getMarktwert() - spieler.getMarktwert());
+					newSpieler.getMarktwert(null, data.termin.zat) - spieler.getMarktwert(null, data.termin.zat));
 
 			row.cells[6].time = "future";
 			row.cells[7].time = "future";

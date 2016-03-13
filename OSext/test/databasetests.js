@@ -129,7 +129,7 @@ TestCase("DatabaseTests").prototype = {
 				"Skill":15,"Wert":38,"Trainer":2,"TSkill":99,"TPreis":3781,"Wahrscheinlichkeit":99,"Faktor":1,"Aufwertung":1}],
 			[{"Id":55287,"Herkunft":0,"BlitzKz":0,"MinZat":141,"MaxZat":292,"Gehaltsschnitt":371684,
 				"Aufwertungen":79,"Trainingszats":149,"Trainingskosten":580685,"Wahrscheinlichkeit":57.77997986577183}],
-			[{"Marktwert":9871131},{"Marktwert":29038132}]]);
+			[{"Marktwert":9871131},{"Marktwert":29038132},{"Marktwert":29038132}]]);
 		
 		var result = this.database.getKaderspielerListe(new OSext.Termin(4, 4));
 
