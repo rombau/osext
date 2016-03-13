@@ -57,8 +57,8 @@ TestCase("JugendOverviewTests").prototype = {
 		/*:DOC += <div>
 					<table/>
 					<table>
-					  <tr><td>#</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
-					  <tr><td>18</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
+					  <tr><td>#</td><td>Geb.</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
+					  <tr><td>18</td><td>42</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
 		 		    </table>
 		 		  </div>*/
 		
@@ -88,8 +88,8 @@ TestCase("JugendOverviewTests").prototype = {
 		/*:DOC += <div>
 					<table/>
 					<table>
-					  <tr><td>Alter</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
-					  <tr><td>18</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
+					  <tr><td>Alter</td><td>Geb.</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
+					  <tr><td>18</td><td>42</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
 					  <tr><td colspan="75">Hochziehen</td></tr>
 		 		    </table>
 		 		  </div>*/
@@ -99,6 +99,7 @@ TestCase("JugendOverviewTests").prototype = {
 		assertEquals(1,this.data.team.jugend.length);
 		assertEquals(-1,this.data.team.jugend[0].id);
 		assertEquals(18,this.data.team.jugend[0].alter);
+		assertEquals(42,this.data.team.jugend[0].geburtstag);
 		assertEquals(1,this.data.team.jugend[0].nr);
 		assertEquals("IRL",this.data.team.jugend[0].land);
 		assertEquals("",this.data.team.jugend[0].uefa);
@@ -113,8 +114,8 @@ TestCase("JugendOverviewTests").prototype = {
 		/*:DOC += <div>
 					<table/>
 					<table>
-					  <tr><td>Alter</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
-					  <tr><td>18</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
+					  <tr><td>Alter</td><td>Geb.</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
+					  <tr><td>18</td><td>42</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
 					  <tr><td colspan="75">Hochziehen</td></tr>
 				    </table>
 				  </div>*/
@@ -123,16 +124,16 @@ TestCase("JugendOverviewTests").prototype = {
 		this.site.extend(this.data);
 
 		var rows = document.getElementsByTagName("table")[1].rows;
-		assertEquals(15,rows[0].cells.length);
+		assertEquals(16,rows[0].cells.length);
 		
-		assertEquals("Pos",rows[0].cells[1].textContent);
-		assertMatch(/\s+Opt.Skill/,rows[0].cells[5].textContent);
-		assertMatch(/\s+.Marktwert/,rows[0].cells[9].textContent);
-		assertMatch(/\s+.Bilanz/,rows[0].cells[10].textContent);
-		assertMatch(/\s+.Aufw./,rows[0].cells[11].textContent);
-		assertMatch(/\s+.P/,rows[0].cells[12].textContent);
-		assertMatch(/\s+.N/,rows[0].cells[13].textContent);
-		assertMatch(/\s+.U/,rows[0].cells[14].textContent);
+		assertEquals("Pos",rows[0].cells[2].textContent);
+		assertMatch(/\s+Opt.Skill/,rows[0].cells[6].textContent);
+		assertMatch(/\s+.Marktwert/,rows[0].cells[10].textContent);
+		assertMatch(/\s+.Bilanz/,rows[0].cells[11].textContent);
+		assertMatch(/\s+.Aufw./,rows[0].cells[12].textContent);
+		assertMatch(/\s+.P/,rows[0].cells[13].textContent);
+		assertMatch(/\s+.N/,rows[0].cells[14].textContent);
+		assertMatch(/\s+.U/,rows[0].cells[15].textContent);
 	},
 	
 	testUpdate : function() {
@@ -140,8 +141,8 @@ TestCase("JugendOverviewTests").prototype = {
 		/*:DOC += <div>
 					<table/>
 					<table>
-					  <tr><td>Alter</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
-					  <tr><td>18</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
+					  <tr><td>Alter</td><td>Geb.</td><td colspan="2">Land</td><td>U</td><td>Skillschnitt</td><td>Talent</td><td>Aktion</td><td>Aufwertung</td></tr>
+					  <tr><td>18</td><td>42</td><td><img src="images/flaggen/IRL.gif"></td><td><abbr title="Irland">IRL</abbr></td><td></td><td>34.24</td><td>normal</td><td><input type="radio" value="11701" name="ziehmich"></td><td>+1 ZUV</td></tr>
 					  <tr><td colspan="75">Hochziehen</td></tr>
 				    </table>
 				  </div>*/
@@ -162,7 +163,7 @@ TestCase("JugendOverviewTests").prototype = {
 
 		var rows = document.getElementsByTagName("table")[1].rows;
 		assertEquals("17",rows[1].cells[0].textContent);
-		assertEquals("ABW",rows[1].cells[1].textContent);
-		assertEquals("69.78",rows[1].cells[6].textContent);
+		assertEquals("ABW",rows[1].cells[2].textContent);
+		assertEquals("69.78",rows[1].cells[7].textContent);
 	}
 }

@@ -466,6 +466,11 @@ OSext.Data.prototype = {
 		} 
 	},
 	
+	initSpielervertraege : function () {
+		
+		this.database.initKaderspielerVertragsdaten(this.team.spieler);
+	},
+	
 	clearAllCaches : function () {
 		
 		var s;

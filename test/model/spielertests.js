@@ -149,10 +149,16 @@ TestCase("SpielerTests").prototype = {
 		assertEquals("SFTGKP",this.spieler.getSonderskillsText());
 	},
 
-	testMarkwert : function() {
+	testMarkwertTor : function() {
 
 		this.spieler.mw = null;
-		assertEquals(4383154,Math.round(this.spieler.getMarktwert()));
+		this.spieler.mwfaktor = 1.005089409;
+		this.spieler.pos = OSext.POS.TOR;
+		this.spieler.alter = 26;
+		this.spieler.geburtstag = 24;
+		this.spieler.skills = [58,80,85,85,85,85,0,70,33,60,50,66,28,34,3,80,30];
+		
+		assertEquals(16226080,Math.round(this.spieler.getMarktwert(null, 72)));
 	}
 	
 }

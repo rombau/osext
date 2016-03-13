@@ -5,11 +5,12 @@
     <!-- Properties -->
     <property file="release.properties"/>
 
-    <!-- Directories -->
+	<!-- Directories -->
     <property name="build.dir" value="./build"/>
     <property name="release.dir" value="./release"/>
+    <property name="release.dir.absolute" location="${release.dir}"/>
 	<property name="xpi.file" value="osext-${VERSION}.xpi"/>
-
+	
     <!-- echo -->
     <target name="echo">
         <echo level="info" message="Build directory: ${build.dir}"/>
@@ -25,7 +26,9 @@
     <!-- Build -->
     <target name="build" depends="clean">
         <antcall target="prepare-build" />
-
+        
+        <ant inheritAll="true" dir="../at.greenmoon.xpi.signer" />
+        
         <!-- Copy install.rdf with updated release version info -->
         <replace file="${build.dir}/install.rdf" propertyFile="release.properties">
             <replacefilter token="@VERSION@" property="VERSION"/>
@@ -34,6 +37,11 @@
 
         <!-- Create XPI -->
         <antcall target="create-xpi">
+            <param name="file-name" value="${xpi.file}"/>
+        </antcall>
+        
+        <!-- Sign XPI -->
+        <antcall target="sign-xpi">
             <param name="file-name" value="${xpi.file}"/>
         </antcall>
     	
@@ -92,13 +100,25 @@
 
     </target>
 
+    <!-- Sign xpi file -->
+    <target name="sign-xpi">
+
+        <java jar="${PATH_TO_SIGNING_TOOLS}/xpisigner.jar" fork="true" failonerror="true">
+         	<arg value="${release.dir.absolute}/${file-name}"/>
+         	<arg value="osext@greenmoon.at"/>
+        	<arg value="${VERSION}"/>
+        	<arg value="${PATH_TO_SIGNING_TOOLS}/xpisigner.properties"/>
+		</java>
+
+    </target>
+    
     <!-- Create final update.rdf file -->
     <target name="create-update-rdf">
 
     	<echo level="info" message="Generate file: ${release.dir}/update.rdf"/>
     	
         <!-- Use Uhura Perl Script to create update.rdf -->
-        <exec executable="perl" dir="${basedir}" failifexecutionfails="no" failonerror="no">
+        <exec executable="perl" dir="${basedir}">
             <arg value="${PATH_TO_SIGNING_TOOLS}/uhura"/>
             <arg value="-o"/>
         	<arg value="${release.dir}/update.rdf"/>

@@ -65,8 +65,11 @@ OSext.Sites.ShowteamContracts.prototype = {
 	extract : function (data, params) {
 
 		var table = this.wrappeddoc.doc.getElementById(this.ids.team),
-			r, row, spieler;
-			
+			r, row, spieler, vertragneu, mwneu;
+		
+		// XXX DB-Zugriff in Unittest
+		data.initSpielervertraege();
+		
 		for (r = 1; r < table.rows.length - 1; r++) {
 	
 			row = table.rows[r];
@@ -77,9 +80,18 @@ OSext.Sites.ShowteamContracts.prototype = {
 			}
 
 			spieler.id = OSext.getLinkId(row.cells[this.columns.indexOf("Name")].firstChild.href);
-			spieler.vertrag = +row.cells[this.columns.indexOf("Vertrag")].textContent;
+			vertragneu = +row.cells[this.columns.indexOf("Vertrag")].textContent;
+			
+			// XXX Vorläufig wird der Geburtstag über die Differenz der Vertragslänge gebildet 
+			spieler.geburtstag = (vertragneu - spieler.vertrag) * OSext.ZATS_PRO_MONAT;
+			OSext.Log.log([spieler.id, spieler.name, "Geburtstag:",spieler.geburtstag, vertragneu, spieler.vertrag]);
+			spieler.vertrag = vertragneu;
+			
 			spieler.gehalt = +row.cells[this.columns.indexOf("Monatsgehalt")].textContent.replace(/\./g, "");
-			spieler.mw = +row.cells[this.columns.indexOf("Spielerwert")].textContent.replace(/\./g, "");					
+			
+			mwneu = spieler.getMarktwert(null, data.termin.zat);
+			spieler.mw = +row.cells[this.columns.indexOf("Spielerwert")].textContent.replace(/\./g, "");	
+			spieler.mwfaktor = spieler.mw / mwneu;
 
 			// Initialisierung für verliehen Spieler
 			spieler.gehalt24 = spieler.gehalt;
@@ -169,7 +181,7 @@ OSext.Sites.ShowteamContracts.prototype = {
 			tableClone = table.cloneNode(true),
 			r, row, spieler, baseCell,
 			spielerliste,
-			cellBlitzZat, baseBZ, newBZ,
+			cellGeburtstag, cellMWF, cellBlitzZat, baseBZ, newBZ,
 			cellBlitzWert, blitz;
 		
 		this.toolbar.show(data);
@@ -183,6 +195,8 @@ OSext.Sites.ShowteamContracts.prototype = {
 			row = tableClone.rows[r];
 			baseCell = row.cells[this.columns.indexOf("#")];
 			
+			cellGeburtstag = new OSext.WrappedElement(baseCell, true);
+			cellMWF = new OSext.WrappedElement(baseCell, true);
 			cellBlitzZat = new OSext.WrappedElement(baseCell, true);
 			cellBlitzWert = new OSext.WrappedElement(baseCell, true);
 
@@ -191,6 +205,8 @@ OSext.Sites.ShowteamContracts.prototype = {
 				row.cells[this.columns.indexOf("Skillschnitt")].textContent = "Skillschn.";
 				row.cells[this.columns.indexOf("Monatsgehalt")].textContent = "Gehalt";
 
+				cellGeburtstag.setText("Geb.");
+				cellMWF.setHtml("&nbsp;&nbsp;TF");
 				cellBlitzWert.setHtml("&nbsp;&nbsp;Blitzwert");
 				cellBlitzZat.setHtml("&nbsp;&nbsp;Blitz-Zat");
 				
@@ -202,6 +218,9 @@ OSext.Sites.ShowteamContracts.prototype = {
 						OSext.getLinkId(row.cells[this.columns.indexOf("Name")].firstChild.href));
 
 				if (spieler && spieler.id) {
+					
+					cellGeburtstag.setText(spieler.geburtstag);
+					cellMWF.setText((spieler.mwfaktor * 100).toFixed(1) + "%");
 					
 					blitz = spieler.getBlitzwert();
 					if (blitz > 0) {
@@ -224,6 +243,8 @@ OSext.Sites.ShowteamContracts.prototype = {
 				}
 			}
 
+			row.insertBefore(cellGeburtstag.element, row.cells[this.columns.indexOf("Pos")]);
+			row.appendChild(cellMWF.element);
 			row.appendChild(cellBlitzWert.element);
 			row.appendChild(cellBlitzZat.element);
 		}
@@ -266,16 +287,16 @@ OSext.Sites.ShowteamContracts.prototype = {
 			if (spieler && spieler.status && spieler.status > OSext.STATUS.INAKTIV) {
 
 				row.cells[this.columns.indexOf("Alter")].innerHTML = spieler.alter;
-				row.cells[this.columns.indexOf("Pos")].innerHTML = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);				
-				row.cells[this.columns.indexOf("Skillschnitt")].innerHTML = spieler.skillschnitt.toFixed(2);
-				row.cells[this.columns.indexOf("Opt.Skill")].innerHTML = spieler.opti.toFixed(2);
-				row.cells[this.columns.indexOf("Vertrag")].innerHTML = spieler.vertrag;
-				row.cells[this.columns.indexOf("Monatsgehalt")].innerHTML = OSext.fmtTausend(spieler.gehalt);
-				row.cells[this.columns.indexOf("Spielerwert")].innerHTML = OSext.fmtTausend(spieler.mw);
-				row.cells[this.columns.indexOf("TS")].innerHTML = spieler.tsperre;
+				row.cells[this.columns.indexOf("Pos")+1].innerHTML = (spieler.status == OSext.STATUS.VERLIEHEN ? OSext.POS.LEI : spieler.pos);				
+				row.cells[this.columns.indexOf("Skillschnitt")+1].innerHTML = spieler.skillschnitt.toFixed(2);
+				row.cells[this.columns.indexOf("Opt.Skill")+1].innerHTML = spieler.opti.toFixed(2);
+				row.cells[this.columns.indexOf("Vertrag")+1].innerHTML = spieler.vertrag;
+				row.cells[this.columns.indexOf("Monatsgehalt")+1].innerHTML = OSext.fmtTausend(spieler.gehalt);
+				row.cells[this.columns.indexOf("Spielerwert")+1].innerHTML = OSext.fmtTausend(spieler.mw);
+				row.cells[this.columns.indexOf("TS")+1].innerHTML = spieler.tsperre;
 				
 				
-				cellBlitzWert = new OSext.WrappedElement(row.cells[this.columns.length]);
+				cellBlitzWert = new OSext.WrappedElement(row.cells[this.columns.length + 2]);
 
 				blitz = spieler.getBlitzwert();
 				if (blitz > 0) {
@@ -290,25 +311,25 @@ OSext.Sites.ShowteamContracts.prototype = {
 				}
 
 				row.cells[this.columns.indexOf("Alter")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.team.getStyle());
-				for (c = this.columns.indexOf("Skillschnitt"); c <= row.cells.length - 1; c++) {
+				for (c = this.columns.indexOf("Skillschnitt")+1; c <= row.cells.length - 1; c++) {
 					row.cells[c].setAttribute(OSext.STYLE.UPDATED, data.ansicht.team.getStyle());
 				}
 				
 			} else {
 				
 				row.cells[this.columns.indexOf("Alter")].textContent = "";
-				row.cells[this.columns.indexOf("Pos")].innerHTML = "";
-				row.cells[this.columns.indexOf("Skillschnitt")].textContent = "";
-				row.cells[this.columns.indexOf("Opt.Skill")].textContent = "";
-				row.cells[this.columns.indexOf("Vertrag")].textContent = "";
-				row.cells[this.columns.indexOf("Monatsgehalt")].textContent = "";
-				row.cells[this.columns.indexOf("Spielerwert")].textContent = "";
-				row.cells[this.columns.indexOf("TS")].textContent = "";
+				row.cells[this.columns.indexOf("Pos")+1].innerHTML = "";
+				row.cells[this.columns.indexOf("Skillschnitt")+1].textContent = "";
+				row.cells[this.columns.indexOf("Opt.Skill")+1].textContent = "";
+				row.cells[this.columns.indexOf("Vertrag")+1].textContent = "";
+				row.cells[this.columns.indexOf("Monatsgehalt")+1].textContent = "";
+				row.cells[this.columns.indexOf("Spielerwert")+1].textContent = "";
+				row.cells[this.columns.indexOf("TS")+1].textContent = "";
 
-				row.cells[this.columns.length].textContent = "";				
+				row.cells[this.columns.length+1].textContent = "";				
 			}
 			
-			this.setBlitzAuswahlParams(row.cells[this.columns.length + 1].firstChild, spieler, data);
+			this.setBlitzAuswahlParams(row.cells[this.columns.length + 3].firstChild, spieler, data);
 		}
 				
 		table.parentNode.replaceChild(tableClone, table);
