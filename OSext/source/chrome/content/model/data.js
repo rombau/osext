@@ -452,7 +452,8 @@ OSext.Data.prototype = {
 
 		var bilanzauswahl = OSext.Prefs.getBilanzauswahl(),
 			vorsaison = new OSext.Termin(this.termin.saison, this.termin.zat).subtractZats(OSext.ZATS_PRO_SAISON),
-			saisonstart = new OSext.Termin(this.termin.saison, 1);
+			saisonstart = new OSext.Termin(this.termin.saison, 1), 
+			s, spieler, mwreal, mwcalc;
 
 		if (bilanzauswahl == OSext.BILANZ.LETZTES_JAHR) {
 			this.database.initKaderspielerSummen(this.team.spieler, vorsaison);
@@ -464,6 +465,16 @@ OSext.Data.prototype = {
 			this.database.initKaderspielerSummen(this.team.spieler);
 			this.database.initJugendspielerSummen(this.team.jugend);
 		} 
+		
+		for (s = 0; s < this.team.spieler.length; s++) {
+			spieler = this.team.spieler[s];
+			mwreal = spieler.mw;
+			spieler.mw = null;
+			mwcalc = spieler.getMarktwert(null, this.termin.zat);
+			spieler.mwfaktor = mwreal / mwcalc;
+			spieler.mw = mwreal;
+		}
+
 	},
 	
 	initSpielervertraege : function () {

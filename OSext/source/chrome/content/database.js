@@ -328,16 +328,19 @@ OSext.Database.prototype = {
 		
 		var result, s, spieler;
 		
-		result = this.sql.executeSql("SELECT Id, Vertrag FROM Spielerwerte " +
-				"WHERE Id > 0 AND (Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) = (" +
-						"SELECT MAX(Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) FROM Spielerwerte " +
-								"WHERE (Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) < 10 * " + OSext.ZATS_PRO_SAISON + ") ");
-	
-		if (this.isNotEmpty(result)) {
-			for (s = 0; s < spielerliste.length; s++) {
-				spieler = OSext.getListElement(result, "Id", spielerliste[s].id);
-				if (spieler) {
-					spielerliste[s].vertrag = spieler.Vertrag - 1;
+		// Prüfung für Unit-Tests
+		if (this.sql) {
+			result = this.sql.executeSql("SELECT Id, Vertrag FROM Spielerwerte " +
+					"WHERE Id > 0 AND (Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) = (" +
+							"SELECT MAX(Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) FROM Spielerwerte " +
+									"WHERE (Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) < 10 * " + OSext.ZATS_PRO_SAISON + ") ");
+		
+			if (this.isNotEmpty(result)) {
+				for (s = 0; s < spielerliste.length; s++) {
+					spieler = OSext.getListElement(result, "Id", spielerliste[s].id);
+					if (spieler) {
+						spielerliste[s].vertrag = spieler.Vertrag - 1;
+					}
 				}
 			}
 		}
@@ -399,9 +402,13 @@ OSext.Database.prototype = {
 							" IN (" + summen.MinZat + "," + (zatMwUpdate - 1) + "," + zatMwUpdate + "," + summen.MaxZat + ")" +
 							" ORDER BY (Saison * " + OSext.ZATS_PRO_SAISON + " + Zat)");
 					if (result2) {
-						if (result2.length > 2) {
+						if (result2.length > 3) {
 							spielerliste[s].mwzuwachs = (result2[result2.length-1].Marktwert - result2[0].Marktwert)
 								 - (result2[2].Marktwert - result2[1].Marktwert);
+						}
+						else if (result2.length > 2) {
+							spielerliste[s].mwzuwachs = (result2[result2.length-1].Marktwert - result2[0].Marktwert)
+								 - (result2[1].Marktwert - result2[0].Marktwert);
 						}
 						else {
 							spielerliste[s].mwzuwachs = 0;

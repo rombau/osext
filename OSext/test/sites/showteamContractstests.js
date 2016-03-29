@@ -124,12 +124,12 @@ TestCase("ShowteamContractsTests").prototype = {
 		this.site.extend(this.data);
 		var rows = document.getElementById("team").rows;
 		assertEquals(3,rows.length);
-		assertEquals(17,rows[0].cells.length);
+		assertEquals(18,rows[0].cells.length);
 		
-		assertMatch(/\s+.TF/,rows[0].cells[14].textContent);
-		assertMatch(/\s+.Blitzwert/,rows[0].cells[15].textContent);
-		assertMatch(/\s+.Blitz-Zat/,rows[0].cells[16].textContent);
-		assertEquals("-3 / 473 / 533 / 593 / 653 / 714 / 54 / 114 / 174 / 234 / 294 / 354 / 414 / 474 / 534 / 594 / 654 / 71",rows[1].cells[16].textContent);
+		assertMatch(/\s+.TF/,rows[0].cells[15].textContent);
+		assertMatch(/\s+.Blitzwert/,rows[0].cells[16].textContent);
+		assertMatch(/\s+.Blitz-Zat/,rows[0].cells[17].textContent);
+		assertEquals("-3 / 473 / 533 / 593 / 653 / 714 / 54 / 114 / 174 / 234 / 294 / 354 / 414 / 474 / 534 / 594 / 654 / 71",rows[1].cells[17].textContent);
 	},
 	
 	testUpdate : function() {
@@ -150,6 +150,6 @@ TestCase("ShowteamContractsTests").prototype = {
 		
 		this.site.update(this.data);
 
-		assertEquals("84.396",document.getElementById("team").rows[1].cells[11].textContent);
+		assertEquals("84.396",document.getElementById("team").rows[1].cells[12].textContent);
 	}	
 }

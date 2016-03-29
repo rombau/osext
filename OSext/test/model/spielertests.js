@@ -149,16 +149,28 @@ TestCase("SpielerTests").prototype = {
 		assertEquals("SFTGKP",this.spieler.getSonderskillsText());
 	},
 
-	testMarkwertTor : function() {
+	testMarkwertSteveStapleton : function() {
 
 		this.spieler.mw = null;
-		this.spieler.mwfaktor = 1.005089409;
+		this.spieler.mwfaktor = 1.005087321;
 		this.spieler.pos = OSext.POS.TOR;
 		this.spieler.alter = 26;
 		this.spieler.geburtstag = 24;
 		this.spieler.skills = [58,80,85,85,85,85,0,70,33,60,50,66,28,34,3,80,30];
-		
-		assertEquals(16226080,Math.round(this.spieler.getMarktwert(null, 72)));
+
+		assertEquals(16612825,Math.round(this.spieler.getMarktwert(null, 1)));
+	},
+	
+	testMarkwertRomanOLeary : function() {
+
+		this.spieler.mw = null;
+		this.spieler.mwfaktor = 1.009674801;
+		this.spieler.pos = OSext.POS.ABW;
+		this.spieler.alter = 25;
+		this.spieler.geburtstag = 66;
+		this.spieler.skills = [43,80,84,85,85,80,0,74,50,80,57,76,42,2,60,84,4];
+
+		assertEquals(24088571,Math.round(this.spieler.getMarktwert(null, 1)));
 	}
 	
 }
