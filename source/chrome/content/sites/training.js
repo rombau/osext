@@ -136,12 +136,14 @@ OSext.Sites.Training.prototype = {
 					newSpieler = new OSext.Spieler();
 					newSpieler.pos = spieler.pos;
 					newSpieler.alter = spieler.alter; 
+					newSpieler.geburtstag = spieler.geburtstag;
+					newSpieler.mwfaktor = spieler.mwfaktor;
 					newSpieler.skills = JSON.parse(JSON.stringify(spieler.skills));
 
 					newSpieler.skills[spieler.training.plan.skillidx]++;
 					
 					cellMwZuwachs.setText(OSext.fmtTausend(
-							newSpieler.getMarktwert(null, data.termin.zat) - spieler.getMarktwert(null, data.termin.zat)));
+							newSpieler.getMarktwert(null, data.termin.zat + 1) - spieler.getMarktwert(null, data.termin.zat)));
 					
 				}
 				else {

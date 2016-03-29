@@ -256,7 +256,7 @@ OSext.Spieler.prototype = {
 	 * Liefert den Marktwert anhand des Skillschnitts,
 	 * Optis, Alters und der Sonderskills des Spieler.
 	 * 
-	 * ab Saison 10 = (1+(Opti/100))^8,1*(1+(Skill/100))^5,65*(1+(100-Alter)/49)^10 +Trainingsfaktor
+	 * ab Saison 10 = (1+(Opti/100))^8,1*(1+(Skill/100))^5,65*(1+(100-Alter)/49)^10 *Trainingsfaktor
 	 * 
 	 * @return Marktwert
 	 */
@@ -265,12 +265,12 @@ OSext.Spieler.prototype = {
 			alter = this.alter;
 		
 		if (zat) {
-			if (zat >= this.geburtstag) {
-				alter += (zat - this.geburtstag) / OSext.ZATS_PRO_SAISON;
+			if (zat >= (this.geburtstag || OSext.ZATS_PRO_SAISON)) {
+				alter += (zat - (this.geburtstag || OSext.ZATS_PRO_SAISON)) / OSext.ZATS_PRO_SAISON;
 			} else {
-				alter += (OSext.ZATS_PRO_SAISON - (this.geburtstag - zat)) / OSext.ZATS_PRO_SAISON;
+				alter += (OSext.ZATS_PRO_SAISON - ((this.geburtstag || OSext.ZATS_PRO_SAISON) - zat)) / OSext.ZATS_PRO_SAISON;
 			}
-			// OSext.Log.debug(["mw-alter: ", zat, this.name, this.alter, this.geburtstag, " => ", alter]);
+			OSext.Log.debug(["mw-alter: ", zat, this.name, this.alter, this.geburtstag, " => ", alter]);
 		}
 		
 		if ((pos && pos != this.pos) || !this.mw) {
@@ -280,6 +280,7 @@ OSext.Spieler.prototype = {
 			marktwert = (Math.pow(1 + this.getOpti(pos) / 100, 8.1)) *
 				(Math.pow(1 + this.getSkillschnitt() / 100, 5.65)) *
 				(Math.pow(1 + (100 - alter) / 49, 10)) *
+				(Math.pow(1.025, this.getSonderskills().length)) *
 				this.mwfaktor;
 			marktwert = Math.round(marktwert);
 			if (!this.mw) {

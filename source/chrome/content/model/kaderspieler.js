@@ -182,7 +182,7 @@ OSext.Kaderspieler.prototype.getSpieler = function (spieltage, prefs) {
 	spieler.skills[OSext.SKILL.ERF] = OSext.limitTo99(this.skills[OSext.SKILL.ERF] + Math.floor(this.erfprosaison * spieltage.length / OSext.ZATS_PRO_SAISON));
 
 	spieler.alter = this.alter;
-	spieler.geburtstag = this.geburtstag;
+	spieler.geburtstag = (this.geburtstag || OSext.ZATS_PRO_SAISON);
 	for (s = 1; s < spieltage.length; s++) {
 		if (spieler.geburtstag == spieltage[s].termin.zat) {
 			spieler.alter++;
