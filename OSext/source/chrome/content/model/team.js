@@ -330,5 +330,23 @@ OSext.Team.prototype = {
 			" / <span class=\"ps\">" + 
 			this.getOptischnitt(topelf).toFixed(2) + 
 			"</span>";	
+	},
+	
+	/**
+	 * Liefert die Anzahl der aktiven Jugendspieler (Alter >= 13) zum Zat
+	 * 
+	 * @param {OSext.Termin} termin
+	 */
+	getAnzahlJugendspieler : function (termin) {
+		
+		var j, anzahl = 0;
+		
+		for (j = 0; j < this.jugend.length; j++) {
+			if (this.jugend[j].alter >= 13 || this.jugend[j].geburtstag <= termin.zat) {
+				anzahl++;
+			}
+		}
+		
+		return anzahl;
 	}
 };

@@ -18,6 +18,24 @@ TestCase("TeamTests").prototype = {
 		}
 	},
 
+	testAnzahlJugendspieler : function () {
+		
+		var spieler1 = new OSext.Jugendspieler(),
+			spieler2 = new OSext.Jugendspieler();
+		
+		spieler1.alter = 14;
+		spieler1.geburtstag = 72;
+		spieler2.alter = 12;
+		spieler2.geburtstag = 12;
+		
+		this.team.jugend.push(spieler1);
+		this.team.jugend.push(spieler2);
+		
+		assertEquals(1,this.team.getAnzahlJugendspieler(new OSext.Termin(10, 3)));
+		assertEquals(2,this.team.getAnzahlJugendspieler(new OSext.Termin(10, 13)));
+		assertEquals(1,this.team.getAnzahlJugendspieler(new OSext.Termin(11, 1)));
+	},
+
 	testGetOptiSortedSpieler : function () {
 		
 		var sortedlist = this.team.getOptiSortedSpieler();
