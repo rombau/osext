@@ -188,13 +188,15 @@ OSext.Sites.Training.prototype = {
 			newSpieler = new OSext.Spieler();
 			newSpieler.pos = spieler.pos;
 			newSpieler.alter = spieler.alter; 
+			newSpieler.geburtstag = spieler.geburtstag;
+			newSpieler.mwfaktor = spieler.mwfaktor;
 			newSpieler.skills = JSON.parse(JSON.stringify(spieler.skills));
 
 			newSpieler.skills[skillidx]++;
 			
 			row.cells[row.cells.length - 1].textContent =
 				OSext.fmtTausend(
-					newSpieler.getMarktwert(null, data.termin.zat) - spieler.getMarktwert(null, data.termin.zat));
+					newSpieler.getMarktwert(null, data.termin.zat + 1) - spieler.getMarktwert(null, data.termin.zat));
 
 			row.cells[6].time = "future";
 			row.cells[7].time = "future";

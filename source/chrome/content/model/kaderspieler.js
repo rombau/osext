@@ -423,15 +423,17 @@ OSext.Kaderspieler.prototype.forecastAbwertung = function (spieler, prefs) {
  */
 OSext.Kaderspieler.prototype.getBlitzwert = function () {
 	
-	var normal, gedeckelt;
+	var normal, gedeckelt, abgewertet;
 	
 	if (!this.blitzwert) {
 		
+		abgewertet = Math.round(this.mw * 0.9) - (this.vertrag * this.gehalt); 
 		normal = Math.round(this.mw * 0.75) - (this.vertrag * this.gehalt); 
-		gedeckelt = (this.alter - 12) * 640000 * 0.75;
+		gedeckelt = 3000000 + 900000 * (this.alter - 18);
 		
-		this.blitzwert = normal;
+		this.blitzwert = abgewertet;
 		if ((this.pos == OSext.POS.TOR && this.alter < 35) || this.alter < 33) {
+			this.blitzwert = normal;
 			if (normal > gedeckelt) {
 				this.blitzwert = gedeckelt;
 			}

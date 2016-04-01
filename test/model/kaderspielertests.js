@@ -569,19 +569,26 @@ TestCase("KaderspielerTests").prototype = {
 
 	testBlitzwertAktivPositiv : function() {
 
-		assertEquals(5280000,this.spieler.getBlitzwert());		
+		assertEquals(7500000,this.spieler.getBlitzwert());
+	},
+
+	testBlitzwertAktivPositivUngedeckelt : function() {
+
+		this.spieler.mw = 2000000;
+		
+		assertEquals(500000,this.spieler.getBlitzwert());		
 	},
 
 	testBlitzwertGrenzen : function() {
 		
 		this.spieler.alter = 32;
 
-		assertEquals(9600000,this.spieler.getBlitzwert());
+		assertEquals(15600000,this.spieler.getBlitzwert());
 
 		this.spieler.blitzwert = null;
 		this.spieler.alter = 33;
 
-		assertEquals(29000000,this.spieler.getBlitzwert());
+		assertEquals(35000000,this.spieler.getBlitzwert());
 	},
 	
 	testBlitzwertAktivNegativ : function() {
@@ -596,14 +603,14 @@ TestCase("KaderspielerTests").prototype = {
 		
 		this.spieler.status = OSext.STATUS.VERLIEHEN;
 
-		assertEquals(-5280000,this.spieler.getBlitzwert());		
+		assertEquals(-7500000,this.spieler.getBlitzwert());		
 	},
 
 	testBlitzwertTransfersperre : function() {
 		
 		this.spieler.tsperre = 10;
 
-		assertEquals(-5280000,this.spieler.getBlitzwert());		
+		assertEquals(-7500000,this.spieler.getBlitzwert());		
 	},
 	
 	testMarkwertzuwachsProZat : function() {

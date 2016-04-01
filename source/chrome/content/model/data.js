@@ -292,7 +292,7 @@ OSext.Data.prototype = {
 				}
 
 				// Jugendförderung
-				spieltag.jugend = -this.jugendfoerderung * this.team.jugend.length; 
+				spieltag.jugend = -this.jugendfoerderung * this.team.getAnzahlJugendspieler(spieltag.termin); 
 
 				// Gehälter und Leihgebühren
 				if (spieltag.termin.zat % OSext.ZATS_PRO_MONAT === 0) {
