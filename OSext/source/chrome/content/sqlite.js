@@ -105,45 +105,6 @@ OSext.Sqlite.prototype = {
 		}
 	},
 
-	updateSchema_1_3_0 : function () {
-		
-		var result, r;
-		
-		// Rekonstruktion der Spielerwerte (4/72)
-		try {
-			this.beginTransaction();
-			result = this.executeSql("SELECT S.Id AS SpielerID, SW.* " + 
-					"FROM Spieler S LEFT OUTER JOIN Spielerwerte SW ON S.Id = SW.Id AND SW.Saison = 5 AND SW.Zat = 1");
-			if (result && result.length > 0) {
-				for (r = 0; r < result.length; r++) {
-					if (result[r].Id) {
-						this.executeSql(
-							"REPLACE INTO Spielerwerte VALUES " +
-							"(:id, :saison, :zat, :alter, :auf, :moral, :fit, " +
-							" :ss, :opti, :sonderskills, :sp, :verl, " +
-							" :status, :tstatus, :tsperre, " +
-							" :vertrag, :gehalt, :marktwert, " +
-							" :sch, :bak, :kob, :zwk, :dec, :ges, :fuq, :erf, :agg, " +
-							" :pas, :aus, :ueb, :wid, :sel, :dis, :zuv, :ein );",
-							[ result[r].Id, 4, 72, result[r].Alter, result[r].Aufstellung, result[r].Moral, result[r].Fitness, 
-							  result[r].Skillschnitt, result[r].Opti, result[r].Sonderskills, result[r].Sperre, result[r].Verletzung, 
-							  result[r].Status, result[r].TStatus, result[r].TSperre && result[r].TSperre > 0 ? result[r].TSperre + 1 : null, 
-							  result[r].Vertrag, result[r].Gehalt, result[r].Marktwert,
-							  result[r].SCH, result[r].BAK, result[r].KOB, result[r].ZWK, result[r].DEC, result[r].GES, result[r].FUQ, result[r].ERF, result[r].AGG, 
-							  result[r].PAS, result[r].AUS, result[r].UEB, result[r].WID, result[r].SEL, result[r].DIS, result[r].ZUV, result[r].EIN ]);
-					} else {
-						this.connection.executeSimpleSQL("DELETE FROM Spielerwerte " +
-								"WHERE Id = " + result[r].SpielerID + " AND Saison = 4 AND Zat = 72;");
-					}
-				}
-			}
-			this.commitTransaction();
-		} catch (e) {
-			this.rollbackTransaction();
-			OSext.Log.warn(e);
-		}
-	},
-
 	updateSchema_1_3_6 : function () {
 		
 		// Spieler Id=0 löschen
@@ -161,6 +122,16 @@ OSext.Sqlite.prototype = {
 		// Geburtstage
 		try {
 			this.connection.executeSimpleSQL("ALTER TABLE Spieler ADD COLUMN Geburtstag INTEGER NOT NULL DEFAULT 72;");
+		} catch (e) {
+			OSext.Log.warn(e);
+		}
+	},
+	
+	updateSchema_1_4_3 : function () {
+		
+		// Kennzeichen, ob Geburtstag aktuell ist 
+		try {
+			this.connection.executeSimpleSQL("ALTER TABLE Spieler ADD COLUMN GebAktuell INTEGER NOT NULL DEFAULT 0;");
 		} catch (e) {
 			OSext.Log.warn(e);
 		}

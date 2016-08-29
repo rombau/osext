@@ -86,6 +86,8 @@
 		src="chrome://osext/content/sites/ka.js"></script>
 	<script type="application/x-javascript" 
 		src="chrome://osext/content/sites/zuzu.js"></script>
+	<script type="application/x-javascript" 
+		src="chrome://osext/content/sites/sp.js"></script>
 		
 	<script type="application/x-javascript" 
 		src="chrome://osext/content/preferences.js"></script>

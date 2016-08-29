@@ -475,11 +475,20 @@ OSext.Data.prototype = {
 			spieler.mw = mwreal;
 		}
 
+		for (s = 0; s < this.team.jugend.length; s++) {
+			spieler = this.team.jugend[s];
+			if (spieler.kaderzats < OSext.ZATS_PRO_SAISON) {
+				if (spieler.alter >= OSext.MIN_JUGEND_ALTER) {
+					spieler.kaderzats -= spieler.geburtstag;
+				} else {
+					spieler.kaderzats = 0;
+				}
+			}
+		}
 	},
 	
-	initSpielervertraege : function () {
-		
-		this.database.initKaderspielerVertragsdaten(this.team.spieler);
+	initKaderspielerGeburtstage : function () {
+		this.database.initKaderspielerGeburtstage(this.team.spieler);
 	},
 	
 	clearAllCaches : function () {
