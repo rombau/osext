@@ -121,7 +121,8 @@ OSext.Database.prototype = {
 				
 				for (colname in result[r]) {
 					if (result[r][colname] !== null && result[r][colname] !== "") {
-						if (("Position;Marktwert;Sonderskills;Sperre;BlitzKz;SCH;BAK;KOB;ZWK;DEC;GES;FUQ;ERF;AGG;PAS;AUS;UEB;WID;SEL;DIS;ZUV;EIN" +
+						if (("Position;Marktwert;Sonderskills;Sperre;BlitzKz;Geburtstag;GebAktuell;" +
+								"SCH;BAK;KOB;ZWK;DEC;GES;FUQ;ERF;AGG;PAS;AUS;UEB;WID;SEL;DIS;ZUV;EIN;" +
 								"Saison;Zat;Skill;Wert;Trainer;Tskill;Tpreis;Wahrscheinlichkeit;Faktor;Aufwertung").indexOf(colname) == -1) {
 							spieler[colname.toLowerCase()] = result[r][colname];
 						}
@@ -320,26 +321,23 @@ OSext.Database.prototype = {
 	},
 	
 	/**
-	 * Initialisiert die Vertragslänge der angegebenen Kaderspieler mit den letzten gespeicherten vor der Einführung der Geburtstage.
+	 * Initialisiert die Geburtstage der angegebenen Kaderspieler.
 	 * 
 	 * @param {Array} spielerliste - Die Spieler, dessen Einstellung ermittelt werden soll
 	 */
-	initKaderspielerVertragsdaten : function (spielerliste) {
-		
+	initKaderspielerGeburtstage : function (spielerliste) {
+
 		var result, s, spieler;
-		
-		// Prüfung für Unit-Tests
+	
 		if (this.sql) {
-			result = this.sql.executeSql("SELECT Id, Vertrag FROM Spielerwerte " +
-					"WHERE Id > 0 AND (Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) = (" +
-							"SELECT MAX(Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) FROM Spielerwerte " +
-									"WHERE (Saison * " + OSext.ZATS_PRO_SAISON + " + Zat) < 10 * " + OSext.ZATS_PRO_SAISON + ") ");
+			result = this.sql.executeSql("SELECT Id, Geburtstag, GebAktuell FROM Spieler WHERE Id > 0");
 		
 			if (this.isNotEmpty(result)) {
 				for (s = 0; s < spielerliste.length; s++) {
 					spieler = OSext.getListElement(result, "Id", spielerliste[s].id);
 					if (spieler) {
-						spielerliste[s].vertrag = spieler.Vertrag - 1;
+						spielerliste[s].geburtstag = spieler.Geburtstag;
+						spielerliste[s].gebaktuell = spieler.GebAktuell;
 					}
 				}
 			}
@@ -546,9 +544,9 @@ OSext.Database.prototype = {
 
 			this.sql.executeSql(
 				"REPLACE INTO Spieler VALUES " +
-				"(:id, :position, :name, :land, :uefa, :herkunft, :blitzkz, :geburtstag)",
+				"(:id, :position, :name, :land, :uefa, :herkunft, :blitzkz, :geburtstag, :gebaktuell)",
 				[spieler.id, spieler.pos, spieler.name, 
-				 spieler.land, spieler.uefa, spieler.herkunft, spieler.blitzzat, spieler.geburtstag]);
+				 spieler.land, spieler.uefa, spieler.herkunft, spieler.blitzzat, spieler.geburtstag, spieler.gebaktuell]);
 			
 			this.sql.executeSql(
 				"REPLACE INTO Spielerwerte VALUES " +
@@ -608,8 +606,8 @@ OSext.Database.prototype = {
 
 			this.sql.executeSql(
 				"REPLACE INTO Spieler VALUES " +
-				"(:id, :position, :name, :land, :uefa, 1, 0, :geburtstag)",
-				[spieler.id, spieler.getPos(), spieler.talent, spieler.land, spieler.uefa, spieler.geburtstag]);
+				"(:id, :position, :name, :land, :uefa, 1, 0, :geburtstag, :gebaktuell)",
+				[spieler.id, spieler.getPos(), spieler.talent, spieler.land, spieler.uefa, spieler.geburtstag, 1]);
 			
 			this.sql.executeSql(
 				"REPLACE INTO Spielerwerte VALUES " +

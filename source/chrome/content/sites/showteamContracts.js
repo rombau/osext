@@ -65,11 +65,12 @@ OSext.Sites.ShowteamContracts.prototype = {
 	extract : function (data, params) {
 
 		var table = this.wrappeddoc.doc.getElementById(this.ids.team),
-			r, row, spieler, vertragneu, mwneu;
+			r, row, spieler, vertragneu, mwneu, 
+			queue = new OSext.RequestQueue(this.wrappeddoc, this, null, OSext);
 		
-		// XXX DB-Zugriff in Unittest
-		data.initSpielervertraege();
-		
+		// XXX Datenbankzugriff
+		data.initKaderspielerGeburtstage(spieler);
+
 		for (r = 1; r < table.rows.length - 1; r++) {
 	
 			row = table.rows[r];
@@ -80,30 +81,27 @@ OSext.Sites.ShowteamContracts.prototype = {
 			}
 
 			spieler.id = OSext.getLinkId(row.cells[this.columns.indexOf("Name")].firstChild.href);
-			vertragneu = +row.cells[this.columns.indexOf("Vertrag")].textContent;
-			
-			// XXX Vorläufig wird der Geburtstag über die Differenz der Vertragslänge gebildet
-			if (spieler.vertrag) {
-				spieler.geburtstag = (vertragneu - spieler.vertrag) * OSext.ZATS_PRO_MONAT;
-			} else {
-				// Für Leihspieler kann die alte Vertragslänge nicht ermittelt werden
-				spieler.geburtstag = null;
-			}
-			
-			
-			// OSext.Log.log([spieler.id, spieler.name, "Geburtstag:",spieler.geburtstag, vertragneu, spieler.vertrag]);
-			spieler.vertrag = vertragneu;
-			
+			spieler.vertrag = +row.cells[this.columns.indexOf("Vertrag")].textContent;
 			spieler.gehalt = +row.cells[this.columns.indexOf("Monatsgehalt")].textContent.replace(/\./g, "");
 			spieler.mw = +row.cells[this.columns.indexOf("Spielerwert")].textContent.replace(/\./g, "");	
 
-			// Initialisierung für verliehen Spieler
+			// Initialisierung für verliehenen Spieler
 			spieler.gehalt24 = spieler.gehalt;
 			spieler.gehalt36 = spieler.gehalt;
 			spieler.gehalt48 = spieler.gehalt;
 			spieler.gehalt60 = spieler.gehalt;
 
+			// Wenn der Geburtstag noch nie gespeichert wurde (gebaktuell=0),
+			// wird dieser über die Spielerseite geholt
+			if (!spieler.gebaktuell) {
+				queue.addSite("sp", {s: spieler.id}, true, false, "Geburtstag(e)");
+			}
+			
 			data.team.spieler[r - 1] = spieler;
+		}
+		
+		if (queue.sitecount) {
+			return queue;
 		}
 	},
 

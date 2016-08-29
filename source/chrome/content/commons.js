@@ -473,7 +473,7 @@ OSextCommons.prototype = {
 	    		createInstance(Components.interfaces.nsIScriptableInputStream),
 	    	channel, input, text;
 	
-	    channel = ioService.newChannel(uri, null, null);
+	    channel = ioService.newChannel2(uri, null, null, null, null, null, null, null);
 	    input = channel.open(); 
 	    scriptableStream.init(input);
 	
