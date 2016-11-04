@@ -27,7 +27,7 @@
     <target name="build" depends="clean">
         <antcall target="prepare-build" />
         
-        <ant inheritAll="true" dir="../at.greenmoon.xpi.signer" />
+        <ant inheritAll="true" dir="${PATH_TO_XPI_SIGNER}/at.greenmoon.xpi.signer" />
         
         <!-- Copy install.rdf with updated release version info -->
         <replace file="${build.dir}/install.rdf" propertyFile="release.properties">
