@@ -10,30 +10,6 @@ img[src*=os_hilfe] { height:0 !important;
                      padding-top: 1px !important;
                      background: url(images/leer.gif) no-repeat !important; }
                       
-img[src*="images/wappen/00000503.png"][width="75"] { 
-  height:0 !important;
-  width:0 !important;
-  padding-left: 75px !important;
-  padding-top: 75px !important;
-	background-image: url("http://rozilla.bplaced.net/Homepage/Bilder2/Wappen/AdlerFrankfurtklein.png") !important; 
-}   
-img[src*="images/wappen/00000503.png"][width="20"] { 
-  height:0 !important;
-  width:0 !important;
-  padding-left: 20px !important;
-  padding-top: 20px !important;
-	background-image: url("http://rozilla.bplaced.net/Homepage/Bilder2/Wappen/AdlerFrankfurtklein.png") !important; 
-  background-size: 20px 20px !important;
-}  
-td[class*="Avatar"] img[src*="avatar-9789.png"],
-div[class*="Avatar"] img[src*="avatar-9789.png"] { 
-  height:0 !important;
-  width:0 !important;
-  padding-left: 75px !important;
-  padding-top: 75px !important;
-	background-image: url("http://rozilla.bplaced.net/Homepage/Bilder2/Wappen/AdlerFrankfurtklein.png") !important; 
-}   
-
 img[width="120"][src="/images/os_linie.gif"] { height:0px !important; }
                  
 p.noprint > object > embed { height:0px !important;
