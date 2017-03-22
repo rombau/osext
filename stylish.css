@@ -1,7 +1,6 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 
-@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content"),
-               url-prefix("http://os.ongapo.com") {
+@-moz-document url-prefix("https://os.ongapo.com") {
 
 abbr { cursor:default !important; }
 
@@ -10,7 +9,33 @@ img[src*=os_hilfe] { height:0 !important;
                      padding-left: 1px !important;
                      padding-top: 1px !important;
                      background: url(images/leer.gif) no-repeat !important; }
+                      
+img[src*="images/wappen/00000503.png"][width="75"] { 
+  height:0 !important;
+  width:0 !important;
+  padding-left: 75px !important;
+  padding-top: 75px !important;
+	background-image: url("http://rozilla.bplaced.net/Homepage/Bilder2/Wappen/AdlerFrankfurtklein.png") !important; 
+}   
+img[src*="images/wappen/00000503.png"][width="20"] { 
+  height:0 !important;
+  width:0 !important;
+  padding-left: 20px !important;
+  padding-top: 20px !important;
+	background-image: url("http://rozilla.bplaced.net/Homepage/Bilder2/Wappen/AdlerFrankfurtklein.png") !important; 
+  background-size: 20px 20px !important;
+}  
+td[class*="Avatar"] img[src*="avatar-9789.png"],
+div[class*="Avatar"] img[src*="avatar-9789.png"] { 
+  height:0 !important;
+  width:0 !important;
+  padding-left: 75px !important;
+  padding-top: 75px !important;
+	background-image: url("http://rozilla.bplaced.net/Homepage/Bilder2/Wappen/AdlerFrankfurtklein.png") !important; 
+}   
 
+img[width="120"][src="/images/os_linie.gif"] { height:0px !important; }
+                 
 p.noprint > object > embed { height:0px !important;
                     width:0px !important; }
 
@@ -61,6 +86,7 @@ table[id^=tm] td { padding: 2px !important; }
 table[style*="width: 850px"] td { padding: 2px !important; }
 
 table { border-spacing:0px !important; }
+html > body > div > form[method="GET"] > table[width="30%"] { border-spacing:1px !important; }
 
 table[id^=team] tr:hover { background-color:#333333 ; }
 table[id^=team] tr:first-child:hover {	background-color:#2A2A2A ; }
@@ -103,31 +129,37 @@ span.ps { font-weight:bold !important; }
 
 td.BAK { color:#2A2A2A !important; }
 
-input[type=submit] { margin-right:3px !important; }
-input[type=reset] { margin-top:10px !important; }
-
+input[type=radio] { transform: scale(0.8, 0.8); }
+input[type=submit] { border: solid 1px #BBBBBB; margin-right:3px !important; padding-top: 2px; padding-bottom: 1px; }
+input[type=button] { border: solid 1px #BBBBBB; margin-right:3px !important; padding-top: 2px; padding-bottom: 1px; }                 
+input[type=reset] { border: solid 1px #BBBBBB; margin-top:10px !important; padding-top: 2px; padding-bottom: 1px; }
+input[type=text], select { border: solid 1px #BBBBBB; padding: 1px; }
+select[id=osext-blitz] { margin: 1px; }
+                 
 body { font-family:verdana, arial, helvetica, sans-serif !important;
        font-size:9pt !important;
        text-decoration:none !important; 
        background:#2A2A2A !important; }
-
+                     
 .mceContentBody { background:#FFFFFF !important; }
 
-.ui-tabs-panel,
+.ui-tabs-panel, .ui-widget-content, ul.ui-widget-header, 
+li.ui-state-default { background-color:#2A2A2A !important; 
+       background-image:none !important; }
+li.ui-tabs-selected { background-color:#fbf9b3 !important; }
+                    
 div.gridbox .objbox,
-div.gridbox .xhdr,
+div.gridbox .xhdr, .tablescroll, .tablescroll_head,
 div.gridbox_os20_mail table.row20px tr td, 
 div.gridbox_os20 table.row20px tr td { background-color:#2A2A2A !important; }
-
-div.gridbox_os20_mail table.obj td, div.gridbox_os20 table.obj td { font-family: verdana,arial,helvetica,sans-serif !important; }
-
 div.gridbox_os20_mail table.row20px tr[class*=rowselected] td, 
 div.gridbox_os20 table.row20px tr[class*=rowselected] td { background-color:#FBF9B3 !important; }
+                      
+div.gridbox_os20_mail table.obj td, div.gridbox_os20 table.obj td { font-family: verdana,arial,helvetica,sans-serif !important; }
 
 .defaultSkin iframe {
 background:#FFFFFF none repeat scroll 0 0 !important; }
-
-
+                      
 
 #logo { min-height:0px !important; height:0px !important;}
 .logoInner { min-height:0px !important; height:12px !important;}
@@ -138,12 +170,11 @@ background:#FFFFFF none repeat scroll 0 0 !important; }
 
 }
 
-@-moz-document url-prefix("http://os.ongapo.com/showteam.php?s=1") {
+@-moz-document url-prefix("https://os.ongapo.com/showteam.php?s=1") {
 table[id^=team] td { padding: 1px 2px 0px 2px !important; }
 }
 
-@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/forum"),
-               url-prefix("http://os.ongapo.com/index.php") {
+@-moz-document url-prefix("https://os.ongapo.com/index.php") {
 
 body { font-family:verdana, arial, helvetica, sans-serif !important;
        font-size:9pt !important;
@@ -152,9 +183,8 @@ body { font-family:verdana, arial, helvetica, sans-serif !important;
 
 }
 
-@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/forum"),
-               url-prefix("http://os.ongapo.com/forum") {
-
+@-moz-document url-prefix("https://os.ongapo.com/forum") {
+                
 body, html { background-color:#D8E2C3 !important; }
 a span { color:#666666  !important; }
 #userMenu ul li a span { 
@@ -169,13 +199,17 @@ li[id^=mainMenuItem] a span { color:#FFFFFF !important;
 
 .fontFormat { font-size:10pt !important;}
 
-.boardlistCols-2 { width: 60% !important; }
-.boardlistLastPost { width: 40% !important; }
+.boardlistCols-2 { width: 55% !important; }
+.boardlistLastPost { width: 45% !important; }
 
 }
 
-@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/ju"),
-               url-prefix("http://os.ongapo.com/ju") {
+@-moz-document url-prefix("https://os.ongapo.com/ju") {
+
+                 body > div > br,  body > div > b {
+                   display: none;
+                 }
+
 table[cellspacing="5"] td { padding: 2px !important;
                             vertical-align: top !important; }
 
@@ -187,8 +221,7 @@ input[type=radio] { margin:0px !important; }
 input[type=submit] { margin:10px !important; }
 }
 
-@-moz-document url-prefix("file:///home/roman/workspace/OSextTestWeb/Content/ju"),
-               url-prefix("http://os.ongapo.com/ju.php?page=2") {
+@-moz-document url-prefix("https://os.ongapo.com/ju.php?page=2") {
 
 table[cellspacing="5"] tr:last-child:hover { background-color:#333333 ; }
 

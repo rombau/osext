@@ -1,5 +1,6 @@
 /**
  * Klasse für Datenbankzugriffe.
+ * 
  * @constructor
  */
 OSext.Database = function (preferences, sql) {
@@ -15,7 +16,7 @@ OSext.Database.prototype = {
 	/**
 	 * Liefert {@code true}, wenn das Result-Array befüllt ist.
 	 * 
-	 * @param {Array} result 
+	 * @param {Array} result
 	 * @returns {Boolean}
 	 */
 	isNotEmpty : function (result) {
@@ -53,10 +54,10 @@ OSext.Database.prototype = {
 	},
 	
 	/**
-	 * Liefert eine Liste von {@code OSext.Spieltag}en der {@code saison} 
-	 * aus der Tabelle Spieltage.
+	 * Liefert eine Liste von {@code OSext.Spieltag}en der {@code saison} aus der Tabelle
+	 * Spieltage.
 	 * 
-	 * @param {Number} saison Die gewünschte Saison 
+	 * @param {Number} saison Die gewünschte Saison
 	 * @return {Array} Liste mit Spieltagen
 	 */
 	getSpieltage : function (saison) {
@@ -82,13 +83,13 @@ OSext.Database.prototype = {
 	},
 	
 	/**
-	 * Liefert eine Liste der {@code OSext.Kaderspieler} zum {@code OSext.Termin} 
-	 * aus der Tabelle Spieler, Spielerwerte und Spielertraining.
+	 * Liefert eine Liste der {@code OSext.Kaderspieler} zum {@code OSext.Termin} aus der Tabelle
+	 * Spieler, Spielerwerte und Spielertraining.
 	 * <p>
-	 * Wurde kein {@code OSext.Termin} angegeben, wird der erste Eintrag des
-	 * jeweiligen Spielers ausgelesen.
+	 * Wurde kein {@code OSext.Termin} angegeben, wird der erste Eintrag des jeweiligen Spielers
+	 * ausgelesen.
 	 * 
-	 * @param {OSext.Termin} termin - Der gewünschte {@code OSext.Termin} (optional) 
+	 * @param {OSext.Termin} termin - Der gewünschte {@code OSext.Termin} (optional)
 	 * 
 	 * @return Liste von {@code OSext.Kaderspieler}n
 	 */
@@ -146,13 +147,13 @@ OSext.Database.prototype = {
 	},
 
 	/**
-	 * Liefert eine Liste der {@code OSext.Jugendspieler} zum {@code OSext.Termin} 
-	 * aus der Tabelle Spieler und Spielerwerte.
+	 * Liefert eine Liste der {@code OSext.Jugendspieler} zum {@code OSext.Termin} aus der Tabelle
+	 * Spieler und Spielerwerte.
 	 * <p>
-	 * Wurde kein {@code OSext.Termin} angegeben, wird der erste Eintrag des
-	 * jeweiligen Spielers ausgelesen.
+	 * Wurde kein {@code OSext.Termin} angegeben, wird der erste Eintrag des jeweiligen Spielers
+	 * ausgelesen.
 	 * 
-	 * @param {OSext.Termin} termin - Der gewünschte {@code OSext.Termin} (optional) 
+	 * @param {OSext.Termin} termin - Der gewünschte {@code OSext.Termin} (optional)
 	 * 
 	 * @return Liste von {@code OSext.Jugendspieler}n
 	 */
@@ -231,55 +232,53 @@ OSext.Database.prototype = {
 	},
 	
 	/**
-	 * Initialisiert die Ids der Jugendspielers. 
+	 * Initialisiert die Ids der Jugendspielers.
 	 * <p>
-	 * Um Jugendspieler zu identifizieren, werden alle unveränderlichen 
-	 * Werte des Spielers herangezogen.
+	 * Um Jugendspieler zu identifizieren, werden alle unveränderlichen Werte des Spielers
+	 * herangezogen.
 	 * <p>
-	 * Ist der Jugendspieler noch nicht bekannt, wird die nächstkleinere 
-	 * negative Id ermittelt und verwendet. 
+	 * Ist der Jugendspieler noch nicht bekannt, wird die nächstkleinere negative Id ermittelt und
+	 * verwendet.
 	 * 
 	 * @param {Array} spielerliste - Liste von {@code OSext.Jugendspieler}n
 	 */
 	initJugendspielerIDs : function (spielerliste) {
 		
-		var maxtermin, s, spieler, result, newID = 0;
+		var s, spieler, result, newID = 0;
 		
-		maxtermin = this.getMaxTermin();
+		result = this.sql.executeSql("SELECT MIN(Id) AS Id FROM Spieler");
+		if (this.isNotEmpty(result)) {
+			newID = +result[0].Id;
+		} else {
+			newID = 0;
+		}
 		
 		for (s = 0; s < spielerliste.length; s++) {
 			spieler = spielerliste[s];
 			
-			if (maxtermin) {
+			result = this.sql.executeSql("SELECT S.Id AS Id " +
+				"FROM Spieler S INNER JOIN Spielerwerte SW ON S.Id = SW.Id " +
+				"WHERE S.Id < 0 " +
+				" AND SW.WID = " + spieler.skills[OSext.SKILL.WID] + 
+				" AND SW.SEL = " + spieler.skills[OSext.SKILL.SEL] +
+				" AND SW.DIS = " + spieler.skills[OSext.SKILL.DIS] +
+				" AND SW.EIN = " + spieler.skills[OSext.SKILL.EIN] +
+				" AND S.Land = :land " +
+				" AND S.Name = :talent ",
+				[spieler.land, spieler.talent]);
 			
-				result = this.sql.executeSql("SELECT S.Id AS Id " +
-					"FROM Spieler S INNER JOIN Spielerwerte SW ON S.Id = SW.Id " +
-					"WHERE S.Id < 0 " +
-					" AND (SW.Saison * " + OSext.ZATS_PRO_SAISON + " + SW.Zat) = " + maxtermin.getZats() +
-					" AND SW.WID = " + spieler.skills[OSext.SKILL.WID] + 
-					" AND SW.SEL = " + spieler.skills[OSext.SKILL.SEL] +
-					" AND SW.DIS = " + spieler.skills[OSext.SKILL.DIS] +
-					" AND SW.EIN = " + spieler.skills[OSext.SKILL.EIN] +
-					" AND S.Land = :land " +
-					" AND SW.\"Alter\" BETWEEN " + (spieler.alter - 1) + " AND " + spieler.alter +
-					" AND S.Name = :talent ",
-					[spieler.land, spieler.talent]);
-				
-				if (this.isNotEmpty(result)) {
-					newID = +result[0].Id;
-				} else {
-					newID--;
-				}
+			if (this.isNotEmpty(result)) {
+				spieler.id = +result[0].Id;
 			} else {
-				newID--;
+				spieler.id = --newID;
 			}
-			spieler.id = newID;
+			OSext.Log.log(["Jugendspieler-ID", spieler.id])
 		}	
 	},
 
 	/**
-	 * Initialisiert die globalen Einstellung der angegebenen Kaderspieler, und die Trainingseinstellung
-	 * des vergangenen (aktuellen) Spieltags
+	 * Initialisiert die globalen Einstellung der angegebenen Kaderspieler, und die
+	 * Trainingseinstellung des vergangenen (aktuellen) Spieltags
 	 * 
 	 * @param {Array} spielerliste - Die Spieler, dessen Einstellung ermittelt werden soll
 	 * @param {OSext.Termin} termin - Der gewünschte {@code OSext.Termin}
@@ -345,14 +344,14 @@ OSext.Database.prototype = {
 	},
 		
 	/**
-	 * Initialisiert eine Kaderspielerliste mit Summen in eines angegebenen Zeitraums
-	 * aus der Tabelle Spielerwerte und Spielertraining.
-	 * <p> 
+	 * Initialisiert eine Kaderspielerliste mit Summen in eines angegebenen Zeitraums aus der
+	 * Tabelle Spielerwerte und Spielertraining.
+	 * <p>
 	 * Wurde kein Zeitraum angegeben, werden alle Werte summiert.
 	 * 
 	 * @param {Array} spielerliste - Die Spielerliste, die um Summen ergänzt werden soll
 	 * @param {OSext.Termin} von - Der gewünschte Beginn (optional)
-	 * @param {OSext.Termin} bis - Das gewünschte Ende (optional) 
+	 * @param {OSext.Termin} bis - Das gewünschte Ende (optional)
 	 * 
 	 */
 	initKaderspielerSummen : function (spielerliste, von, bis) {
@@ -418,14 +417,14 @@ OSext.Database.prototype = {
 	},
 
 	/**
-	 * Initialisiert eine Jugendspielerliste mit Summen in eines angegebenen Zeitraums
-	 * aus der Tabelle Spielerwerte.
-	 * <p> 
+	 * Initialisiert eine Jugendspielerliste mit Summen in eines angegebenen Zeitraums aus der
+	 * Tabelle Spielerwerte.
+	 * <p>
 	 * Wurde kein Zeitraum angegeben, werden alle Werte summiert.
 	 * 
 	 * @param {Array} spielerliste - Die Spielerliste, die um Summen ergänzt werden soll
 	 * @param {OSext.Termin} von - Der gewünschte Beginn (optional)
-	 * @param {OSext.Termin} bis - Das gewünschte Ende (optional) 
+	 * @param {OSext.Termin} bis - Das gewünschte Ende (optional)
 	 * 
 	 */
 	initJugendspielerSummen : function (spielerliste, von, bis) {
@@ -441,7 +440,8 @@ OSext.Database.prototype = {
 			where += "AND (SW.Saison * " + OSext.ZATS_PRO_SAISON + " + SW.Zat) <= " + bis.getZats();
 		}
 		 
-		result = this.sql.executeSql("SELECT S.Id AS Id, " +
+		result = this.sql.executeSql("SELECT S.Id AS Id, S.Geburtstag AS Geburtstag, " +
+			" MAX(SW.\"Alter\") AS MaxAlter, " +
 			" MIN(SW.Saison * " + OSext.ZATS_PRO_SAISON + " + SW.Zat) AS MinZat, " +
 			" MAX(SW.Saison * " + OSext.ZATS_PRO_SAISON + " + SW.Zat) " +
 			" - MIN(SW.Saison * " + OSext.ZATS_PRO_SAISON + " + SW.Zat) AS Zats, " + 
@@ -456,22 +456,33 @@ OSext.Database.prototype = {
 			for (s = 0; s < spielerliste.length; s++) {
 				summen = OSext.getListElement(result, "Id", spielerliste[s].id);
 				if (summen) {
-					if (summen.MinZat == 142) {
-						spielerliste[s].kaderzats = summen.Zats - 2; // Erste Saison nur 70 Zats (72 + 70 = 142)
+					if (summen.MaxAlter < OSext.MIN_JUGEND_ALTER) {
+						spielerliste[s].kaderzats = 0;
+						spielerliste[s].foerderung = 0;
+						spielerliste[s].mwzuwachs = 0;
+						spielerliste[s].gesamtaufwertungen = 0;
 					} else {
-						spielerliste[s].kaderzats = summen.Zats;
+						if (summen.MinZat == 142) {
+							// Erste Saison nur 70 Zats (72 + 70 = 142)
+							spielerliste[s].kaderzats = summen.Zats - 2;
+						} else if (summen.MinZat >= 720 && summen.Zats) {
+							// Spieler fange erst am Geburtstag zum Trainieren an
+							spielerliste[s].kaderzats = summen.Zats - summen.Geburtstag + (summen.MinZat % OSext.ZATS_PRO_SAISON);
+							OSext.Log.log([summen.Zats,summen.Geburtstag,(summen.MinZat % OSext.ZATS_PRO_SAISON), spielerliste[s].kaderzats]);
+						} else {
+							spielerliste[s].kaderzats = summen.Zats;
+						}
+						spielerliste[s].foerderung = summen.Zats ? summen.Gehaltsschnitt : 0;
+						spielerliste[s].mwzuwachs = summen.Zats ? summen.Marktwertzuwachs : 0;
+						spielerliste[s].gesamtaufwertungen = summen.Aufwertungen;
 					}
-					spielerliste[s].foerderung = summen.Gehaltsschnitt;
-					spielerliste[s].mwzuwachs = summen.Marktwertzuwachs;
-					spielerliste[s].gesamtaufwertungen = summen.Aufwertungen;
 				}
 			}
 		}
 	},
 	
 	/**
-	 * Speichert alle {@code OSext.Trainer} der übergebenen Liste in 
-	 * der Datenbank.
+	 * Speichert alle {@code OSext.Trainer} der übergebenen Liste in der Datenbank.
 	 * 
 	 * @param {Array} trainerliste - Die Liste der Trainer
 	 * @param {OSext.Termin} termin - Aktueller Zeitpunkt
@@ -491,8 +502,7 @@ OSext.Database.prototype = {
 	},
 	
 	/**
-	 * Speichert die Trainingseinstellungen der übergebenen Spieler in 
-	 * der Datenbank.
+	 * Speichert die Trainingseinstellungen der übergebenen Spieler in der Datenbank.
 	 * 
 	 * @param {Array} spielerliste - Die Liste der Spieler
 	 * @param {OSext.Termin} termin - Aktueller Zeitpunkt
@@ -591,8 +601,8 @@ OSext.Database.prototype = {
 	},
 
 	/**
- 	 * Speichert die Daten der übergebenen Jugendspieler in der Datenbank.
- 	 * 
+	 * Speichert die Daten der übergebenen Jugendspieler in der Datenbank.
+	 * 
 	 * @param {Array} spielerliste
 	 * @param {Number} foerderung
 	 * @param {OSext.Termin} termin
@@ -650,9 +660,9 @@ OSext.Database.prototype = {
 	
 	
 	/**
-	 * Speichert die Daten des übergebenen Stadions in der Datenbank,
-	 * sofern sich die Stadionwerte verändert haben.
-	 *  
+	 * Speichert die Daten des übergebenen Stadions in der Datenbank, sofern sich die Stadionwerte
+	 * verändert haben.
+	 * 
 	 * @param {OSext.Stadion} stadion
 	 * @param {OSext.Termin} termin
 	 */
