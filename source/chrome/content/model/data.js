@@ -87,9 +87,10 @@ OSext.Data = function () {
 	};
 
 	/**
-	 * Referenz auf die Datenbankzugriffsschicht
+	 * Referenz auf die Datenbankzugriffsschicht.
+	 * Wird nur mit getDatabase() initialisiert.
 	 */
-	this.database = new OSext.Database();
+	this.database = null;
 
 	/**
 	 * Initialisierungsstatus
@@ -104,6 +105,33 @@ OSext.Data = function () {
 };
 
 OSext.Data.prototype = {
+
+	/**
+	 * Gibt die Referenz auf die Datenbankzugriffschicht zurück. 
+	 * Falls es noch keine gibt, wird eine neues Objekt erzeugt.
+	 */
+	getDatabase : function () {
+		if (!this.database) {
+			var prefs = new OSext.Preferences(),
+				teamId = '' + this.team.id,
+				dbpathObject = {};
+			this.database = new OSext.Database({
+				getDBPath : function () {
+					var dbpath = prefs.getBranch().getCharPref("dbpath");
+					if (dbpath.substr(0,1) == "{") {
+						dbpathObject = JSON.parse(dbpath);
+						return dbpathObject[teamId];
+					}
+					return dbpath;
+				},
+				setDBPath : function (path) {
+					dbpathObject[teamId] = path;
+					prefs.getBranch().setCharPref("dbpath", JSON.stringify(dbpathObject));
+				}
+			});
+		}
+		return this.database;
+	},
 
 	/**
 	 * Initialisiert den aktuellen Zat von der Hauptseite; zu diesem Zeitpunkt ist noch keine Saison
@@ -335,7 +363,7 @@ OSext.Data.prototype = {
 				}
 				if (team.spieler.length === 0) {
 					if (termin.getZats() < this.termin.getZats()) {
-						team.spieler = this.database.getKaderspielerListe(termin);
+						team.spieler = this.getDatabase().getKaderspielerListe(termin);
 					} else {
 						von = this.getSpieltagIndex(this.termin) + 1;
 						bis = this.getSpieltagIndex(termin) + 1;
@@ -361,7 +389,7 @@ OSext.Data.prototype = {
 	initAndSave : function () {
 
 		// Gespielte Spieltage dieser Saison initialisieren
-		var s, spieltage = this.database.getSpieltage(this.saisonplan[1].termin.saison);
+		var s, spieltage = this.getDatabase().getSpieltage(this.saisonplan[1].termin.saison);
 
 		for (s = 0; s < spieltage.length; s++) {
 			this.saisonplan[spieltage[s].termin.zat] = spieltage[s];
@@ -374,27 +402,27 @@ OSext.Data.prototype = {
 		this.ansicht.saison.eintritt = this.eintritt.liga;
 
 		// Jugend-IDs ermitteln
-		this.database.initJugendspielerIDs(this.team.jugend);
+		this.getDatabase().initJugendspielerIDs(this.team.jugend);
 
 		// Einstellung der Kaderspieler ermitteln
-		this.database.initKaderspielerZusatzwerte(this.team.spieler, this.termin);
+		this.getDatabase().initKaderspielerZusatzwerte(this.team.spieler, this.termin);
 
 		// Speichern
 		try {
 
-			this.database.sql.beginTransaction();
+			this.getDatabase().sql.beginTransaction();
 
-			this.database.saveTrainer(this.team.trainer, this.termin);
-			this.database.saveKaderspieler(this.team.spieler, this.termin);
-			this.database.saveJugendspieler(this.team.jugend, this.jugendfoerderung, this.termin);
-			this.database.saveSpieltag(this.spieltag);
-			this.database.saveStadion(this.stadion, this.termin);
+			this.getDatabase().saveTrainer(this.team.trainer, this.termin);
+			this.getDatabase().saveKaderspieler(this.team.spieler, this.termin);
+			this.getDatabase().saveJugendspieler(this.team.jugend, this.jugendfoerderung, this.termin);
+			this.getDatabase().saveSpieltag(this.spieltag);
+			this.getDatabase().saveStadion(this.stadion, this.termin);
 
-			this.database.sql.commitTransaction();
+			this.getDatabase().sql.commitTransaction();
 
 		} catch (e) {
 
-			this.database.sql.rollbackTransaction();
+			this.getDatabase().sql.rollbackTransaction();
 			throw e;
 		}
 
@@ -440,14 +468,14 @@ OSext.Data.prototype = {
 			this.termin.saison, 1), s, spieler, mwreal, mwcalc;
 
 		if (bilanzauswahl == OSext.BILANZ.LETZTES_JAHR) {
-			this.database.initKaderspielerSummen(this.team.spieler, vorsaison);
-			this.database.initJugendspielerSummen(this.team.jugend);
+			this.getDatabase().initKaderspielerSummen(this.team.spieler, vorsaison);
+			this.getDatabase().initJugendspielerSummen(this.team.jugend);
 		} else if (bilanzauswahl == OSext.BILANZ.AKTUELLES_JAHR) {
-			this.database.initKaderspielerSummen(this.team.spieler, saisonstart);
-			this.database.initJugendspielerSummen(this.team.jugend);
+			this.getDatabase().initKaderspielerSummen(this.team.spieler, saisonstart);
+			this.getDatabase().initJugendspielerSummen(this.team.jugend);
 		} else {
-			this.database.initKaderspielerSummen(this.team.spieler);
-			this.database.initJugendspielerSummen(this.team.jugend);
+			this.getDatabase().initKaderspielerSummen(this.team.spieler);
+			this.getDatabase().initJugendspielerSummen(this.team.jugend);
 		}
 
 		for (s = 0; s < this.team.spieler.length; s++) {
@@ -461,9 +489,9 @@ OSext.Data.prototype = {
 	},
 
 	initKaderspielerGeburtstage : function () {
-		this.database.initKaderspielerGeburtstage(this.team.spieler);
+		this.getDatabase().initKaderspielerGeburtstage(this.team.spieler);
 	},
-
+	
 	clearAllCaches : function () {
 
 		var s;

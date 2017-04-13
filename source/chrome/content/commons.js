@@ -445,14 +445,19 @@ OSextCommons.prototype = {
 				.createInstance(nsIFilePicker),
 			file = Components.classes["@mozilla.org/file/local;1"]
 				.createInstance(Components.interfaces.nsILocalFile),
-		    retcode;
+		    retcode, fsplit = filename.split("."), nr = 1;
 		
 		filepicker.init(window, title, nsIFilePicker.modeGetFolder);
 		retcode = filepicker.show();
 		if (retcode == nsIFilePicker.returnOK || retcode == nsIFilePicker.returnReplace) {
 			if (filepicker.file) {
-				file.initWithPath(filepicker.file.path);
-				file.append(filename);
+				do {
+					file.initWithPath(filepicker.file.path);
+					file.append(fsplit[0] + (nr++) + "." + fsplit[fsplit.length - 1]);
+					if (nr > 9) {
+						return null;
+					}
+				} while (file.exists());
 				return file;
 			}
 		}

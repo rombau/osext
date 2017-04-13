@@ -5,6 +5,8 @@
 OSext.Sites.Haupt = function (wrappeddoc) {
 	this.classname = "OSext.Sites.Haupt";
 	this.wrappeddoc = wrappeddoc;
+	
+	this.alwaysExtract = true;
 };
 
 OSext.Sites.Haupt.prototype = {
@@ -54,13 +56,21 @@ OSext.Sites.Haupt.prototype = {
 	extract : function (data, params) {
 
 		var bolds = this.wrappeddoc.doc.getElementsByTagName("b"),
-			queue, zat;
+			images = this.wrappeddoc.doc.getElementsByTagName("img"),
+			queue, zat, pattern, matches, teamId;
 		
-		if (!data.team.name) {
-			data.team.name = bolds[this.getBoldIndexByText(bolds, /Willkommen im Managerb/)].textContent.split(" von ")[1];
+		pattern = /images\/wappen\/(\d+)\.png/gm;
+		matches = pattern.exec(images[images.length - 1].src);
+		if (matches) {
+			teamId = +matches[1];
 		}
-		
-		if (!data.initialized) {
+
+		if (!data.initialized || data.team.id != teamId) {
+			
+			OSext.Data.call(data);
+			
+			data.team.id = teamId;
+			data.team.name = bolds[this.getBoldIndexByText(bolds, /Willkommen im Managerb/)].textContent.split(" von ")[1];
 			
 			zat = +bolds[this.getBoldIndexByText(bolds, /Der n.+chste ZAT ist ZAT .+ und liegt auf/)].textContent.split(" ")[5];
 
