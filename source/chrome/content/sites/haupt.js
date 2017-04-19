@@ -59,7 +59,7 @@ OSext.Sites.Haupt.prototype = {
 			images = this.wrappeddoc.doc.getElementsByTagName("img"),
 			queue, zat, pattern, matches, teamId;
 		
-		pattern = /images\/wappen\/(\d+)\.png/gm;
+		pattern = /images\/wappen\/(\d+)\.(png|gif)/gm;
 		matches = pattern.exec(images[images.length - 1].src);
 		if (matches) {
 			teamId = +matches[1];

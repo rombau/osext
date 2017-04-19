@@ -429,7 +429,7 @@ OSext.Database.prototype = {
 	 */
 	initJugendspielerSummen : function (spielerliste, von, bis) {
 
-		var where, result, s, summen;
+		var where, result, s, summen, minzat, zats_bis_geburtstag;
 
 		where = "WHERE S.Id < 0 ";
 		if (von && bis) {
@@ -462,13 +462,19 @@ OSext.Database.prototype = {
 						spielerliste[s].mwzuwachs = 0;
 						spielerliste[s].gesamtaufwertungen = 0;
 					} else {
+						minzat = summen.MinZat % OSext.ZATS_PRO_SAISON;
 						if (summen.MinZat == 142) {
 							// Erste Saison nur 70 Zats (72 + 70 = 142)
 							spielerliste[s].kaderzats = summen.Zats - 2;
-						} else if (summen.MinZat >= 720 && summen.Zats) {
-							// Spieler fange erst am Geburtstag zum Trainieren an
-							spielerliste[s].kaderzats = summen.Zats - summen.Geburtstag + (summen.MinZat % OSext.ZATS_PRO_SAISON);
-							OSext.Log.log([summen.Zats,summen.Geburtstag,(summen.MinZat % OSext.ZATS_PRO_SAISON), spielerliste[s].kaderzats]);
+						} else if (summen.MinZat >= 720 && summen.Geburtstag > minzat) {
+							// Spieler fangen am Geburtstag zu trainieren an
+							// nur wenn:
+							// - Geburtstag nach dem ersten aufgezeichneten Zat
+							// - Summe der aufgezeichneten Zats > Zats bis zum ersten Geburtstag 
+							zats_bis_geburtstag = summen.Geburtstag - minzat;
+							spielerliste[s].kaderzats = summen.Zats - (summen.Zats > zats_bis_geburtstag ? zats_bis_geburtstag : 0);
+
+							OSext.Log.log([summen.Zats,summen.Geburtstag,minzat,zats_bis_geburtstag,spielerliste[s].kaderzats]);
 						} else {
 							spielerliste[s].kaderzats = summen.Zats;
 						}
