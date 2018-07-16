@@ -21,7 +21,11 @@ OSext.Logger.prototype = {
 		if (fbug !== null && fbug.Console) {
 			return fbug.Console;
 		}
-		return { logFormatted : function () {} };
+		return { 
+			logFormatted : function (object) {
+				console.log(object);
+			} 
+		};
 	},
 	
 	log : function (object, classname) {

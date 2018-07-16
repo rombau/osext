@@ -38,7 +38,6 @@ OSext.Sites.Sp.prototype = {
 
 		if (spieler) {
 			spieler.geburtstag = +matches[1];
-			spieler.gebaktuell = 1;
 		}		
 	}	
 };

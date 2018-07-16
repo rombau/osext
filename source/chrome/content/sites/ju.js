@@ -30,8 +30,8 @@ OSext.Sites.Ju.prototype = {
 			case 2:
 				this.sitehandler[2] = new OSext.Sites.JugendSkills(this.wrappeddoc);
 				break;
-			case 3:
-				this.sitehandler[3] = new OSext.Sites.JugendOptionen(this.wrappeddoc);
+			case 4:
+				this.sitehandler[4] = new OSext.Sites.JugendOptionen(this.wrappeddoc);
 				break;
 			default:
 				return null;

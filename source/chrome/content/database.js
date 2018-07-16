@@ -318,30 +318,6 @@ OSext.Database.prototype = {
 			}
 		}
 	},
-	
-	/**
-	 * Initialisiert die Geburtstage der angegebenen Kaderspieler.
-	 * 
-	 * @param {Array} spielerliste - Die Spieler, dessen Einstellung ermittelt werden soll
-	 */
-	initKaderspielerGeburtstage : function (spielerliste) {
-
-		var result, s, spieler;
-	
-		if (this.sql) {
-			result = this.sql.executeSql("SELECT Id, Geburtstag, GebAktuell FROM Spieler WHERE Id > 0");
-		
-			if (this.isNotEmpty(result)) {
-				for (s = 0; s < spielerliste.length; s++) {
-					spieler = OSext.getListElement(result, "Id", spielerliste[s].id);
-					if (spieler) {
-						spielerliste[s].geburtstag = spieler.Geburtstag;
-						spielerliste[s].gebaktuell = spieler.GebAktuell;
-					}
-				}
-			}
-		}
-	},
 		
 	/**
 	 * Initialisiert eine Kaderspielerliste mit Summen in eines angegebenen Zeitraums aus der
@@ -562,7 +538,7 @@ OSext.Database.prototype = {
 				"REPLACE INTO Spieler VALUES " +
 				"(:id, :position, :name, :land, :uefa, :herkunft, :blitzkz, :geburtstag, :gebaktuell)",
 				[spieler.id, spieler.pos, spieler.name, 
-				 spieler.land, spieler.uefa, spieler.herkunft, spieler.blitzzat, spieler.geburtstag, spieler.gebaktuell]);
+				 spieler.land, spieler.uefa, spieler.herkunft, spieler.blitzzat, spieler.geburtstag, 1]);
 			
 			this.sql.executeSql(
 				"REPLACE INTO Spielerwerte VALUES " +

@@ -40,7 +40,7 @@ OSext.Sites.JugendOptionen.prototype = {
 		var jugendsel = this.wrappeddoc.doc.getElementsByName("foerderung")[0];
 			
 		data.jugendfoerderung = +jugendsel.value;
-		
+			
 		// Cache leeren
 		data.ansicht.saison.cache = null;
 	}

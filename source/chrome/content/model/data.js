@@ -488,10 +488,6 @@ OSext.Data.prototype = {
 		}
 	},
 
-	initKaderspielerGeburtstage : function () {
-		this.getDatabase().initKaderspielerGeburtstage(this.team.spieler);
-	},
-	
 	clearAllCaches : function () {
 
 		var s;

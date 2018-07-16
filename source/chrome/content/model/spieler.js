@@ -11,7 +11,6 @@ OSext.Spieler = function () {
 	
 	this.alter = null; 
 	this.geburtstag = OSext.ZATS_PRO_SAISON;
-	this.gebaktuell = 0;
 	this.opti = null;
 	this.skillschnitt = null;
 	this.sonderskills = null;

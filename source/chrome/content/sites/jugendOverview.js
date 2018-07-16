@@ -55,51 +55,56 @@ OSext.Sites.JugendOverview.prototype = {
 	extract : function (data, params) {
 		
 		var table = this.wrappeddoc.doc.getElementsByTagName("table")[1],
-			r, row, spieler, geburtstag,
+			r, row, s = 0, spieler, geburtstag,
 			alter = 0, nr = 1,
 			aufwertungsliste, i;
 		
 		for (r = 1; r < table.rows.length - 1; r++) {
 
 			row = table.rows[r];
-			spieler = data.team.jugend[r - 1];
-
-			if (!spieler) {
-				spieler = new OSext.Jugendspieler();
-			}
-
-			spieler.alter = +row.cells[this.columns.indexOf("Alter")].textContent;
-			geburtstag = row.cells[this.columns.indexOf("Geb.")].textContent;
-			if (geburtstag.indexOf("?") == -1) {
-				spieler.geburtstag = +geburtstag;
-			}
-
-			// Nummer des Spielers im Jahrgang bestimmen
-			if (spieler.alter != alter) {
-				nr = 1;
-				alter = spieler.alter;
-			}
-			spieler.nr = nr++;
-			
-			// Position eines Torhüters wird gespeichert und nicht mehr verändert
-			if (row.cells[0].className && row.cells[0].className == OSext.POS.TOR) {
-				spieler.pos = row.cells[0].className;
-			}
-			
-			spieler.land = row.cells[this.columns.indexOf("Land") + 1].textContent;
-			spieler.uefa = row.cells[this.columns.indexOf("U") + 1].textContent;
-			spieler.skillschnitt = parseFloat(row.cells[this.columns.indexOf("Skillschnitt") + 1].textContent);
-			spieler.talent = row.cells[this.columns.indexOf("Talent") + 1].textContent;
-			
-			aufwertungsliste = row.cells[this.columns.indexOf("Aufwertung") + 1].textContent.split("+");
-			for (i = 1; i < aufwertungsliste.length; i++) {
-				spieler.aufwertungen += Number(aufwertungsliste[i].charAt(0));
-			}
-
-			// Negative ID temporär festlegen
-			spieler.id = -r;
-			
-			data.team.jugend[r - 1] = spieler;
+			if (row.textContent.indexOf("Jahrgang") == -1) {
+				
+				spieler = data.team.jugend[s];
+	
+				if (!spieler) {
+					spieler = new OSext.Jugendspieler();
+				}
+	
+				spieler.alter = +row.cells[this.columns.indexOf("Alter")].textContent;
+				geburtstag = row.cells[this.columns.indexOf("Geb.")].textContent;
+				if (geburtstag.indexOf("?") == -1) {
+					spieler.geburtstag = +geburtstag;
+				}
+	
+				// Nummer des Spielers im Jahrgang bestimmen
+				if (spieler.alter != alter) {
+					nr = 1;
+					alter = spieler.alter;
+				}
+				spieler.nr = nr++;
+				
+				// Position eines Torhüters wird gespeichert und nicht mehr verändert
+				if (row.cells[0].className && row.cells[0].className == OSext.POS.TOR) {
+					spieler.pos = row.cells[0].className;
+				}
+				
+				spieler.land = row.cells[this.columns.indexOf("Land") + 1].textContent;
+				spieler.uefa = row.cells[this.columns.indexOf("U") + 1].textContent;
+				spieler.skillschnitt = parseFloat(row.cells[this.columns.indexOf("Skillschnitt") + 1].textContent);
+				spieler.talent = row.cells[this.columns.indexOf("Talent") + 1].textContent;
+				
+				aufwertungsliste = row.cells[this.columns.indexOf("Aufwertung") + 1].textContent.split("+");
+				for (i = 1; i < aufwertungsliste.length; i++) {
+					spieler.aufwertungen += Number(aufwertungsliste[i].charAt(0));
+				}
+	
+				// Negative ID temporär festlegen
+				spieler.id = -s;
+				
+				data.team.jugend[s] = spieler;
+				
+				s++;
+			}		
 		}
 	},
 
@@ -110,7 +115,7 @@ OSext.Sites.JugendOverview.prototype = {
 
 		var table = this.wrappeddoc.doc.getElementsByTagName("table")[1],
 			tableClone = table.cloneNode(true),
-			r, row, c, spieler, baseCell,
+			r, row, c, s = 0, spieler, baseCell,
 			jugendliste,
 			alter = 0,
 			cellPos, cellOpti, cellMarktwert,
@@ -124,87 +129,96 @@ OSext.Sites.JugendOverview.prototype = {
 		for (r = 0; r < table.rows.length - 1; r++) {
 			
 			row = tableClone.rows[r];
-			baseCell = row.cells[this.columns.indexOf("Alter")];
 			
-			cellPos = new OSext.WrappedElement(baseCell, true);
-			cellOpti = new OSext.WrappedElement(baseCell, true);
-			cellMarktwert = new OSext.WrappedElement(baseCell, true);
-			cellMarktwertbilanz = new OSext.WrappedElement(baseCell, true);
-			cellAufwertungsbilanz = new OSext.WrappedElement(baseCell, true);
-			cellP = new OSext.WrappedElement(baseCell, true);
-			cellN = new OSext.WrappedElement(baseCell, true);
-			cellU = new OSext.WrappedElement(baseCell, true);
-			
-			if (r === 0) {
+			if (row.textContent.indexOf("Jahrgang") == -1) {
 				
-                row.cells[this.columns.indexOf("Skillschnitt")].textContent = "Skillschn.";
-				row.cells[this.columns.indexOf("Talent")].innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;Talent";
-
-				cellPos.setText("Pos");
-				cellOpti.setHtml("&nbsp;Opt.Skill");
-				cellMarktwert.setHtml("&nbsp;&nbsp;Marktwert");
-				cellMarktwertbilanz.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bilanz");
-				cellAufwertungsbilanz.setHtml("&nbsp;&nbsp;&Oslash;Aufw.");
-				cellP.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Oslash;P");
-				cellN.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Oslash;N");
-				cellU.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Oslash;U");
-
-			} else {
-
-				spieler = jugendliste[r - 1];
+				baseCell = row.cells[this.columns.indexOf("Alter")];
 				
-				// Formatierung pro Jahrgang
-				if (alter != spieler.alter) {
-					alter = spieler.alter;
-					if (r > 1) {
-						row.className = OSext.STYLE.JUGEND;
-					}
-				} 
-			
-				cellPos.setText(spieler.getPos());
+				cellPos = new OSext.WrappedElement(baseCell, true);
+				cellOpti = new OSext.WrappedElement(baseCell, true);
+				cellMarktwert = new OSext.WrappedElement(baseCell, true);
+				cellMarktwertbilanz = new OSext.WrappedElement(baseCell, true);
+				cellAufwertungsbilanz = new OSext.WrappedElement(baseCell, true);
+				cellP = new OSext.WrappedElement(baseCell, true);
+				cellN = new OSext.WrappedElement(baseCell, true);
+				cellU = new OSext.WrappedElement(baseCell, true);
 				
-				cellOpti.setText(Number(spieler.getOpti()).toFixed(2));
-				cellOpti.setAttribute(OSext.STYLE.PS, "true");
+				if (r === 0) {
+					
+	                row.cells[this.columns.indexOf("Skillschnitt")].textContent = "Skillschn.";
+					row.cells[this.columns.indexOf("Talent")].innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;Talent";
+	
+					cellPos.setText("Pos");
+					cellOpti.setHtml("&nbsp;Opt.Skill");
+					cellMarktwert.setHtml("&nbsp;&nbsp;Marktwert");
+					cellMarktwertbilanz.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bilanz");
+					cellAufwertungsbilanz.setHtml("&nbsp;&nbsp;&Oslash;Aufw.");
+					cellP.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Oslash;P");
+					cellN.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Oslash;N");
+					cellU.setHtml("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Oslash;U");
+	
+				} else {
+	
+					spieler = jugendliste[s++];
+					
+					cellPos.setText(spieler.getPos());
+					
+					cellOpti.setText(Number(spieler.getOpti()).toFixed(2));
+					cellOpti.setAttribute(OSext.STYLE.PS, "true");
+					
+					cellMarktwert.setText(OSext.fmtTausend(spieler.getMarktwert(null, data.termin.zat)));
+									
+					cellMarktwertbilanz.setText(spieler.getMarktwertbilanz());
+					cellMarktwertbilanz.setTooltip(spieler.getMarktwertbilanzTooltip());
+	
+					cellAufwertungsbilanz.setText(spieler.getAufwertungsbilanz());
+					cellAufwertungsbilanz.setTooltip(spieler.getAufwertungsbilanzTooltip());
+	
+					cellP.setText(Number(spieler.getSummePrimaerSkills() / 4).toFixed(2));
+					cellN.setText(Number(spieler.getSummeNebenSkills() / (17 - 4 - 4)).toFixed(2));
+					cellU.setText(Number(spieler.getSummeUnveraenderlicheSkills() / 4).toFixed(2));
+	
+				}
 				
-				cellMarktwert.setText(OSext.fmtTausend(spieler.getMarktwert(null, data.termin.zat)));
-								
-				cellMarktwertbilanz.setText(spieler.getMarktwertbilanz());
-				cellMarktwertbilanz.setTooltip(spieler.getMarktwertbilanzTooltip());
-
-				cellAufwertungsbilanz.setText(spieler.getAufwertungsbilanz());
-				cellAufwertungsbilanz.setTooltip(spieler.getAufwertungsbilanzTooltip());
-
-				cellP.setText(Number(spieler.getSummePrimaerSkills() / 4).toFixed(2));
-				cellN.setText(Number(spieler.getSummeNebenSkills() / (17 - 4 - 4)).toFixed(2));
-				cellU.setText(Number(spieler.getSummeUnveraenderlicheSkills() / 4).toFixed(2));
-
-			}
-			
-			row.insertBefore(cellPos.element, row.cells[this.columns.indexOf("Land")]);
-			row.insertBefore(cellOpti.element, row.cells[this.columns.indexOf("Talent") + (r === 0 ? 1 : 2)]);
-			
-			row.appendChild(cellMarktwert.element);
-			row.appendChild(cellMarktwertbilanz.element);
-			row.appendChild(cellAufwertungsbilanz.element);
-			row.appendChild(cellP.element);			
-			row.appendChild(cellN.element);			
-			row.appendChild(cellU.element);
-
-			// Formatierung anhand Position
-			if (r !== 0 && spieler) {
-				for (c = 0; c < row.cells.length; c++) {
-					if (!row.cells[c].innerHTML || row.cells[c].innerHTML.length === 0) {
-						row.cells[c].innerHTML = ".";						
-						row.cells[c].className = "BAK";
-					}
-					if (!row.cells[c].className || row.cells[c].className.length === 0) {
-						row.cells[c].className = spieler.getPos();
+				row.insertBefore(cellPos.element, row.cells[this.columns.indexOf("Land")]);
+				row.insertBefore(cellOpti.element, row.cells[this.columns.indexOf("Talent") + (r === 0 ? 1 : 2)]);
+				
+				row.appendChild(cellMarktwert.element);
+				row.appendChild(cellMarktwertbilanz.element);
+				row.appendChild(cellAufwertungsbilanz.element);
+				row.appendChild(cellP.element);			
+				row.appendChild(cellN.element);			
+				row.appendChild(cellU.element);
+	
+				// Formatierung anhand Position
+				if (r !== 0 && spieler) {
+					for (c = 0; c < row.cells.length; c++) {
+						if (!row.cells[c].innerHTML || row.cells[c].innerHTML.length === 0) {
+							row.cells[c].innerHTML = ".";						
+							row.cells[c].className = "BAK";
+						}
+						if (!row.cells[c].className || row.cells[c].className.length === 0) {
+							row.cells[c].className = spieler.getPos();
+						}
 					}
 				}
+				
+			} else {
+				
+				row.cells[0].removeChild(row.cells[0].lastChild);
+				row.cells[0].removeChild(row.cells[0].lastChild);
+				row.cells[0].style.fontSize = "smaller";
+				row.cells[0].colSpan = row.cells[0].colSpan + 8;
+				row.className = OSext.STYLE.JUGEND;
 			}
 		}
 		
 		table.parentNode.replaceChild(tableClone, table);
+			
+		var brs = this.wrappeddoc.doc.getElementsByTagName("br"), i;
+		for (i = brs.length - 1; i >= 0; i--) {
+			brs[i].parentNode.removeChild(brs[i]);
+		}
 	},
 	
 	/**
@@ -214,7 +228,7 @@ OSext.Sites.JugendOverview.prototype = {
 
 		var table = this.wrappeddoc.doc.getElementsByTagName("table")[1],
 			tableClone = table.cloneNode(true),
-			r, row, c, spieler, baseCell,
+			r, row, c, s = 0, spieler, baseCell,
 			jugendliste,
 			alter = 0,
 			cellPos, cellOpti, cellMarktwert,
@@ -228,44 +242,48 @@ OSext.Sites.JugendOverview.prototype = {
 		for (r = 1; r < tableClone.rows.length - 1; r++) {
 			
 			row = tableClone.rows[r];
-			spieler = jugendliste[r - 1];
-
-			for (c = 0; c < row.cells.length; c++) {
-				if (c != this.newcols.indexOf("U")) {
-					if (row.cells[c].className != OSext.POS.TOR && row.cells[c].className != "BAK") {
-						row.cells[c].className = spieler.getPos();
+			
+			if (row.textContent.indexOf("Jahrgang") == -1) {
+				
+				spieler = jugendliste[s++];
+	
+				for (c = 0; c < row.cells.length; c++) {
+					if (c != this.newcols.indexOf("U")) {
+						if (row.cells[c].className != OSext.POS.TOR && row.cells[c].className != "BAK") {
+							row.cells[c].className = spieler.getPos();
+						}
 					}
 				}
-			}
-
-			row.cells[this.newcols.indexOf("Alter")].innerHTML = spieler.alter;
-			row.cells[this.newcols.indexOf("Pos")].innerHTML = spieler.getPos();				
-			row.cells[this.newcols.indexOf("Opt.Skill")].innerHTML = spieler.getOpti() ? spieler.getOpti().toFixed(2) : "0.00";				
-			row.cells[this.newcols.indexOf("Marktwert")].innerHTML = OSext.fmtTausend(spieler.getMarktwert(null, data.termin.zat));				
-
-			cellMarktwertbilanz = new OSext.WrappedElement(row.cells[this.newcols.indexOf("MW.Zuwachs")]);
-			cellAufwertungsbilanz = new OSext.WrappedElement(row.cells[this.newcols.indexOf("Aufwertungen")]);
-			cellP = new OSext.WrappedElement(row.cells[this.newcols.indexOf("P")]);
-			cellN = new OSext.WrappedElement(row.cells[this.newcols.indexOf("N")]);
-			cellU = new OSext.WrappedElement(row.cells[this.newcols.indexOf("US")]);
-
-			cellMarktwertbilanz.setText(spieler.getMarktwertbilanz());
-			cellMarktwertbilanz.setTooltip(spieler.getMarktwertbilanzTooltip());
-
-			cellAufwertungsbilanz.setText(spieler.getAufwertungsbilanz());
-			cellAufwertungsbilanz.setTooltip(spieler.getAufwertungsbilanzTooltip());
-
-			cellP.setText(Number(spieler.getSummePrimaerSkills() / 4).toFixed(2));
-			cellN.setText(Number(spieler.getSummeNebenSkills() / (17 - 4 - 4)).toFixed(2));
-			cellU.setText(Number(spieler.getSummeUnveraenderlicheSkills() / 4).toFixed(2));
-
-			row.cells[this.newcols.indexOf("Alter")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
-			row.cells[this.newcols.indexOf("Pos")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
-			row.cells[this.newcols.indexOf("Skillschn.")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
-			row.cells[this.newcols.indexOf("Opt.Skill")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
-			row.cells[this.newcols.indexOf("Marktwert")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
-			for (c = this.newcols.indexOf("MW.Zuwachs"); c <= row.cells.length - 1; c++) {
-				row.cells[c].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
+	
+				row.cells[this.newcols.indexOf("Alter")].innerHTML = spieler.alter;
+				row.cells[this.newcols.indexOf("Pos")].innerHTML = spieler.getPos();				
+				row.cells[this.newcols.indexOf("Opt.Skill")].innerHTML = spieler.getOpti() ? spieler.getOpti().toFixed(2) : "0.00";				
+				row.cells[this.newcols.indexOf("Marktwert")].innerHTML = OSext.fmtTausend(spieler.getMarktwert(null, data.termin.zat));				
+	
+				cellMarktwertbilanz = new OSext.WrappedElement(row.cells[this.newcols.indexOf("MW.Zuwachs")]);
+				cellAufwertungsbilanz = new OSext.WrappedElement(row.cells[this.newcols.indexOf("Aufwertungen")]);
+				cellP = new OSext.WrappedElement(row.cells[this.newcols.indexOf("P")]);
+				cellN = new OSext.WrappedElement(row.cells[this.newcols.indexOf("N")]);
+				cellU = new OSext.WrappedElement(row.cells[this.newcols.indexOf("US")]);
+	
+				cellMarktwertbilanz.setText(spieler.getMarktwertbilanz());
+				cellMarktwertbilanz.setTooltip(spieler.getMarktwertbilanzTooltip());
+	
+				cellAufwertungsbilanz.setText(spieler.getAufwertungsbilanz());
+				cellAufwertungsbilanz.setTooltip(spieler.getAufwertungsbilanzTooltip());
+	
+				cellP.setText(Number(spieler.getSummePrimaerSkills() / 4).toFixed(2));
+				cellN.setText(Number(spieler.getSummeNebenSkills() / (17 - 4 - 4)).toFixed(2));
+				cellU.setText(Number(spieler.getSummeUnveraenderlicheSkills() / 4).toFixed(2));
+	
+				row.cells[this.newcols.indexOf("Alter")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
+				row.cells[this.newcols.indexOf("Pos")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
+				row.cells[this.newcols.indexOf("Skillschn.")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
+				row.cells[this.newcols.indexOf("Opt.Skill")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
+				row.cells[this.newcols.indexOf("Marktwert")].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
+				for (c = this.newcols.indexOf("MW.Zuwachs"); c <= row.cells.length - 1; c++) {
+					row.cells[c].setAttribute(OSext.STYLE.UPDATED, data.ansicht.jugend.getStyle());
+				}
 			}
 		}		
 		table.parentNode.replaceChild(tableClone, table);
